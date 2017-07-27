@@ -1,0 +1,210 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12-sm"
+     ng-controller="analyzeApiUiPluginController as controller"
+    >
+      <h1>Perform analyze via _analyze API</h1>
+      <hr/>
+      <!-- TOOD need to check/review each class parameters that are doing -->
+      <form
+        name="form"
+        role="form"
+        class="kuiVerticalRhythm"
+        ng-submit="controller.performAnalyze()"
+      >
+        <div class="kuiVerticalRhythm">
+          <label class="kuiLabel kuiVerticalRhythmSmall">
+            <label class="kuiLabel kuiVerticalRhythmSmall ng-scope" >Index name - select index name if you use the analyzer to configure an index</label>
+          </label>
+          <div class="kuiVerticalRhythmSmall">
+            <!-- FIXME
+            <select
+              class="kuiSelect kuiSelect--large kuiVerticalRhythmSmall ng-pristine ng-untouched ng-valid ng-valid-required"
+              data-test-subj="analyzeIndexNameSelect"
+              ng-disabled="controller.isLoading() || controller.indexNameOptionsError || controller.indexNameOptions.length === 1"
+              ng-required="controller.indexNameOptions.length"
+              ng-options="option.display for option in controller.indexNameOptions"
+              ng-model="controller.formValues.indexNameOption"
+              disabled="disabled"><option selected="selected"></option></select>
+              -->
+            <input
+              class="kuiTextInput kuiTextInput--large ng-pristine ng-untouched ng-valid ng-valid-index-name-input"
+              data-test-subj="analyzeIndexNameInput"
+              ng-model="controller.formValues.indexName"
+              ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+              validate-index-name
+              name="indexName"
+              type="text">
+          </div>
+        </div>
+        <div class="kuiVerticalRhythm">
+          <label class="kuiLabel kuiVerticalRhythmSmall ng-scope" >text - Text what you want to analyze</label>
+          <label class="kuiCheckBoxLabel kuiVerticalRhythm"></label>
+          <input class="kuiTextInput kuiTextInput--large ng-pristine ng-untouched ng-valid ng-valid-required"
+            data-test-subj="analyzeTextInput"
+            ng-model="controller.formValues.text"
+            ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+            name="text"
+            required
+            type="text"
+          >
+        </div>
+        <hr/>
+        <div class="kuiVerticalRhythm">
+          <label class="kuiLabel kuiVerticalRhythmSmall ng-scope" >analyzer
+            <input class="kuiTextInput kuiTextInput--large ng-pristine ng-untouched ng-valid"
+              data-test-subj="analyzeAnalyzerInput"
+              ng-model="controller.formValues.analyzer"
+              ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+              name="analyzer"
+              type="text"
+            >
+          </label>
+        </div>
+        <!--
+        --------- or ---------<br/>
+        <label>char_filter</label>
+        <input type="" required type="text"><br/>
+        <label>tokenizer</label>
+        <input type="" required type="text"><br/>
+        <label>token filter</label>
+        <input type="" required type="text"><br/>
+        -->
+        <!-- Form actions -->
+        <button
+          data-test-subj="createIndexPatternCreateButton"
+          ng-disabled="form.$invalid || controller.isLoading()"
+          class="kuiButton kuiButton--primary kuiVerticalRhythm"
+          type="submit"
+        >
+          Analyze!
+        </button>
+      </form>
+      <hr/>
+      <!-- output char filter part -->
+      <table
+        class="kuiTable kuiVerticalRhythm"
+        ng-show="show_result"
+        ng-if="detail.charfilters"
+      >
+        <thead>
+        <tr>
+          <th class="kuiTableHeaderCell" width="20%">
+            name
+          </th>
+          <!-- TODO how output tokens, cells or tokens in a cell? -->
+          <th class="kuiTableHeaderCell">
+            filtered text
+          </th>
+          </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr
+          class="kuiTableRow ng-scope ng-isolate-scope"
+          advanced-row="conf"
+          configs="configs"
+          ng-repeat="charfilter in detail.charfilters"
+          ng-show="show_result"
+        >
+          <!-- Name -->
+          <td class="kuiTableRowCell kuiTableRowCell--wrap">
+            <div class="kuiTableRowCell__liner">
+              <p class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">
+                {{ charfilter.name }}
+              </p>
+            </div>
+          </td>
+          <!-- tokens -->
+          <td class="kuiTableRowCell">
+            <div class="kuiTableRowCell__liner">
+              {{charfilter.filtered_text[0]}}
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <!-- output tokenizer/filter part -->
+      <table class="kuiTable kuiVerticalRhythm">
+        <thead>
+        <tr>
+          <th class="kuiTableHeaderCell" width="20%">
+            name
+          </th>
+          <!-- TODO how output tokens, cells or tokens in a cell? -->
+          <th class="kuiTableHeaderCell">
+            tokens
+          </th>
+        </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            class="kuiTableRow ng-scope ng-isolate-scope"
+            advanced-row="conf"
+            configs="configs"
+            ng-show="show_result"
+          >
+            <!-- Name -->
+            <td class="kuiTableRowCell kuiTableRowCell--wrap">
+              <div class="kuiTableRowCell__liner">
+                <p class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">
+                  {{ detail.analyzer.name }}
+                  {{ detail.tokenizer.name }}
+                </p>
+              </div>
+            </td>
+            <!-- tokens -->
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <span
+                  style="background-color:#e5f1ff;margin: 0px 5px;"
+                  ng-if="detail.analyzer.tokens"
+                  ng-repeat="token in detail.analyzer.tokens"
+                >
+                  {{ token.token }}
+                </span>
+                <span
+                  style="background-color:#e5f1ff;margin: 0px 5px;"
+                  ng-if="detail.tokenizer.tokens"
+                  ng-repeat="token in detail.tokenizer.tokens"
+                >
+                  {{ token.token }}
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr
+                  class="kuiTableRow ng-scope ng-isolate-scope"
+                  advanced-row="conf"
+                  configs="configs"
+                  ng-repeat="filter in detail.tokenfilters"
+                  ng-show="show_result"
+          >
+            <!-- Name -->
+            <td class="kuiTableRowCell kuiTableRowCell--wrap">
+              <div class="kuiTableRowCell__liner">
+                <p class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">
+                  {{ filter.name }}
+                </p>
+              </div>
+            </td>
+            <!-- tokens -->
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <span
+                  style="background-color:#e5f1ff;margin: 0px 5px;"
+                  ng-if="filter.tokens"
+                  ng-repeat="token in filter.tokens"
+                >
+                  {{ token.token }}
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

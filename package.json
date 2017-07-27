@@ -1,0 +1,30 @@
+{
+  "name": "analyze-api-ui-plugin",
+  "version": "0.0.0",
+  "description": "UI for elasticsearch analyze API",
+  "main": "index.js",
+  "kibana": {
+    "version": "5.5.1",
+    "templateVersion": "7.2.0"
+  },
+  "scripts": {
+    "lint": "eslint",
+    "start": "plugin-helpers start",
+    "test:server": "plugin-helpers test:server",
+    "test:browser": "plugin-helpers test:browser",
+    "build": "plugin-helpers build",
+    "postinstall": "plugin-helpers postinstall",
+    "gather-info": "node gather-info.js"
+  },
+  "devDependencies": {
+    "@elastic/eslint-config-kibana": "^0.6.1",
+    "@elastic/plugin-helpers": "^7.0.0",
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0",
+    "eslint-plugin-babel": "^4.1.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-mocha": "^4.9.0",
+    "eslint-plugin-react": "^7.0.1",
+    "expect.js": "^0.3.1"
+  }
+}
