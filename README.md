@@ -2,6 +2,17 @@
 
 > UI for elasticsearch analyze API
 
+This is for kibana 5.5.
+
+## TODO 
+
+* improve display tokens
+* support tokenizer/char_filter/filter
+* change index name to select
+    * preload index_name from _cat/indices
+* error handling
+
+
 ---
 
 ## development
