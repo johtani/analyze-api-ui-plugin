@@ -4,6 +4,9 @@
 
 This is for kibana 5.5.
 
+sample image
+![Sample image](./sample_image.png)
+
 ## TODO 
 
 * improve display tokens
