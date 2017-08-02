@@ -1,3 +1,5 @@
+import { convertEsError } from './handle_es_error';
+
 export default function (server) {
 
   let call = server.plugins.elasticsearch.getCluster('data').callWithRequest;
@@ -22,12 +24,13 @@ export default function (server) {
       if (req.payload.filters) param.body.filter = req.payload.filters;
 //console.log(param);
 //console.log('indexName:' + param.index);
-
-      call(req, 'indices.analyze',param)
+      call(req, 'indices.analyze', param)
         .then(function (response) {
           reply(response.detail);
         })
-        .catch(error => reply(error));
+        .catch(error => {
+          reply(convertEsError(param.index, error));
+        });
     }
   });
 

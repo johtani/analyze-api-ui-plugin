@@ -16,6 +16,9 @@
     "postinstall": "plugin-helpers postinstall",
     "gather-info": "node gather-info.js"
   },
+  "dependencies": {
+    "boom": "2.8.0"
+  },
   "devDependencies": {
     "@elastic/eslint-config-kibana": "^0.6.1",
     "@elastic/plugin-helpers": "^7.0.0",

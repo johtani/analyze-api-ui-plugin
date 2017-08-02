@@ -31,9 +31,14 @@ uiModules
     charfilters: [{'item': '', 'id': 0}],
     filters: [{'item': '', 'id': 0}]
   };
-  $scope.detail = {};
-  $scope.show_result = false;
-  $scope.textError = null;
+  this.initializeError = () => {
+    $scope.detail = {};
+    $scope.show_result = false;
+    $scope.textError = null;
+    $scope.indexNameError = null;
+    $scope.analyzerError = null;
+
+  }
 
   // UI state.
   // FIXME change index name input to "select"
@@ -46,6 +51,7 @@ uiModules
   // switch tab
   this.changeTab = (tab) => {
     $scope.currentTab = tab;
+    this.initializeError();
   };
 
   // add input of charfilter function
@@ -65,15 +71,13 @@ uiModules
   };
   // remove input of charfilter function
   this.removeFilter = ($index) => {
-      $scope.formValues.filters.splice($index, 1);
+    $scope.formValues.filters.splice($index, 1);
   };
 
   // Call analyze function
   this.performAnalyze = () => {
     // initialize
-    $scope.textError = null;
-    $scope.show_result = false;
-    $scope.detail = null;
+    this.initializeError();
 
     // FIXME validation logic, text is required
     let param = {
@@ -119,7 +123,14 @@ uiModules
         $scope.show_result = true;
     })
     .catch( error => {
-      notify.error(error);
+//      console.log(error);
+      if (error.data.statusCode == 404) {
+        $scope.indexNameError = error.data.message;
+      } else if (error.data.statusCode == 400) {
+        $scope.analyzerError = error.data.message;
+      } else {
+        notify.error(error.data);
+      }
     });
   };
 
