@@ -23,9 +23,11 @@ export default function (server) {
 //console.log(param);
 //console.log('indexName:' + param.index);
 
-      call(req, 'indices.analyze',param).then(function (response) {
-        reply(response.detail);
-      });
+      call(req, 'indices.analyze',param)
+        .then(function (response) {
+          reply(response.detail);
+        })
+        .catch(error => reply(error));
     }
   });
 

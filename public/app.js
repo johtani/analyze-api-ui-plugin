@@ -16,7 +16,8 @@ uiRoutes
 
 uiModules
 .get('app/analyze-api-ui-plugin', [])
-.controller('analyzeApiUiPluginController', function ($http, $scope, $route, $interval, chrome) {
+.controller('analyzeApiUiPluginController', function ($http, $scope, $route, $interval, chrome, Notifier) {
+  const notify = new Notifier();
   $scope.services = ['analyzer', 'custom_analyzer'];
   $scope.currentTab = $scope.services[0];
   $scope.title = 'Analyze Api Ui Plugin';
@@ -32,6 +33,7 @@ uiModules
   };
   $scope.detail = {};
   $scope.show_result = false;
+  $scope.textError = null;
 
   // UI state.
   // FIXME change index name input to "select"
@@ -68,11 +70,19 @@ uiModules
 
   // Call analyze function
   this.performAnalyze = () => {
+    // initialize
+    $scope.textError = null;
+    $scope.show_result = false;
+    $scope.detail = null;
+
     // FIXME validation logic, text is required
     let param = {
       text: $scope.formValues.text
     };
-    if ($scope.formValues.text.trim().length == 0) console.log("text is empty");
+    if ($scope.formValues.text.trim().length == 0) {
+      $scope.textError = 'text shoud be not null!';
+      return;
+    }
     if ($scope.formValues.indexName.length > 0)
       param.indexName = $scope.formValues.indexName.trim();
     if ($scope.currentTab == 'analyzer') {
@@ -107,6 +117,9 @@ uiModules
       (response) => {
         $scope.detail = response.data;
         $scope.show_result = true;
+    })
+    .catch( error => {
+      notify.error(error);
     });
   };
 
