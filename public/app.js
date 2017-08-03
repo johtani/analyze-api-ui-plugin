@@ -16,7 +16,8 @@ uiRoutes
 
 uiModules
 .get('app/analyze-api-ui-plugin', [])
-.controller('analyzeApiUiPluginController', function ($http, $scope, $route, $interval, chrome) {
+.controller('analyzeApiUiPluginController', function ($http, $scope, $route, $interval, chrome, Notifier) {
+  const notify = new Notifier();
   $scope.services = ['analyzer', 'custom_analyzer'];
   $scope.currentTab = $scope.services[0];
   $scope.title = 'Analyze Api Ui Plugin';
@@ -30,8 +31,14 @@ uiModules
     charfilters: [{'item': '', 'id': 0}],
     filters: [{'item': '', 'id': 0}]
   };
-  $scope.detail = {};
-  $scope.show_result = false;
+  this.initializeError = () => {
+    $scope.detail = {};
+    $scope.show_result = false;
+    $scope.textError = null;
+    $scope.indexNameError = null;
+    $scope.analyzerError = null;
+
+  }
 
   // UI state.
   // FIXME change index name input to "select"
@@ -44,6 +51,7 @@ uiModules
   // switch tab
   this.changeTab = (tab) => {
     $scope.currentTab = tab;
+    this.initializeError();
   };
 
   // add input of charfilter function
@@ -63,16 +71,22 @@ uiModules
   };
   // remove input of charfilter function
   this.removeFilter = ($index) => {
-      $scope.formValues.filters.splice($index, 1);
+    $scope.formValues.filters.splice($index, 1);
   };
 
   // Call analyze function
   this.performAnalyze = () => {
+    // initialize
+    this.initializeError();
+
     // FIXME validation logic, text is required
     let param = {
       text: $scope.formValues.text
     };
-    if ($scope.formValues.text.trim().length == 0) console.log("text is empty");
+    if ($scope.formValues.text.trim().length == 0) {
+      $scope.textError = 'text shoud be not null!';
+      return;
+    }
     if ($scope.formValues.indexName.length > 0)
       param.indexName = $scope.formValues.indexName.trim();
     if ($scope.currentTab == 'analyzer') {
@@ -107,6 +121,16 @@ uiModules
       (response) => {
         $scope.detail = response.data;
         $scope.show_result = true;
+    })
+    .catch( error => {
+//      console.log(error);
+      if (error.data.statusCode == 404) {
+        $scope.indexNameError = error.data.message;
+      } else if (error.data.statusCode == 400) {
+        $scope.analyzerError = error.data.message;
+      } else {
+        notify.error(error.data);
+      }
     });
   };
 

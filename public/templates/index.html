@@ -37,6 +37,18 @@
               type="text">
           </div>
         </div>
+        <!-- Input index name error -->
+        <div
+                class="kuiVerticalRhythm"
+                ng-if="indexNameError"
+        >
+          <p class="kuiText">
+            <span class="kuiStatusText kuiStatusText--error">
+              <span class="kuiStatusText__icon kuiIcon fa-warning"></span>
+              {{indexNameError}}
+            </span>
+          </p>
+        </div>
         <!-- text -->
         <div class="kuiVerticalRhythm">
           <label class="kuiLabel kuiVerticalRhythmSmall ng-scope" >text - Text what you want to analyze</label>
@@ -48,6 +60,18 @@
             name="text"
             type="text"
           >
+        </div>
+        <!-- Input text error -->
+        <div
+          class="kuiVerticalRhythm"
+          ng-if="textError"
+        >
+          <p class="kuiText">
+            <span class="kuiStatusText kuiStatusText--error">
+              <span class="kuiStatusText__icon kuiIcon fa-warning"></span>
+              {{textError}}
+            </span>
+          </p>
         </div>
         <!-- Tabs -->
         <div class="kuiVerticalRhythm">
@@ -62,7 +86,18 @@
             </button>
           </div>
         </div>
-
+        <!-- Input analyzer error -->
+        <div
+                class="kuiVerticalRhythm"
+                ng-if="analyzerError"
+        >
+          <p class="kuiText">
+                  <span class="kuiStatusText kuiStatusText--error">
+                    <span class="kuiStatusText__icon kuiIcon fa-warning"></span>
+                    {{analyzerError}}
+                  </span>
+          </p>
+        </div>
         <table
           class="kuiTable kuiVerticalRhythm"
           ng-if="currentTab === 'analyzer'"
