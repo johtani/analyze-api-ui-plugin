@@ -4,8 +4,11 @@
 
 This is for kibana 5.5.
 
-sample image
+Analyze text with Aalyzer
 ![Sample image](./sample_image.png)
+
+Analyze text with custom analyzer
+![Sample custom image](./sample_custom_image.png)
 
 ## TODO 
 

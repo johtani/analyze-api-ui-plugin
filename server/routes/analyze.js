@@ -1,3 +1,5 @@
+import { convertEsError } from './handle_es_error';
+
 export default function (server) {
 
   let call = server.plugins.elasticsearch.getCluster('data').callWithRequest;
@@ -17,10 +19,18 @@ export default function (server) {
       };
       if (req.payload.indexName) param.index = req.payload.indexName;
       if (req.payload.analyzer) param.body.analyzer = req.payload.analyzer;
-console.log(param);
-      call(req, 'indices.analyze',param).then(function (response) {
-        reply(response.detail);
-      });
+      if (req.payload.tokenizer) param.body.tokenizer = req.payload.tokenizer;
+      if (req.payload.charfilters) param.body.char_filter = req.payload.charfilters;
+      if (req.payload.filters) param.body.filter = req.payload.filters;
+//console.log(param);
+//console.log('indexName:' + param.index);
+      call(req, 'indices.analyze', param)
+        .then(function (response) {
+          reply(response.detail);
+        })
+        .catch(error => {
+          reply(convertEsError(param.index, error));
+        });
     }
   });
 
