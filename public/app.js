@@ -82,6 +82,26 @@ uiModules
     $scope.formValues.filters.splice($index, 1);
   };
 
+  //
+  this.parseCustom = (target) => {
+    if (typeof target === 'string' && target.startsWith('{')) {
+      try {
+        var tmpJson = JSON.parse(target);
+        if (tmpJson !== null && typeof tmpJson === 'object') {
+          return tmpJson;
+        } else {
+          $scope.analyzerError = 'charfilter has wrong custom charfilter';
+          return -1;
+        }
+      } catch (e) {
+        $scope.analyzerError = e.message;
+        return -1;
+      }
+    } else {
+      return target;
+    }
+  };
+
   // Call analyze function
   this.performAnalyze = () => {
     // initialize
@@ -101,13 +121,26 @@ uiModules
       if ($scope.formValues.analyzer.length > 0)
         param.analyzer = $scope.formValues.analyzer.trim();
     } else {
-      if ($scope.formValues.tokenizer) param.tokenizer = $scope.formValues.tokenizer.trim();
+      if ($scope.formValues.tokenizer) {
+        var tmpObj = this.parseCustom($scope.formValues.tokenizer.trim());
+        if (tmpObj != -1) {
+          param.tokenizer = tmpObj;
+          tmpObj = null;
+        } else {
+          return;
+        }
+      }
       // FIXME get tokenizer/char_filter/filter
       if ($scope.formValues.charfilters.length > 0) {
         $scope.formValues.charfilters.forEach(function (charfilter) {
           if (charfilter && charfilter.item && charfilter.item.trim().length > 0 ) {
             if(param.charfilters == null) param.charfilters = [];
-            param.charfilters.push(charfilter.item.trim());
+            var tmpObj = this.parseCustom(charfilter.item.trim());
+            if (tmpObj != -1) {
+              param.charfilters.push(tmpObj);
+            } else {
+              return;
+            }
           }
         });
       }
@@ -115,7 +148,12 @@ uiModules
         $scope.formValues.filters.forEach( (filter) => {
           if (filter && filter.item && filter.item.trim().length > 0 ) {
             if(param.filters == null) param.filters = [];
-            param.filters.push(filter.item.trim());
+            var tmpObj = this.parseCustom(filter.item.trim());
+            if (tmpObj != -1) {
+              param.filters.push(tmpObj);
+            } else {
+              return;
+            }
           }
         });
       }
@@ -152,12 +190,12 @@ uiModules
 
     // compare and swap tokenStreamLength
     this.getLength = (current, tokenArray) => {
+      // FIXME check if there is synonyms or compound
       var length = current;
       if (tokenArray != null) {
-        length = tokenArray.length;
         // FIXME must consider the situation if positionIncrements != 1
-        if (tokenArray[tokenArray.length -1].position > length) {
-          length = tokenArray[tokenArray.length -1].position;
+        if (tokenArray[tokenArray.length -1].position >= current) {
+          length = tokenArray[tokenArray.length -1].position + 1;
         }
       }
       return length;

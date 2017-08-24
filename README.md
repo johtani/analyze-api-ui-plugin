@@ -12,11 +12,11 @@ Analyze text with custom analyzer
 
 ## TODO 
 
-* improve display tokens
-* support tokenizer/char_filter/filter
+* support CUSTOM tokenizer/char_filter/filter
 * change index name to select
     * preload index_name from _cat/indices
 * error handling
+* improve display area
 
 
 ---
