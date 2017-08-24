@@ -22,6 +22,7 @@ uiModules
   $scope.currentTab = $scope.services[0];
   $scope.title = 'Analyze Api Ui Plugin';
   $scope.description = 'UI for elasticsearch analyze API';
+  $scope.showAllAttr = false;
 
   $scope.formValues = {
     indexName: '',
@@ -37,8 +38,15 @@ uiModules
     $scope.textError = null;
     $scope.indexNameError = null;
     $scope.analyzerError = null;
-
   }
+
+  this.alwaysShowTokenProperties = [
+    "token",
+    "position"
+  ];
+  this.hiddenTokenProperties = [
+    "bytes","pronunciation (en)", "reading (en)", "partOfSpeech (en)", "inflectionType (en)", "inflectionForm (en)"
+  ];
 
   // UI state.
   // FIXME change index name input to "select"
@@ -104,7 +112,7 @@ uiModules
         });
       }
       if ($scope.formValues.filters.length > 0) {
-        $scope.formValues.filters.forEach(function (filter) {
+        $scope.formValues.filters.forEach( (filter) => {
           if (filter && filter.item && filter.item.trim().length > 0 ) {
             if(param.filters == null) param.filters = [];
             param.filters.push(filter.item.trim());
@@ -113,17 +121,101 @@ uiModules
       }
     }
 
-//    console.log(param);
+    // show short name
+    this.shortenName = (name) => {
+      if (name.indexOf('.') > 0) {
+        return name.substr(name.lastIndexOf('.')+1);
+      }
+      return name;
+    }
+
+    // count tokenstream length
+    this.countTokenSteamLength = (detail) => {
+      // FIXME tokens length is not fit if it has synonym token/compound token...
+      var tokenStreamLength = 0;
+
+      if (detail.tokenizer) {
+        tokenStreamLength = this.getLength(tokenStreamLength, detail.tokenizer.tokens);
+      } else if (detail.analyzer) {
+        tokenStreamLength = this.getLength(tokenStreamLength, detail.analyzer.tokens);
+      }
+      if (detail.tokenfilters) {
+        detail.tokenfilters.forEach( (filter) => {
+          tokenStreamLength = this.getLength(tokenStreamLength, filter.tokens);
+        });
+      }
+      $scope.tokenIndicesArray = [];
+      for (var i = 0; i < tokenStreamLength; i++) {
+        $scope.tokenIndicesArray.push(i);
+      }
+    };
+
+    // compare and swap tokenStreamLength
+    this.getLength = (current, tokenArray) => {
+      var length = current;
+      if (tokenArray != null) {
+        length = tokenArray.length;
+        // FIXME must consider the situation if positionIncrements != 1
+        if (tokenArray[tokenArray.length -1].position > length) {
+          length = tokenArray[tokenArray.length -1].position;
+        }
+      }
+      return length;
+    };
+
+    //
+    this.getTokenFromTokenstream = (index, target1, target2) => {
+      var target = target1;
+      if (target == null && target2 != null) {
+        target = target2;
+      }
+      $scope.currentTokenInfo = null;
+      for (var token of target.tokens) {
+        if (token.position > index) {
+          break;
+        }
+        if (token.position == index) {
+          $scope.currentTokenInfo = token;
+          break;
+        }
+      }
+      return $scope.currentTokenInfo != null;
+    }
+
+    // filter token properties
+    this.filteredCurrentTokenInfo = (token) => {
+      if (token != null) {
+        var result = {};
+        Object.keys(token).forEach((key) => {
+          if (!this.hiddenTokenProperties.includes(key)) {
+            result[key] = token[key];
+          }
+        });
+        return result;
+      } else {
+        return null;
+      }
+    };
+
+    // swich show/hide properties
+    this.hideTokenProperty = (propertyName) => {
+      if (this.alwaysShowTokenProperties.includes(propertyName)) {
+        return true;
+      } else {
+        // TODO should we handle each attribute to show/hide?
+        return $scope.showAllAttr;
+      }
+    };
 
     // call kibana server API
     $http.post(chrome.addBasePath('/api/analyze-api-ui-plugin/analyze'), param)
     .then(
       (response) => {
         $scope.detail = response.data;
+        this.countTokenSteamLength(response.data);
         $scope.show_result = true;
     })
     .catch( error => {
-//      console.log(error);
       if (error.data.statusCode == 404) {
         $scope.indexNameError = error.data.message;
       } else if (error.data.statusCode == 400) {
