@@ -299,7 +299,11 @@
         </tbody>
       </table>
       <!-- output tokenizer/filter part -->
-      <table class="kuiTable kuiVerticalRhythm">
+      Show All Token Attr : <input type="checkbox" ng-model="showAllAttr">
+
+      <table class="kuiTable kuiVerticalRhythm"
+             ng-show="show_result"
+             ng-if="detail.tokenizer || detail.analyzer || detail.tokenfilters">
         <thead>
         <tr>
           <th class="kuiTableHeaderCell" width="15%">
@@ -349,6 +353,7 @@
                   <tbody>
                     <tr
                       ng-repeat="(key, value) in controller.filteredCurrentTokenInfo(currentTokenInfo)"
+                      ng-show="controller.hideTokenProperty(key)"
                     >
                       <td
                         ng-if="n == 0"
@@ -399,6 +404,7 @@
                   <tbody>
                   <tr
                     ng-repeat="(key, value) in controller.filteredCurrentTokenInfo(currentTokenInfo) "
+                    ng-show="controller.hideTokenProperty(key)"
                   >
                     <td
                       ng-if="n == 0"

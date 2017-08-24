@@ -22,6 +22,7 @@ uiModules
   $scope.currentTab = $scope.services[0];
   $scope.title = 'Analyze Api Ui Plugin';
   $scope.description = 'UI for elasticsearch analyze API';
+  $scope.showAllAttr = false;
 
   $scope.formValues = {
     indexName: '',
@@ -39,6 +40,10 @@ uiModules
     $scope.analyzerError = null;
   }
 
+  this.alwaysShowTokenProperties = [
+    "token",
+    "position"
+  ];
   this.hiddenTokenProperties = [
     "bytes","pronunciation (en)", "reading (en)", "partOfSpeech (en)", "inflectionType (en)", "inflectionForm (en)"
   ];
@@ -116,6 +121,7 @@ uiModules
       }
     }
 
+    // show short name
     this.shortenName = (name) => {
       if (name.indexOf('.') > 0) {
         return name.substr(name.lastIndexOf('.')+1);
@@ -144,10 +150,12 @@ uiModules
       }
     };
 
+    // compare and swap tokenStreamLength
     this.getLength = (current, tokenArray) => {
       var length = current;
       if (tokenArray != null) {
         length = tokenArray.length;
+        // FIXME must consider the situation if positionIncrements != 1
         if (tokenArray[tokenArray.length -1].position > length) {
           length = tokenArray[tokenArray.length -1].position;
         }
@@ -155,17 +163,12 @@ uiModules
       return length;
     };
 
+    //
     this.getTokenFromTokenstream = (index, target1, target2) => {
       var target = target1;
-      console.log('hogehoge');
-      console.log(index);
-      console.log(target1);
-      console.log(target2);
       if (target == null && target2 != null) {
         target = target2;
       }
-      console.log(target);
-      console.log('------');
       $scope.currentTokenInfo = null;
       for (var token of target.tokens) {
         if (token.position > index) {
@@ -176,25 +179,31 @@ uiModules
           break;
         }
       }
-      console.log($scope.currentTokenInfo);
       return $scope.currentTokenInfo != null;
     }
 
+    // filter token properties
     this.filteredCurrentTokenInfo = (token) => {
-      console.log(token);
       if (token != null) {
         var result = {};
-        console.log("call filteredCurrentTokenInfo");
         Object.keys(token).forEach((key) => {
-          console.log(key);
           if (!this.hiddenTokenProperties.includes(key)) {
             result[key] = token[key];
           }
         });
-        console.log(result);
         return result;
       } else {
         return null;
+      }
+    };
+
+    // swich show/hide properties
+    this.hideTokenProperty = (propertyName) => {
+      if (this.alwaysShowTokenProperties.includes(propertyName)) {
+        return true;
+      } else {
+        // TODO should we handle each attribute to show/hide?
+        return $scope.showAllAttr;
       }
     };
 
@@ -207,7 +216,6 @@ uiModules
         $scope.show_result = true;
     })
     .catch( error => {
-//      console.log(error);
       if (error.data.statusCode == 404) {
         $scope.indexNameError = error.data.message;
       } else if (error.data.statusCode == 400) {
