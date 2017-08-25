@@ -105,7 +105,7 @@
         >
           <tbody>
           <tr class="kuiTableRow">
-            <td class="kuiTableRowCell kuiTableRowCell" style="width:10%">
+            <td class="kuiTableRowCell analyzeApiTableRowCellShort">
               <div class="kuiTableRowCell__liner">
                 <p class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">analyzer</p>
               </div>
@@ -135,12 +135,12 @@
               class="kuiTableRow"
               ng-repeat="charfilter in formValues.charfilters"
             >
-              <td class="kuiTableRowCell kuiTableRowCell" style="width:10%">
+              <td class="kuiTableRowCell analyzeApiTableRowCellShort">
                 <div class="kuiTableRowCell__liner">
                   <p class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">char_filter</p>
                 </div>
               </td>
-              <td class="kuiTableRowCell kuiTableRowCell">
+              <td class="kuiTableRowCell">
                 <div class="kuiTableRowCell__liner">
                   <textarea class="kuiTextInput kuiTextInput--large ng-pristine ng-untouched ng-valid"
                          data-test-subj="analyzeAnalyzerInput"
@@ -150,7 +150,7 @@
                   />
                 </div>
               </td>
-              <td class="kuiTableRowCell kuiTableRowCell">
+              <td class="kuiTableRowCell">
                 <a class="kuiButton kuiButton--primary ng-scope"
                    aria-label="Add charfilter"
                    tooltip="Add charfilter" tooltip-append-to-body="true"
@@ -171,12 +171,12 @@
             </tr>
             <!-- tokenizer -->
             <tr class="kuiTableRow">
-              <td class="kuiTableRowCell kuiTableRowCell" style="width:10%">
+              <td class="kuiTableRowCell analyzeApiTableRowCellShort">
                 <div class="kuiTableRowCell__liner">
                   <p class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">tokenizer</p>
                 </div>
               </td>
-              <td class="kuiTableRowCell kuiTableRowCell">
+              <td class="kuiTableRowCell">
                 <div class="kuiTableRowCell__liner">
                 <textarea class="kuiTextInput kuiTextInput--large ng-pristine ng-untouched ng-valid"
                        data-test-subj="analyzeAnalyzerInput"
@@ -186,7 +186,7 @@
                 />
                 </div>
               </td>
-              <td class="kuiTableRowCell kuiTableRowCell">
+              <td class="kuiTableRowCell">
 
               </td>
             </tr>
@@ -195,12 +195,12 @@
               class="kuiTableRow"
               ng-repeat="filter in formValues.filters"
             >
-              <td class="kuiTableRowCell kuiTableRowCell" style="width:10%">
+              <td class="kuiTableRowCell analyzeApiTableRowCellShort">
                 <div class="kuiTableRowCell__liner">
                   <p class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">filter</p>
                 </div>
               </td>
-              <td class="kuiTableRowCell kuiTableRowCell">
+              <td class="kuiTableRowCell">
                 <div class="kuiTableRowCell__liner">
                   <textarea class="kuiTextInput kuiTextInput--large ng-pristine ng-untouched ng-valid"
                          data-test-subj="analyzeAnalyzerInput"
@@ -210,7 +210,7 @@
                   />
                 </div>
               </td>
-              <td class="kuiTableRowCell kuiTableRowCell">
+              <td class="kuiTableRowCell">
                 <a class="kuiButton kuiButton--primary ng-scope"
                    aria-label="Add new filter"
                    tooltip="Add filter" tooltip-append-to-body="true"
@@ -250,10 +250,10 @@
       >
         <thead>
         <tr>
-          <th class="kuiTableHeaderCell" width="10%">
+          <th class="kuiTableHeaderCell analyzeApiTableRowCellShort">
             type
           </th>
-          <th class="kuiTableHeaderCell" width="10%">
+          <th class="kuiTableHeaderCell analyzeApiTableRowCellShort">
             name
           </th>
           <!-- TODO how output tokens, cells or tokens in a cell? -->
@@ -273,13 +273,13 @@
           ng-show="show_result"
         >
           <!-- type -->
-          <td class="kuiTableRowCell kuiTableRowCell--wrap">
+          <td class="kuiTableRowCell kuiTableRowCell--wrap analyzeApiTableRowCell">
             <div class="kuiTableRowCell__liner">
                 char_filter
             </div>
           </td>
           <!-- Name -->
-          <td class="kuiTableRowCell kuiTableRowCell--wrap">
+          <td class="kuiTableRowCell kuiTableRowCell--wrap analyzeApiTableRowCell">
             <div class="kuiTableRowCell__liner">
               <p class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">
                 {{ charfilter.name }}
@@ -298,18 +298,19 @@
       <!-- output tokenizer/filter part -->
       Show All Token Attr : <input type="checkbox" ng-model="showAllAttr">
 
-      <table class="kuiTable kuiVerticalRhythm"
+      <div class="analyzeApiTableScroll">
+        <table class="kuiTable kuiVerticalRhythm "
              ng-show="show_result"
              ng-if="detail.tokenizer || detail.analyzer || detail.tokenfilters">
         <thead>
         <tr>
-          <th class="kuiTableHeaderCell" width="15%">
+          <th class="kuiTableHeaderCell analyzeApiTableHeaderCellFixed">
             type<br/>
             <b>name</b>
           </th>
           <!-- TODO how output tokens, cells or tokens in a cell? -->
           <th
-            class="kuiTableHeaderCell"
+            class="kuiTableHeaderCell analyzeApiTableHeaderCell"
             ng-repeat="n in tokenIndicesArray"
           >
             tokens[{{n}}]
@@ -324,7 +325,7 @@
             ng-show="show_result"
           >
             <!-- Type/Name -->
-            <td class="kuiTableRowCell kuiTableRowCell--wrap">
+            <td class="kuiTableRowCell kuiTableRowCell--wrap analyzeApiTableRowCell">
               <div class="kuiTableRowCell__liner">
                 <span ng-if="detail.analyzer">analyzer</span>
                 <span ng-if="detail.tokenizer">tokenizer</span>
@@ -337,8 +338,7 @@
             </td>
             <!-- tokens -->
             <td
-              class="kuiTableRowCell"
-              style="vertical-align: top;"
+              class="kuiTableRowCell analyzeApiTableRowCellTop"
               ng-if="detail.analyzer.tokens || detail.tokenizer.tokens"
               ng-repeat="n in tokenIndicesArray"
             >
@@ -378,7 +378,7 @@
             ng-show="show_result"
           >
             <!-- Type/Name -->
-            <td class="kuiTableRowCell kuiTableRowCell--wrap">
+            <td class="kuiTableRowCell kuiTableRowCell--wrap analyzeApiTableRowCell">
               <div class="kuiTableRowCell__liner">
                 filter<br/>
                 <b class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">
@@ -388,8 +388,7 @@
             </td>
             <!-- tokens -->
             <td
-              class="kuiTableRowCell"
-              style="vertical-align: top;"
+              class="kuiTableRowCell analyzeApiTableRowCellTop"
               ng-if="filter.tokens"
               ng-repeat="n in tokenIndicesArray"
             >
@@ -424,6 +423,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </div>
