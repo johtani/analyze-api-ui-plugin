@@ -132,12 +132,12 @@ uiModules
       }
       // FIXME get tokenizer/char_filter/filter
       if ($scope.formValues.charfilters.length > 0) {
-        $scope.formValues.charfilters.forEach(function (charfilter) {
+        $scope.formValues.charfilters.forEach( (charfilter) => {
           if (charfilter && charfilter.item && charfilter.item.trim().length > 0 ) {
             if(param.charfilters == null) param.charfilters = [];
-            var tmpObj = this.parseCustom(charfilter.item.trim());
-            if (tmpObj != -1) {
-              param.charfilters.push(tmpObj);
+            var tmpCharfilter = this.parseCustom(charfilter.item.trim());
+            if (tmpCharfilter != -1) {
+              param.charfilters.push(tmpCharfilter);
             } else {
               return;
             }
@@ -148,9 +148,9 @@ uiModules
         $scope.formValues.filters.forEach( (filter) => {
           if (filter && filter.item && filter.item.trim().length > 0 ) {
             if(param.filters == null) param.filters = [];
-            var tmpObj = this.parseCustom(filter.item.trim());
-            if (tmpObj != -1) {
-              param.filters.push(tmpObj);
+            var tmpFilter = this.parseCustom(filter.item.trim());
+            if (tmpFilter != -1) {
+              param.filters.push(tmpFilter);
             } else {
               return;
             }
