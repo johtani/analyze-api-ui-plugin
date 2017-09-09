@@ -299,7 +299,7 @@
       Show All Token Attr : <input type="checkbox" ng-model="showAllAttr">
 
       <div class="analyzeApiTableScroll">
-        <table class="kuiTable kuiVerticalRhythm "
+        <table class="kuiTable kuiVerticalRhythm"
              ng-show="show_result"
              ng-if="detail.tokenizer || detail.analyzer || detail.tokenfilters">
         <thead>
@@ -342,15 +342,18 @@
               ng-if="detail.analyzer.tokens || detail.tokenizer.tokens"
               ng-repeat="n in tokenIndicesArray"
             >
-              <div class="kuiTableRowCell__liner">
+              <div class="kuiTableRowCell__liner"
+                ng-if="controller.getTokenFromTokenstream(n, detail.tokenizer, detail.analyzer)"
+              >
                 <table
                   class="table table-condensed"
-                  ng-if="controller.getTokenFromTokenstream(n, detail.tokenizer, detail.analyzer)"
+                  ng-repeat="currentTokenInfo in currentLevelTokenList"
                 >
                   <tbody>
                     <tr
                       ng-repeat="(key, value) in controller.filteredCurrentTokenInfo(currentTokenInfo)"
                       ng-show="controller.hideTokenProperty(key)"
+                      ng-class-odd="analyzeOdd"
                     >
                       <td
                         ng-if="n == 0"
@@ -366,7 +369,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <span ng-if="currentTokenInfo == null" style="color: #a7a7a7;">no token</span>
+                <span ng-if="currentLevelTokenList.length == 0" style="color: #a7a7a7;">no token</span>
               </div>
             </td>
           </tr>
@@ -392,10 +395,14 @@
               ng-if="filter.tokens"
               ng-repeat="n in tokenIndicesArray"
             >
-              <div class="kuiTableRowCell__liner">
+              <div class="kuiTableRowCell__liner"
+                   ng-if="controller.getTokenFromTokenstream(n, filter)"
+              >
                 <table
                   class="table table-condensed"
-                  ng-if="controller.getTokenFromTokenstream(n, filter)"
+                  ng-repeat="currentTokenInfo in currentLevelTokenList"
+                  ng-class-even="'analyzeEven'"
+
                 >
                   <tbody>
                   <tr
@@ -417,7 +424,7 @@
                   </tr>
                   </tbody>
                 </table>
-                <div ng-if="currentTokenInfo == null" style="color: #a7a7a7;">no token</div>
+                <div ng-if="currentLevelTokenList.length == 0" style="color: #a7a7a7;">no token</div>
               </div>
             </td>
           </tr>

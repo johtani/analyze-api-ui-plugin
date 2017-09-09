@@ -4,7 +4,7 @@
   "description": "UI for elasticsearch analyze API",
   "main": "index.js",
   "kibana": {
-    "version": "5.5.1",
+    "version": "5.5.2",
     "templateVersion": "7.2.0"
   },
   "scripts": {

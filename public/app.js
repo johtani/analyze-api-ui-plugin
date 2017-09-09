@@ -207,17 +207,21 @@ uiModules
       if (target == null && target2 != null) {
         target = target2;
       }
-      $scope.currentTokenInfo = null;
+      $scope.currentLevelTokenList = [];
+console.log("getTokenFromTokenstream");
       for (var token of target.tokens) {
+console.log(index);
+console.log(token);
         if (token.position > index) {
+console.log("break");
           break;
         }
         if (token.position == index) {
-          $scope.currentTokenInfo = token;
-          break;
+          $scope.currentLevelTokenList.push(token);
         }
       }
-      return $scope.currentTokenInfo != null;
+console.log($scope.currentLevelTokenList.length);
+      return $scope.currentLevelTokenList.length > 0;
     }
 
     // filter token properties
