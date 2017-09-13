@@ -26,7 +26,11 @@ export default function (server) {
 //console.log('indexName:' + param.index);
       call(req, 'indices.analyze', param)
         .then(function (response) {
-          reply(response.detail);
+          let res = {
+            detail: response.detail,
+            request: param.body
+          }
+          reply(res);
         })
         .catch(error => {
           reply(convertEsError(param.index, error));

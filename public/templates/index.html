@@ -431,6 +431,18 @@
         </tbody>
       </table>
       </div>
+
+      <!-- show Es request -->
+      <br/>
+      <div class="kuiVerticalRhythm"
+         ng-if="show_esrequest"
+      >
+        Request for Elasticsearch - you can copy and paste to Console
+        <pre class="nb-binding">
+GET {{formValues.indexName}}/_analyze
+{{esrequest | json}}
+        </pre>
+      </div>
     </div>
   </div>
 </div>

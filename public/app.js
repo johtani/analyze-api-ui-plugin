@@ -35,6 +35,8 @@ uiModules
   this.initializeError = () => {
     $scope.detail = {};
     $scope.show_result = false;
+    $scope.esrequest = {};
+    $scope.show_esrequest = false;
     $scope.textError = null;
     $scope.indexNameError = null;
     $scope.analyzerError = null;
@@ -253,8 +255,10 @@ console.log($scope.currentLevelTokenList.length);
     $http.post(chrome.addBasePath('/api/analyze-api-ui-plugin/analyze'), param)
     .then(
       (response) => {
-        $scope.detail = response.data;
-        this.countTokenSteamLength(response.data);
+        $scope.detail = response.data.detail;
+        this.countTokenSteamLength(response.data.detail);
+        $scope.esrequest = response.data.request;
+        $scope.show_esrequest = true;
         $scope.show_result = true;
     })
     .catch( error => {
