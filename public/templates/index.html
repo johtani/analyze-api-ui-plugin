@@ -231,6 +231,32 @@
             </tr>
           </tbody>
         </table>
+        <!-- for field -->
+        <table
+                class="kuiTable kuiVerticalRhythm"
+                ng-if="currentTab === 'field'"
+        >
+          <tbody>
+          <tr class="kuiTableRow">
+            <td class="kuiTableRowCell analyzeApiTableRowCellShort">
+              <div class="kuiTableRowCell__liner">
+                <p class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">field</p>
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input class="kuiTextInput kuiTextInput--large ng-pristine ng-untouched ng-valid"
+                       data-test-subj="analyzeAnalyzerInput"
+                       ng-model="formValues.field"
+                       ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+                       name="field"
+                       type="text"
+                >
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
         <!-- Form actions -->
         <button
           data-test-subj="createIndexPatternCreateButton"
