@@ -21,6 +21,7 @@ export default function (server) {
       if (req.payload.analyzer) param.body.analyzer = req.payload.analyzer;
       if (req.payload.tokenizer) param.body.tokenizer = req.payload.tokenizer;
       if (req.payload.charfilters) param.body.char_filter = req.payload.charfilters;
+      if (req.payload.field) param.body.field = req.payload.field;
       if (req.payload.filters) param.body.filter = req.payload.filters;
 //console.log(param);
 //console.log('indexName:' + param.index);

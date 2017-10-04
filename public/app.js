@@ -18,7 +18,7 @@ uiModules
 .get('app/analyze-api-ui-plugin', [])
 .controller('analyzeApiUiPluginController', function ($http, $scope, $route, $interval, chrome, Notifier) {
   const notify = new Notifier();
-  $scope.services = ['analyzer', 'custom_analyzer'];
+  $scope.services = ['analyzer', 'custom_analyzer', 'field'];
   $scope.currentTab = $scope.services[0];
   $scope.title = 'Analyze Api Ui Plugin';
   $scope.description = 'UI for elasticsearch analyze API';
@@ -30,7 +30,8 @@ uiModules
     analyzer: '',
     tokenizer: '',
     charfilters: [{'item': '', 'id': 0}],
-    filters: [{'item': '', 'id': 0}]
+    filters: [{'item': '', 'id': 0}],
+    field: ''
   };
   this.initializeError = () => {
     $scope.detail = {};
@@ -122,6 +123,15 @@ uiModules
     if ($scope.currentTab == 'analyzer') {
       if ($scope.formValues.analyzer.length > 0)
         param.analyzer = $scope.formValues.analyzer.trim();
+    } else if ($scope.currentTab == 'field') {
+      if ($scope.formValues.field.trim().length == 0)
+        $scope.analyzerError = 'field is required. ';
+      if ($scope.formValues.indexName.trim().length == 0)
+        $scope.analyzerError += 'index name is required for "field". ';
+      if ($scope.analyzerError) {
+        return;
+      }
+      param.field = $scope.formValues.field.trim();
     } else {
       if ($scope.formValues.tokenizer) {
         var tmpObj = this.parseCustom($scope.formValues.tokenizer.trim());
