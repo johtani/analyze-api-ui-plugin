@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { uiModules } from 'ui/modules';
 import uiRoutes from 'ui/routes';
 
@@ -18,7 +17,7 @@ uiModules
 .get('app/analyze-api-ui-plugin', [])
 .controller('analyzeApiUiPluginController', function ($http, $scope, $route, $interval, chrome, Notifier) {
   const notify = new Notifier();
-  $scope.services = ['analyzer', 'custom_analyzer', 'field'];
+  $scope.services = ['analyzer', 'custom_analyzer', 'field', 'compare analyzers'];
   $scope.currentTab = $scope.services[0];
   $scope.title = 'Analyze Api Ui Plugin';
   $scope.description = 'UI for elasticsearch analyze API';
@@ -31,7 +30,8 @@ uiModules
     tokenizer: '',
     charfilters: [{'item': '', 'id': 0}],
     filters: [{'item': '', 'id': 0}],
-    field: ''
+    field: '',
+    analyzersForCompare: [{'item': '', 'id': 0},{'item': '', 'id': 1}]
   };
   this.initializeError = () => {
     $scope.detail = {};
@@ -41,6 +41,7 @@ uiModules
     $scope.textError = null;
     $scope.indexNameError = null;
     $scope.analyzerError = null;
+    $scope.resultAnalyzers = [];
   }
 
   this.alwaysShowTokenProperties = [
@@ -85,6 +86,16 @@ uiModules
     $scope.formValues.filters.splice($index, 1);
   };
 
+  // add input of analyzer function
+  this.addAnalyzer = ($index) => {
+    //TODO check not having '' in current analyzers
+    $scope.formValues.analyzersForCompare.push({'item': '', 'id': $scope.formValues.charfilters.length});
+  };
+  // remove input of analyzer function
+  this.removeAnalyzer = ($index) => {
+    $scope.formValues.analyzersForCompare.splice($index, 1);
+  };
+
   //
   this.parseCustom = (target) => {
     if (typeof target === 'string' && target.startsWith('{')) {
@@ -105,6 +116,91 @@ uiModules
     }
   };
 
+  // show short name
+  this.shortenName = (name) => {
+    if (name.indexOf('.') > 0) {
+      return name.substr(name.lastIndexOf('.')+1);
+    }
+    return name;
+  }
+
+  // count tokenstream length
+  this.countTokenSteamLength = (detail) => {
+    // FIXME tokens length is not fit if it has synonym token/compound token...
+    var tokenStreamLength = 0;
+
+    if (detail.tokenizer) {
+      tokenStreamLength = this.getLength(tokenStreamLength, detail.tokenizer.tokens);
+    } else if (detail.analyzer) {
+      tokenStreamLength = this.getLength(tokenStreamLength, detail.analyzer.tokens);
+    }
+    if (detail.tokenfilters) {
+      detail.tokenfilters.forEach( (filter) => {
+        tokenStreamLength = this.getLength(tokenStreamLength, filter.tokens);
+      });
+    }
+    $scope.tokenIndicesArray = [];
+    for (var i = 0; i < tokenStreamLength; i++) {
+      $scope.tokenIndicesArray.push(i);
+    }
+  };
+
+  // compare and swap tokenStreamLength
+  this.getLength = (current, tokenArray) => {
+    // FIXME check if there is synonyms or compound
+    var length = current;
+    if (tokenArray != null) {
+      // FIXME must consider the situation if positionIncrements != 1
+      if (tokenArray[tokenArray.length -1].position >= current) {
+        length = tokenArray[tokenArray.length -1].position + 1;
+      }
+    }
+    return length;
+  };
+
+  // for display
+  this.getTokenFromTokenstream = (index, target1, target2) => {
+    var target = target1;
+    if (target == null && target2 != null) {
+      target = target2;
+    }
+    $scope.currentLevelTokenList = [];
+    for (var token of target.tokens) {
+      if (token.position > index) {
+        break;
+      }
+      if (token.position == index) {
+        $scope.currentLevelTokenList.push(token);
+      }
+    }
+    return $scope.currentLevelTokenList.length > 0;
+  }
+
+  // filter token properties
+  this.filteredCurrentTokenInfo = (token) => {
+    if (token != null) {
+      var result = {};
+      Object.keys(token).forEach((key) => {
+        if (!this.hiddenTokenProperties.includes(key)) {
+          result[key] = token[key];
+        }
+      });
+      return result;
+    } else {
+      return null;
+    }
+  };
+
+  // switch show/hide properties
+  this.hideTokenProperty = (propertyName) => {
+    if (this.alwaysShowTokenProperties.includes(propertyName)) {
+      return true;
+    } else {
+      // TODO should we handle each attribute to show/hide?
+      return $scope.showAllAttr;
+    }
+  };
+
   // Call analyze function
   this.performAnalyze = () => {
     // initialize
@@ -115,11 +211,12 @@ uiModules
       text: $scope.formValues.text
     };
     if ($scope.formValues.text.trim().length == 0) {
-      $scope.textError = 'text shoud be not null!';
+      $scope.textError = 'text should be not null!';
       return;
     }
     if ($scope.formValues.indexName.length > 0)
       param.indexName = $scope.formValues.indexName.trim();
+
     if ($scope.currentTab == 'analyzer') {
       if ($scope.formValues.analyzer.length > 0)
         param.analyzer = $scope.formValues.analyzer.trim();
@@ -132,7 +229,7 @@ uiModules
         return;
       }
       param.field = $scope.formValues.field.trim();
-    } else {
+    } else if ($scope.currentTab == 'custom_analyzer'){
       if ($scope.formValues.tokenizer) {
         var tmpObj = this.parseCustom($scope.formValues.tokenizer.trim());
         if (tmpObj != -1) {
@@ -169,117 +266,66 @@ uiModules
           }
         });
       }
+    } else if ($scope.currentTab == 'compare analyzers') {
+      $scope.formValues.analyzersForCompare.forEach( (analyzer) => {
+        if (!(analyzer && analyzer.item && analyzer.item.trim().length > 0)) {
+console.log("some analyzer is null");
+          return;
+        }
+      });
     }
 
-    // show short name
-    this.shortenName = (name) => {
-      if (name.indexOf('.') > 0) {
-        return name.substr(name.lastIndexOf('.')+1);
-      }
-      return name;
-    }
-
-    // count tokenstream length
-    this.countTokenSteamLength = (detail) => {
-      // FIXME tokens length is not fit if it has synonym token/compound token...
-      var tokenStreamLength = 0;
-
-      if (detail.tokenizer) {
-        tokenStreamLength = this.getLength(tokenStreamLength, detail.tokenizer.tokens);
-      } else if (detail.analyzer) {
-        tokenStreamLength = this.getLength(tokenStreamLength, detail.analyzer.tokens);
-      }
-      if (detail.tokenfilters) {
-        detail.tokenfilters.forEach( (filter) => {
-          tokenStreamLength = this.getLength(tokenStreamLength, filter.tokens);
-        });
-      }
-      $scope.tokenIndicesArray = [];
-      for (var i = 0; i < tokenStreamLength; i++) {
-        $scope.tokenIndicesArray.push(i);
-      }
-    };
-
-    // compare and swap tokenStreamLength
-    this.getLength = (current, tokenArray) => {
-      // FIXME check if there is synonyms or compound
-      var length = current;
-      if (tokenArray != null) {
-        // FIXME must consider the situation if positionIncrements != 1
-        if (tokenArray[tokenArray.length -1].position >= current) {
-          length = tokenArray[tokenArray.length -1].position + 1;
-        }
-      }
-      return length;
-    };
-
-    //
-    this.getTokenFromTokenstream = (index, target1, target2) => {
-      var target = target1;
-      if (target == null && target2 != null) {
-        target = target2;
-      }
-      $scope.currentLevelTokenList = [];
-console.log("getTokenFromTokenstream");
-      for (var token of target.tokens) {
-console.log(index);
-console.log(token);
-        if (token.position > index) {
-console.log("break");
-          break;
-        }
-        if (token.position == index) {
-          $scope.currentLevelTokenList.push(token);
-        }
-      }
-console.log($scope.currentLevelTokenList.length);
-      return $scope.currentLevelTokenList.length > 0;
-    }
-
-    // filter token properties
-    this.filteredCurrentTokenInfo = (token) => {
-      if (token != null) {
-        var result = {};
-        Object.keys(token).forEach((key) => {
-          if (!this.hiddenTokenProperties.includes(key)) {
-            result[key] = token[key];
+    if ($scope.currentTab !== 'compare analyzers'){
+      // call kibana server API
+      $http.post(chrome.addBasePath('/api/analyze-api-ui-plugin/analyze'), param)
+        .then(
+          (response) => {
+            $scope.detail = response.data.detail;
+            this.countTokenSteamLength(response.data.detail);
+            $scope.esrequest = response.data.request;
+            $scope.show_esrequest = true;
+            $scope.show_result = true;
+            $scope.showAllAttr = false;
+          })
+        .catch( error => {
+          if (error.data.statusCode == 404) {
+            $scope.indexNameError = error.data.message;
+          } else if (error.data.statusCode == 400) {
+            $scope.analyzerError = error.data.message;
+          } else {
+            notify.error(error.data);
           }
         });
-        return result;
-      } else {
-        return null;
-      }
-    };
+    } else {
+console.log("comparing!!!");
+      // multiple analyzers
+      param.analyzers = $scope.formValues.analyzersForCompare;
 
-    // swich show/hide properties
-    this.hideTokenProperty = (propertyName) => {
-      if (this.alwaysShowTokenProperties.includes(propertyName)) {
-        return true;
-      } else {
-        // TODO should we handle each attribute to show/hide?
-        return $scope.showAllAttr;
-      }
-    };
+      $http.post(chrome.addBasePath('/api/analyze-api-ui-plugin/multi_analyze'), param)
+        .then(
+          (response) => {
+            $scope.resultAnalyzers = response.data.resultAnalyzers;
+            $scope.show_result = true;
+            var tokenStreamLength = 0;
+            $scope.resultAnalyzers.forEach( (result) => {
 
-    // call kibana server API
-    $http.post(chrome.addBasePath('/api/analyze-api-ui-plugin/analyze'), param)
-    .then(
-      (response) => {
-        $scope.detail = response.data.detail;
-        this.countTokenSteamLength(response.data.detail);
-        $scope.esrequest = response.data.request;
-        $scope.show_esrequest = true;
-        $scope.show_result = true;
-    })
-    .catch( error => {
-      if (error.data.statusCode == 404) {
-        $scope.indexNameError = error.data.message;
-      } else if (error.data.statusCode == 400) {
-        $scope.analyzerError = error.data.message;
-      } else {
-        notify.error(error.data);
-      }
-    });
+              tokenStreamLength = this.getLength(tokenStreamLength, result.tokens);
+              $scope.tokenIndicesArray = [];
+              for (var i = 0; i < tokenStreamLength; i++) {
+                $scope.tokenIndicesArray.push(i);
+              }
+            });
+          })
+        .catch( error => {
+          if (error.data.statusCode == 404) {
+            $scope.indexNameError = error.data.message;
+          } else if (error.data.statusCode == 400) {
+            $scope.analyzerError = error.data.message;
+          } else {
+            notify.error(error.data);
+          }
+        });
+    }
   };
 
 });

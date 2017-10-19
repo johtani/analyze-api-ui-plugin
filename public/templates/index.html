@@ -98,7 +98,7 @@
                   </span>
           </p>
         </div>
-        <!-- for analyzer -->
+        <!-- for analyzer tab-->
         <table
           class="kuiTable kuiVerticalRhythm"
           ng-if="currentTab === 'analyzer'"
@@ -124,7 +124,7 @@
           </tr>
           </tbody>
         </table>
-        <!-- custom_analyzer -->
+        <!-- for custom_analyzer tab-->
         <table
           class="kuiTable kuiVerticalRhythm"
           ng-if="currentTab === 'custom_analyzer'"
@@ -231,7 +231,7 @@
             </tr>
           </tbody>
         </table>
-        <!-- for field -->
+        <!-- for field tab-->
         <table
                 class="kuiTable kuiVerticalRhythm"
                 ng-if="currentTab === 'field'"
@@ -257,6 +257,54 @@
           </tr>
           </tbody>
         </table>
+        <!-- for compare analyzers tab -->
+        <table
+                class="kuiTable kuiVerticalRhythm"
+                ng-if="currentTab === 'compare analyzers'"
+        >
+          <tbody>
+          <!-- analyzers -->
+          <tr
+                  class="kuiTableRow"
+                  ng-repeat="comparedAnalyzer in formValues.analyzersForCompare"
+          >
+            <td class="kuiTableRowCell analyzeApiTableRowCellShort">
+              <div class="kuiTableRowCell__liner">
+                <p class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">analyzer</p>
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                  <input class="kuiTextInput kuiTextInput--large ng-pristine ng-untouched ng-valid"
+                         data-test-subj="analyzeAnalyzerInput"
+                         ng-model="comparedAnalyzer.item"
+                         ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+                         name="comparedAnalyzer"
+                         type="text"
+                  />
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <a class="kuiButton kuiButton--primary ng-scope"
+                 aria-label="Add analyzer"
+                 tooltip="Add analyzer" tooltip-append-to-body="true"
+                 ng-click="controller.addAnalyzer($index+1)"
+                 ng-if="$index == 0"
+              >
+                <span aria-hidden="true" class="kuiButton__icon kuiIcon fa-plus"></span>
+              </a>
+              <a class="kuiButton kuiButton--primary ng-scope"
+                 aria-label="Remove analyzer"
+                 tooltip="Remove analyzer" tooltip-append-to-body="true"
+                 ng-click="controller.removeAnalyzer($index)"
+                 ng-if="formValues.analyzersForCompare.length > 1"
+              >
+                <span aria-hidden="true" class="kuiButton__icon kuiIcon fa-minus"></span>
+              </a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
         <!-- Form actions -->
         <button
           data-test-subj="createIndexPatternCreateButton"
@@ -268,118 +316,178 @@
         </button>
       </form>
       <hr/>
-      <!-- output char filter part -->
-      <table
-        class="kuiTable kuiVerticalRhythm"
-        ng-show="show_result"
-        ng-if="detail.charfilters"
+      <!-- One Analyzer -->
+      <div class="kuiVerticalRhythm"
+           ng-controller="analyzeApiUiPluginController as controller"
+           ng-if="currentTab !== 'compare analyzers'"
       >
-        <thead>
-        <tr>
-          <th class="kuiTableHeaderCell analyzeApiTableRowCellShort">
-            type
-          </th>
-          <th class="kuiTableHeaderCell analyzeApiTableRowCellShort">
-            name
-          </th>
-          <!-- TODO how output tokens, cells or tokens in a cell? -->
-          <th class="kuiTableHeaderCell">
-            filtered text
-          </th>
-          </th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr
-          class="kuiTableRow ng-scope ng-isolate-scope"
-          advanced-row="conf"
-          configs="configs"
-          ng-repeat="charfilter in detail.charfilters"
+        <!-- output char filter part -->
+        <table
+          class="kuiTable kuiVerticalRhythm"
           ng-show="show_result"
+          ng-if="detail.charfilters"
         >
-          <!-- type -->
-          <td class="kuiTableRowCell kuiTableRowCell--wrap analyzeApiTableRowCell">
-            <div class="kuiTableRowCell__liner">
-                char_filter
-            </div>
-          </td>
-          <!-- Name -->
-          <td class="kuiTableRowCell kuiTableRowCell--wrap analyzeApiTableRowCell">
-            <div class="kuiTableRowCell__liner">
-              <p class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">
-                {{ charfilter.name }}
-              </p>
-            </div>
-          </td>
-          <!-- tokens -->
-          <td class="kuiTableRowCell">
-            <div class="kuiTableRowCell__liner">
-              {{charfilter.filtered_text[0]}}
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <!-- output tokenizer/filter part -->
-      Show All Token Attr : <input type="checkbox" ng-model="showAllAttr">
+          <thead>
+          <tr>
+            <th class="kuiTableHeaderCell analyzeApiTableRowCellShort">
+              type
+            </th>
+            <th class="kuiTableHeaderCell analyzeApiTableRowCellShort">
+              name
+            </th>
+            <!-- TODO how output tokens, cells or tokens in a cell? -->
+            <th class="kuiTableHeaderCell">
+              filtered text
+            </th>
+            </th>
+          </tr>
+          </thead>
 
-      <div class="analyzeApiTableScroll">
-        <table class="kuiTable kuiVerticalRhythm"
-             ng-show="show_result"
-             ng-if="detail.tokenizer || detail.analyzer || detail.tokenfilters">
-        <thead>
-        <tr>
-          <th class="kuiTableHeaderCell analyzeApiTableHeaderCellFixed">
-            type<br/>
-            <b>name</b>
-          </th>
-          <!-- TODO how output tokens, cells or tokens in a cell? -->
-          <th
-            class="kuiTableHeaderCell analyzeApiTableHeaderCell"
-            ng-repeat="n in tokenIndicesArray"
-          >
-            tokens[{{n}}]
-          </th>
-        </tr>
-        </thead>
-        <tbody>
+          <tbody>
           <tr
             class="kuiTableRow ng-scope ng-isolate-scope"
             advanced-row="conf"
             configs="configs"
+            ng-repeat="charfilter in detail.charfilters"
             ng-show="show_result"
           >
-            <!-- Type/Name -->
+            <!-- type -->
             <td class="kuiTableRowCell kuiTableRowCell--wrap analyzeApiTableRowCell">
               <div class="kuiTableRowCell__liner">
-                <span ng-if="detail.analyzer">analyzer</span>
-                <span ng-if="detail.tokenizer">tokenizer</span>
-                <br/>
+                  char_filter
+              </div>
+            </td>
+            <!-- Name -->
+            <td class="kuiTableRowCell kuiTableRowCell--wrap analyzeApiTableRowCell">
+              <div class="kuiTableRowCell__liner">
                 <p class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">
-                  <span ng-if="detail.analyzer">{{ controller.shortenName(detail.analyzer.name) }}</span>
-                  <span ng-if="detail.tokenizer">{{ controller.shortenName(detail.tokenizer.name) }}</span>
+                  {{ charfilter.name }}
                 </p>
               </div>
             </td>
             <!-- tokens -->
-            <td
-              class="kuiTableRowCell analyzeApiTableRowCellTop"
-              ng-if="detail.analyzer.tokens || detail.tokenizer.tokens"
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                {{charfilter.filtered_text[0]}}
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <!-- output tokenizer/filter part -->
+        Show All Token Attr : <input type="checkbox" ng-model="showAllAttr">
+
+
+        <div class="analyzeApiTableScroll">
+          <table class="kuiTable kuiVerticalRhythm"
+               ng-show="show_result"
+               ng-if="detail.tokenizer || detail.analyzer || detail.tokenfilters">
+          <thead>
+          <tr>
+            <th class="kuiTableHeaderCell analyzeApiTableHeaderCellFixed">
+              type<br/>
+              <b>name</b>
+            </th>
+            <!-- TODO how output tokens, cells or tokens in a cell? -->
+            <th
+              class="kuiTableHeaderCell analyzeApiTableHeaderCell"
               ng-repeat="n in tokenIndicesArray"
             >
-              <div class="kuiTableRowCell__liner"
-                ng-if="controller.getTokenFromTokenstream(n, detail.tokenizer, detail.analyzer)"
+              tokens[{{n}}]
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="kuiTableRow ng-scope ng-isolate-scope"
+              advanced-row="conf"
+              configs="configs"
+              ng-show="show_result"
+            >
+              <!-- Type/Name -->
+              <td class="kuiTableRowCell kuiTableRowCell--wrap analyzeApiTableRowCell">
+                <div class="kuiTableRowCell__liner">
+                  <span ng-if="detail.analyzer">analyzer</span>
+                  <span ng-if="detail.tokenizer">tokenizer</span>
+                  <br/>
+                  <p class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">
+                    <span ng-if="detail.analyzer">{{ controller.shortenName(detail.analyzer.name) }}</span>
+                    <span ng-if="detail.tokenizer">{{ controller.shortenName(detail.tokenizer.name) }}</span>
+                  </p>
+                </div>
+              </td>
+              <!-- tokens -->
+              <td
+                class="kuiTableRowCell analyzeApiTableRowCellTop"
+                ng-if="detail.analyzer.tokens || detail.tokenizer.tokens"
+                ng-repeat="n in tokenIndicesArray"
               >
-                <table
-                  class="table table-condensed"
-                  ng-repeat="currentTokenInfo in currentLevelTokenList"
+                <div class="kuiTableRowCell__liner"
+                  ng-if="controller.getTokenFromTokenstream(n, detail.tokenizer, detail.analyzer)"
                 >
-                  <tbody>
+                  <table
+                    class="table table-condensed"
+                    ng-repeat="currentTokenInfo in currentLevelTokenList"
+                  >
+                    <tbody>
+                      <tr
+                        ng-repeat="(key, value) in controller.filteredCurrentTokenInfo(currentTokenInfo)"
+                        ng-show="controller.hideTokenProperty(key)"
+                        ng-class-odd="analyzeOdd"
+                      >
+                        <td
+                          ng-if="n == 0"
+                          width="20%"
+                        >
+                          {{key}}
+                        </td>
+                        <td>
+                          <b ng-if="key == 'token'">{{value}}</b>
+                          <span ng-if="key != 'token'">{{value}}</span>
+                          &nbsp;
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <span ng-if="currentLevelTokenList.length == 0" style="color: #a7a7a7;">no token</span>
+                </div>
+              </td>
+            </tr>
+            <tr
+              class="kuiTableRow ng-scope ng-isolate-scope"
+              advanced-row="conf"
+              configs="configs"
+              ng-repeat="filter in detail.tokenfilters"
+              ng-show="show_result"
+            >
+              <!-- Type/Name -->
+              <td class="kuiTableRowCell kuiTableRowCell--wrap analyzeApiTableRowCell">
+                <div class="kuiTableRowCell__liner">
+                  filter<br/>
+                  <b class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">
+                    {{ filter.name }}
+                  </b>
+                </div>
+              </td>
+              <!-- tokens -->
+              <td
+                class="kuiTableRowCell analyzeApiTableRowCellTop"
+                ng-if="filter.tokens"
+                ng-repeat="n in tokenIndicesArray"
+              >
+                <div class="kuiTableRowCell__liner"
+                     ng-if="controller.getTokenFromTokenstream(n, filter)"
+                >
+                  <table
+                    class="table table-condensed"
+                    ng-repeat="currentTokenInfo in currentLevelTokenList"
+                    ng-class-even="'analyzeEven'"
+
+                  >
+                    <tbody>
                     <tr
-                      ng-repeat="(key, value) in controller.filteredCurrentTokenInfo(currentTokenInfo)"
+                      ng-repeat="(key, value) in controller.filteredCurrentTokenInfo(currentTokenInfo) "
                       ng-show="controller.hideTokenProperty(key)"
-                      ng-class-odd="analyzeOdd"
                     >
                       <td
                         ng-if="n == 0"
@@ -389,85 +497,116 @@
                       </td>
                       <td>
                         <b ng-if="key == 'token'">{{value}}</b>
+                        <span ng-if="key == 'token' && value == null" style="color: #a7a7a7;">no token</span>
                         <span ng-if="key != 'token'">{{value}}</span>
                         &nbsp;
                       </td>
                     </tr>
-                  </tbody>
-                </table>
-                <span ng-if="currentLevelTokenList.length == 0" style="color: #a7a7a7;">no token</span>
-              </div>
-            </td>
-          </tr>
-          <tr
-            class="kuiTableRow ng-scope ng-isolate-scope"
-            advanced-row="conf"
-            configs="configs"
-            ng-repeat="filter in detail.tokenfilters"
-            ng-show="show_result"
-          >
-            <!-- Type/Name -->
-            <td class="kuiTableRowCell kuiTableRowCell--wrap analyzeApiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                filter<br/>
-                <b class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">
-                  {{ filter.name }}
-                </b>
-              </div>
-            </td>
-            <!-- tokens -->
-            <td
-              class="kuiTableRowCell analyzeApiTableRowCellTop"
-              ng-if="filter.tokens"
-              ng-repeat="n in tokenIndicesArray"
-            >
-              <div class="kuiTableRowCell__liner"
-                   ng-if="controller.getTokenFromTokenstream(n, filter)"
-              >
-                <table
-                  class="table table-condensed"
-                  ng-repeat="currentTokenInfo in currentLevelTokenList"
-                  ng-class-even="'analyzeEven'"
+                    </tbody>
+                  </table>
+                  <div ng-if="currentLevelTokenList.length == 0" style="color: #a7a7a7;">no token</div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
 
-                >
-                  <tbody>
-                  <tr
-                    ng-repeat="(key, value) in controller.filteredCurrentTokenInfo(currentTokenInfo) "
-                    ng-show="controller.hideTokenProperty(key)"
-                  >
-                    <td
-                      ng-if="n == 0"
-                      width="20%"
-                    >
-                      {{key}}
-                    </td>
-                    <td>
-                      <b ng-if="key == 'token'">{{value}}</b>
-                      <span ng-if="key == 'token' && value == null" style="color: #a7a7a7;">no token</span>
-                      <span ng-if="key != 'token'">{{value}}</span>
-                      &nbsp;
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-                <div ng-if="currentLevelTokenList.length == 0" style="color: #a7a7a7;">no token</div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <!-- show Es request -->
+        <br/>
+        <div class="kuiVerticalRhythm"
+           ng-if="show_esrequest"
+        >
+          Request for Elasticsearch - you can copy and paste to Console
+          <pre class="nb-binding">
+  GET {{formValues.indexName}}/_analyze
+  {{esrequest | json}}
+          </pre>
+        </div>
       </div>
-
-      <!-- show Es request -->
-      <br/>
+      <!-- Compare analyzers -->
       <div class="kuiVerticalRhythm"
-         ng-if="show_esrequest"
-      >
-        Request for Elasticsearch - you can copy and paste to Console
-        <pre class="nb-binding">
-GET {{formValues.indexName}}/_analyze
-{{esrequest | json}}
-        </pre>
+           ng-if="currentTab === 'compare analyzers'">
+        There are only tokens and positions. If you know analyzer details, use analyzer/custom_analyzer tab.
+        <div class="analyzeApiTableScroll">
+          <table class="kuiTable kuiVerticalRhythm"
+                 ng-show="show_result"
+                 ng-if="resultAnalyzers">
+            <thead>
+            <tr>
+              <th class="kuiTableHeaderCell analyzeApiTableHeaderCellFixed">
+                type<br/>
+                <b>name</b>
+              </th>
+              <!-- TODO how output tokens, cells or tokens in a cell? -->
+              <th
+                      class="kuiTableHeaderCell analyzeApiTableHeaderCell"
+                      ng-repeat="n in tokenIndicesArray"
+              >
+                tokens[{{n}}]
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr
+                    class="kuiTableRow ng-scope ng-isolate-scope"
+                    advanced-row="conf"
+                    configs="configs"
+                    ng-repeat="analyzerResult in resultAnalyzers"
+                    ng-show="show_result"
+            >
+              <!-- Type/Name -->
+              <td class="kuiTableRowCell kuiTableRowCell--wrap analyzeApiTableRowCell">
+                <div class="kuiTableRowCell__liner">
+                  analyzer<br/>
+                  <b class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">
+                    {{ analyzerResult.analyzer }}
+                  </b>
+                </div>
+              </td>
+              <!-- tokens -->
+              <td
+                      class="kuiTableRowCell analyzeApiTableRowCellTop"
+                      ng-if="analyzerResult.tokens"
+                      ng-repeat="n in tokenIndicesArray"
+              >
+                <div class="kuiTableRowCell__liner"
+                     ng-if="controller.getTokenFromTokenstream(n, analyzerResult)"
+                >
+                  <table
+                          class="table table-condensed"
+                          ng-repeat="currentTokenInfo in currentLevelTokenList"
+                          ng-class-even="'analyzeEven'"
+
+                  >
+                    <tbody>
+                    <tr
+                            ng-repeat="(key, value) in controller.filteredCurrentTokenInfo(currentTokenInfo) "
+                            ng-show="controller.hideTokenProperty(key)"
+                    >
+                      <td
+                              ng-if="n == 0"
+                              width="20%"
+                      >
+                        {{key}}
+                      </td>
+                      <td>
+                        <b ng-if="key == 'token'">{{value}}</b>
+                        <span ng-if="key == 'token' && value == null" style="color: #a7a7a7;">no token</span>
+                        <span ng-if="key != 'token'">{{value}}</span>
+                        &nbsp;
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <div ng-if="currentLevelTokenList.length == 0" style="color: #a7a7a7;">no token</div>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
       </div>
     </div>
   </div>

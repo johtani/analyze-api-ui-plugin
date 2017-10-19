@@ -2,7 +2,7 @@
 
 > UI for elasticsearch analyze API
 
-This is for kibana 5.5.2.
+This is for kibana 6.0.0_rc1.
 
 Analyze text with Aalyzer
 ![Sample image](./sample_image.png)
@@ -15,7 +15,6 @@ Analyze text with custom analyzer
 * change index name to select
     * preload index_name from _cat/indices
 * error handling
-* update 
 
 ---
 
