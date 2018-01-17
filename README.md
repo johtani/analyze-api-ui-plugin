@@ -2,7 +2,7 @@
 
 > UI for elasticsearch analyze API
 
-This is for kibana 6.0.0_rc1.
+This is for kibana 6.1.2.
 
 Analyze text with Aalyzer
 ![Sample image](./sample_image.png)
