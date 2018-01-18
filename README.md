@@ -13,7 +13,8 @@ The latest version is for kibana 6.1.2.
 
 | Kibana version | Command |
 | ---------- | ------- |
-| 6.1.2 | `./bin/elasticsearch-plugin install https://oss.sonatype.org/service/local/repositories/releases/content/info/johtani/elasticsearch/plugin/ingest/ingest-csv/6.1.1.0/ingest-csv-6.1.1.0.zip`
+| 6.1.2 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.1.2/analyze-api-ui-plugin-6.1.2.zip`
+`
 
 
 ## TODO 
