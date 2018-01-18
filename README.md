@@ -2,13 +2,19 @@
 
 > UI for elasticsearch analyze API
 
-This is for kibana 6.1.2.
-
 Analyze text with Aalyzer
 ![Sample image](./sample_image.png)
 
 Analyze text with custom analyzer
 ![Sample custom image](./sample_custom_image.png)
+
+## Installation
+The latest version is for kibana 6.1.2.
+
+| Kibana version | Command |
+| ---------- | ------- |
+| 6.1.2 | `./bin/elasticsearch-plugin install https://oss.sonatype.org/service/local/repositories/releases/content/info/johtani/elasticsearch/plugin/ingest/ingest-csv/6.1.1.0/ingest-csv-6.1.1.0.zip`
+
 
 ## TODO 
 
