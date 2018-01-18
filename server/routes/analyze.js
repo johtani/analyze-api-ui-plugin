@@ -1,3 +1,4 @@
+import Joi from 'joi';
 import { convertEsError } from './handle_es_error';
 
 export default function (server) {
@@ -7,6 +8,19 @@ export default function (server) {
   server.route({
     path: '/api/analyze-api-ui-plugin/analyze',
     method: 'POST',
+    config: {
+      validate: {
+        payload: Joi.object().keys({
+          text: Joi.string().required(),
+          indexName: Joi.string().allow(null).optional(),
+          analyzer: Joi.string().allow(null).optional(),
+          tokenizer: Joi.string().allow(null).optional(),
+          field: Joi.string().allow(null).optional(),
+          filters: Joi.array().allow(null).items(Joi.string(), Joi.object()).optional(),
+          charfilters: Joi.array().allow(null).items(Joi.string(), Joi.object()).optional()
+        }).required()
+      }
+    },
     handler(req, reply) {
 
       // get params from req
@@ -40,6 +54,18 @@ export default function (server) {
   server.route({
     path: '/api/analyze-api-ui-plugin/multi_analyze',
     method: 'POST',
+    config: {
+      validate: {
+        payload: Joi.object().keys({
+          text: Joi.string().required(),
+          indexName: Joi.string().allow(null).optional(),
+          analyzers: Joi.array().allow(null).items(Joi.object().keys({
+            item: [Joi.string(), Joi.object()],
+            id: Joi.number().optional()
+          })).min(2)
+        }).required()
+      }
+    },
     handler(req, reply) {
 
       // get params from req
@@ -51,7 +77,7 @@ export default function (server) {
         }
       };
       if (req.payload.indexName) param.index = req.payload.indexName;
-      var res = {
+      const res = {
         resultAnalyzers: []
       };
 
@@ -69,14 +95,18 @@ export default function (server) {
         });
       };
 
-      Promise.all(
-        req.payload.analyzers.map(getAnalyzerResult))
-        .then(function (response) {
-          reply(res);
-        })
-        .catch(error => {
-          reply(convertEsError(param.index, error));
-        });
+      if (Array.isArray(req.payload.analyzers) && req.payload.analyzers.length >= 1) {
+        Promise.all(
+          req.payload.analyzers.map(getAnalyzerResult))
+          .then(function (response) {
+            reply(res);
+          })
+          .catch(error => {
+            reply(convertEsError(param.index, error));
+          });
+      } else {
+        reply(res);
+      }
     }
   });
 

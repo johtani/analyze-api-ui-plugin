@@ -2,13 +2,19 @@
 
 > UI for elasticsearch analyze API
 
-This is for kibana 6.0.0_rc1.
-
 Analyze text with Aalyzer
 ![Sample image](./sample_image.png)
 
 Analyze text with custom analyzer
 ![Sample custom image](./sample_custom_image.png)
+
+## Installation
+The latest version is for kibana 6.1.2.
+
+| Kibana version | Command |
+| ---------- | ------- |
+| 6.1.2 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.1.2/analyze-api-ui-plugin-6.1.2.zip`
+
 
 ## TODO 
 
