@@ -3,10 +3,10 @@
 > UI for elasticsearch analyze API
 
 Analyze text with Aalyzer
-![Sample image](./sample_image.png)
+![Sample image](./sample_image.jpg)
 
 Analyze text with custom analyzer
-![Sample custom image](./sample_custom_image.png)
+![Sample custom image](./sample_custom_image.jpg)
 
 ## Installation
 The latest version is for kibana 6.1.2.
