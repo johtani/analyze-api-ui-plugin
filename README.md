@@ -9,7 +9,7 @@ Analyze text with custom analyzer
 ![Sample custom image](./sample_custom_image.jpg)
 
 ## Installation
-The latest version is for kibana 6.1.2.
+The latest version is for kibana 6.1.3.
 
 | Kibana version | Command |
 | ---------- | ------- |
