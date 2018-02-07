@@ -14,7 +14,7 @@ export default function (server) {
           text: Joi.string().required(),
           indexName: Joi.string().allow(null).optional(),
           analyzer: Joi.string().allow(null).optional(),
-          tokenizer: Joi.string().allow(null).optional(),
+          tokenizer: [Joi.string().allow(null).optional(), Joi.object().optional()],
           field: Joi.string().allow(null).optional(),
           filters: Joi.array().allow(null).items(Joi.string(), Joi.object()).optional(),
           charfilters: Joi.array().allow(null).items(Joi.string(), Joi.object()).optional()
