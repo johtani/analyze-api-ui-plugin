@@ -9,10 +9,11 @@ Analyze text with custom analyzer
 ![Sample custom image](./sample_custom_image.jpg)
 
 ## Installation
-The latest version is for kibana 6.1.3.
+The latest version is for kibana 6.2.1.
 
 | Kibana version | Command |
 | ---------- | ------- |
+| 6.2.1 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.2.1/analyze-api-ui-plugin-6.2.1.zip`
 | 6.2.0 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.2.0/analyze-api-ui-plugin-6.2.0.zip`
 | 6.1.3 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.1.3/analyze-api-ui-plugin-6.1.3.zip`
 | 6.1.2 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.1.2/analyze-api-ui-plugin-6.1.2.zip`
