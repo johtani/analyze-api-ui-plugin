@@ -19,7 +19,7 @@
   "dependencies": {
     "boom": "2.8.0",
     "joi": "6.10.1",
-    "lodash": "3.10.1"
+    "lodash": "4.17.5"
   },
   "devDependencies": {
     "@elastic/eslint-config-kibana": "^0.6.1",
