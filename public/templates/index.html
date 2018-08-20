@@ -370,12 +370,10 @@
           <div class="euiPanel euiPanel--paddingSmall"
                ng-show="show_result" style="overflow-x: scroll;">
             <!-- output char filter part -->
-            <div class="analyzeApiTableScroll">
-              <table
-                class="euiTable" style="table-layout: auto;"
-                ng-show="show_result"
-                ng-if="detail.charfilters"
-              >
+            <div class="analyzeApiTableScroll"
+                 ng-show="show_result"
+                 ng-if="detail.charfilters && detail.charfilters.length > 0">
+              <table class="euiTable" style="table-layout: auto;">
                 <thead>
                   <tr>
                     <th class="euiTableHeaderCell" scope="col" style="width:150px">
@@ -425,7 +423,7 @@
                    ng-if="detail.tokenizer || detail.analyzer || detail.tokenfilters">
               <thead>
               <tr class="euiTableRow customRowClass">
-                <th class="euiTableHeaderCell" style="width:150px">
+                <th class="euiTableHeaderCell" scope="col" style="width:150px">
                   <div class="euiTableCellContent customCellClass">
                     <span class="euiTableCellContent__text" style="max-width: none;padding: 7px 8px 8px;overflow: unset;">type<br/><span style="font-weight: bold">name</span></span>
                   </div>
@@ -451,10 +449,10 @@
                   <!-- Type/Name -->
                   <td class="euiTableRowCell">
                     <div class="euiTableCellContent customCellClass">
-                      <span ng-if="detail.analyzer" class="euiTableCellContent__text" style="max-width: none;padding: 7px 8px 8px;overflow: unset;">analyzer<br/>
+                      <span ng-if="detail.analyzer" style="max-width: none;padding: 7px 8px 8px;overflow: unset;">analyzer<br/>
                         <span style="font-weight: bold">{{ controller.shortenName(detail.analyzer.name) }}</span>
                       </span>
-                      <span ng-if="detail.tokenizer" class="euiTableCellContent__text" style="max-width: none;padding: 7px 8px 8px;overflow: unset;">tokenizer<br/>
+                      <span ng-if="detail.tokenizer" style="max-width: none;padding: 7px 8px 8px;overflow: unset;">tokenizer<br/>
                         <span ng-if="detail.tokenizer" style="font-weight: bold">{{ controller.shortenName(detail.tokenizer.name) }}</span>
                       </span>
                     </div>
@@ -568,84 +566,86 @@
         </div>
 
         <!-- Compare analyzers -->
-        <div class="kuiVerticalRhythm"
-               ng-if="currentTab === 'compare analyzers'">
+        <div ng-if="currentTab === 'compare analyzers'">
+          <div class="euiPanel euiPanel--paddingSmall"
+               ng-show="show_result" style="overflow-x: scroll;">
             There are only tokens and positions. If you know analyzer details, use analyzer/custom_analyzer tab.
-            <div class="analyzeApiTableScroll">
-              <table class="kuiTable kuiVerticalRhythm"
-                     ng-show="show_result"
-                     ng-if="resultAnalyzers">
+            <div class="analyzeApiTableScroll"
+                 ng-show="show_result"
+                 ng-if="resultAnalyzers">
+              <table class="euiTable" style="table-layout: auto;">
                 <thead>
-                <tr>
-                  <th class="kuiTableHeaderCell analyzeApiTableHeaderCellFixed">
-                    type<br/>
-                    <b>name</b>
-                  </th>
-                  <!-- TODO how output tokens, cells or tokens in a cell? -->
-                  <th
-                          class="kuiTableHeaderCell analyzeApiTableHeaderCell"
-                          ng-repeat="n in tokenIndicesArray"
-                  >
-                    tokens[{{n}}]
-                  </th>
-                </tr>
+                  <tr class="euiTableRow customRowClass">
+                    <th class="euiTableHeaderCell" scope="col" style="width:150px">
+                      <div class="euiTableCellContent customCellClass">
+                        <span class="euiTableCellContent__text" style="max-width: none;padding: 7px 8px 8px;overflow: unset;">type<br/><span style="font-weight: bold">name</span></span>
+                      </div>
+                    </th>
+                    <!-- TODO how output tokens, cells or tokens in a cell? -->
+                    <th
+                        class="euiTableHeaderCell"
+                        ng-repeat="n in tokenIndicesArray"
+                    >
+                      <div class="euiTableCellContent customCellClass">
+                        <span class="euiTableCellContent__text" style="max-width: none;padding: 7px 8px 8px;overflow: unset;margin-left: auto;">tokens[{{n}}]</span>
+                      </div>
+                    </th>
+                  </tr>
                 </thead>
                 <tbody>
-                <tr
-                        class="kuiTableRow ng-scope ng-isolate-scope"
-                        advanced-row="conf"
-                        configs="configs"
-                        ng-repeat="analyzerResult in resultAnalyzers"
-                        ng-show="show_result"
-                >
-                  <!-- Type/Name -->
-                  <td class="kuiTableRowCell kuiTableRowCell--wrap analyzeApiTableRowCell">
-                    <div class="kuiTableRowCell__liner">
-                      analyzer<br/>
-                      <b class="kuiTextTitle kuiVerticalRhythmSmall ng-binding">
-                        {{ analyzerResult.analyzer }}
-                      </b>
-                    </div>
-                  </td>
-                  <!-- tokens -->
-                  <td
-                          class="kuiTableRowCell analyzeApiTableRowCellTop"
-                          ng-if="analyzerResult.tokens"
-                          ng-repeat="n in tokenIndicesArray"
+                  <tr
+                      class="euiTableRow customRowClass ng-scope ng-isolate-scope"
+                      advanced-row="conf"
+                      configs="configs"
+                      ng-repeat="analyzerResult in resultAnalyzers"
+                      ng-show="show_result"
                   >
-                    <div class="kuiTableRowCell__liner"
-                         ng-if="controller.getTokenFromTokenstream(n, analyzerResult)"
+                    <!-- Type/Name -->
+                    <td class="euiTableRowCell">
+                      <div class="euiTableCellContent customCellClass">
+                        <span ng-if="analyzerResult.analyzer" style="max-width: none;padding: 7px 8px 8px;overflow: unset;">analyzer<br/>
+                          <span style="font-weight: bold">{{ analyzerResult.analyzer }}</span>
+                        </span>
+                      </div>
+                    </td>
+                    <!-- tokens -->
+                    <td
+                        class="euiTableRowCell"
+                        ng-if="analyzerResult.tokens"
+                        ng-repeat="n in tokenIndicesArray"
                     >
-                      <table
-                              class="table table-condensed"
-                              ng-repeat="currentTokenInfo in currentLevelTokenList"
-                              ng-class-even="'analyzeEven'"
-
+                      <div class="euiTableCellContent customCellClass" style="overflow: hidden;white-space: nowrap;"
+                           ng-if="controller.getTokenFromTokenstream(n, analyzerResult)"
                       >
-                        <tbody>
-                        <tr
-                                ng-repeat="(key, value) in controller.filteredCurrentTokenInfo(currentTokenInfo) "
-                                ng-show="controller.hideTokenProperty(key)"
+                        <table
+                          class="table table-condensed"
+                          ng-repeat="currentTokenInfo in currentLevelTokenList"
+                          ng-class-even="'analyzeEven'"
                         >
-                          <td
-                                  ng-if="n == 0"
-                                  width="20%"
-                          >
-                            {{key}}
-                          </td>
-                          <td>
-                            <b ng-if="key == 'token'">{{value}}</b>
-                            <span ng-if="key == 'token' && value == null" style="color: #a7a7a7;">no token</span>
-                            <span ng-if="key != 'token'">{{value}}</span>
-                            &nbsp;
-                          </td>
-                        </tr>
-                        </tbody>
-                      </table>
-                      <div ng-if="currentLevelTokenList.length == 0" style="color: #a7a7a7;">no token</div>
-                    </div>
-                  </td>
-                </tr>
+                          <tbody>
+                            <tr
+                              ng-repeat="(key, value) in controller.filteredCurrentTokenInfo(currentTokenInfo) "
+                              ng-show="controller.hideTokenProperty(key)"
+                            >
+                              <td
+                                ng-if="n == 0"
+                                width="20%"
+                              >
+                                {{key}}
+                              </td>
+                              <td style="text-align: right;">
+                                <b ng-if="key == 'token'" style="font-weight: bold;">{{value}}</b>
+                                <span ng-if="key == 'token' && value == null" style="color: #a7a7a7;">no token</span>
+                                <span ng-if="key != 'token'">{{value}}</span>
+                                &nbsp;
+                              </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div ng-if="currentLevelTokenList.length == 0" style="color: #a7a7a7;">no token</div>
+                      </div>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
