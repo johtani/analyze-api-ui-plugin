@@ -10,7 +10,7 @@ uiRoutes.enable();
 uiRoutes
 .when('/', {
   template: template,
-  controller: 'analyzeApiUiPluginController'
+  controller: 'analyzeApiUiPluginController as controller'
 });
 
 uiModules
