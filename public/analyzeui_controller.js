@@ -72,7 +72,7 @@ export function analyzeApiUiPluginController($http, $scope, $timeout, chrome, No
   // add input of analyzer function
   this.addAnalyzer = ($index) => {
     //TODO check not having '' in current analyzers
-    $scope.formValues.analyzersForCompare.push({'item': '', 'id': $scope.formValues.charfilters.length});
+    $scope.formValues.analyzersForCompare.push({'item': '', 'id': $scope.formValues.analyzersForCompare.length});
   };
   // remove input of analyzer function
   this.removeAnalyzer = ($index) => {
