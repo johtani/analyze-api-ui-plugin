@@ -445,6 +445,7 @@
                   advanced-row="conf"
                   configs="configs"
                   ng-show="show_result"
+                  style="vertical-align: top"
                 >
                   <!-- Type/Name -->
                   <td class="euiTableRowCell">
@@ -463,7 +464,7 @@
                     ng-if="detail.analyzer.tokens || detail.tokenizer.tokens"
                     ng-repeat="n in tokenIndicesArray"
                   >
-                    <div class="euiTableCellContent customCellClass" style="overflow: hidden;white-space: nowrap;"
+                    <div class="euiTableCellContent customCellClass" style="overflow: hidden;white-space: nowrap;display: grid;"
                       ng-if="controller.getTokenFromTokenstream(n, detail.tokenizer, detail.analyzer)"
                     >
                       <table
@@ -514,8 +515,9 @@
                     class="euiTableRowCell"
                     ng-if="filter.tokens"
                     ng-repeat="n in tokenIndicesArray"
+                    style="vertical-align: top"
                   >
-                    <div class="euiTableCellContent customCellClass" style="overflow: hidden;white-space: nowrap;"
+                    <div class="euiTableCellContent customCellClass" style="overflow: hidden;white-space: nowrap;display: grid;"
                          ng-if="controller.getTokenFromTokenstream(n, filter)"
                     >
                       <table
@@ -613,8 +615,9 @@
                         class="euiTableRowCell"
                         ng-if="analyzerResult.tokens"
                         ng-repeat="n in tokenIndicesArray"
+                        style="vertical-align: top"
                     >
-                      <div class="euiTableCellContent customCellClass" style="overflow: hidden;white-space: nowrap;"
+                      <div class="euiTableCellContent customCellClass" style="overflow: hidden;white-space: nowrap;display: grid;"
                            ng-if="controller.getTokenFromTokenstream(n, analyzerResult)"
                       >
                         <table
