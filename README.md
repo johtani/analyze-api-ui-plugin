@@ -10,10 +10,11 @@ Analyze text with Aalyzer
 See [Getting Started](docs/GETTING_STARTED.md)
 
 ## Installation
-The latest version is for kibana 6.4.0.
+The latest version is for kibana 6.4.1.
 
 | Kibana version | Command |
 | ---------- | ------- |
+| 6.4.1 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.4.1/analyze-api-ui-plugin-6.4.1.zip`
 | 6.4.0 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.4.0/analyze-api-ui-plugin-6.4.0.zip`
 | 6.3.2 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.3.2/analyze-api-ui-plugin-6.3.2.zip`
 | 6.3.0 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.3.0/analyze-api-ui-plugin-6.3.0.zip`
