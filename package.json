@@ -1,15 +1,15 @@
 {
   "name": "analyze-api-ui-plugin",
-  "version": "6.4.2",
+  "version": "6.4.3",
   "description": "UI for elasticsearch analyze API",
   "main": "index.js",
   "kibana": {
-    "version": "6.4.2",
-    "templateVersion": "7.2.0"
+    "version": "6.4.3",
+    "templateVersion": "1.0.0"
   },
   "scripts": {
-    "preinstall": "node ../kibana/preinstall_check",
-    "kbn": "node ../kibana/scripts/kbn",
+    "preinstall": "node ../../kibana/preinstall_check",
+    "kbn": "node ../../kibana/scripts/kbn",
     "lint": "eslint",
     "start": "plugin-helpers start",
     "test:server": "plugin-helpers test:server",
@@ -22,9 +22,9 @@
     "lodash": "4.17.5"
   },
   "devDependencies": {
-    "@elastic/eslint-config-kibana": "link:../kibana/packages/eslint-config-kibana",
-    "@elastic/eslint-import-resolver-kibana": "link:../kibana/packages/kbn-eslint-import-resolver-kibana",
-    "@kbn/plugin-helpers": "link:../kibana/packages/kbn-plugin-helpers",
+    "@elastic/eslint-config-kibana": "link:../../kibana/packages/eslint-config-kibana",
+    "@elastic/eslint-import-resolver-kibana": "link:../../kibana/packages/kbn-eslint-import-resolver-kibana",
+    "@kbn/plugin-helpers": "link:../../kibana/packages/kbn-plugin-helpers",
     "babel-eslint": "^8.0.2",
     "eslint": "^4.11.0",
     "eslint-plugin-babel": "^4.1.1",
