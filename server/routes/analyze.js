@@ -8,7 +8,7 @@ export default function (server) {
   server.route({
     path: '/api/analyze-api-ui-plugin/analyze',
     method: 'POST',
-    config: {
+    options: {
       validate: {
         payload: Joi.object().keys({
           text: Joi.string().required(),
@@ -21,7 +21,7 @@ export default function (server) {
         }).required()
       }
     },
-    handler(req, reply) {
+    handler: async (req) => {
 
       // get params from req
       // call _analyze api
@@ -37,24 +37,22 @@ export default function (server) {
       if (req.payload.charfilters) param.body.char_filter = req.payload.charfilters;
       if (req.payload.field) param.body.field = req.payload.field;
       if (req.payload.filters) param.body.filter = req.payload.filters;
-      call(req, 'indices.analyze', param)
-        .then(function (response) {
-          let res = {
-            detail: response.detail,
-            request: param.body
-          }
-          reply(res);
-        })
-        .catch(error => {
-          reply(convertEsError(param.index, error));
-        });
+      try {
+        const response = await call(req, 'indices.analyze', param);
+        return {
+          detail: response.detail,
+          request: param.body
+        };
+      } catch (error) {
+        return convertEsError(param.index, error);
+      }
     }
   });
 
   server.route({
     path: '/api/analyze-api-ui-plugin/multi_analyze',
     method: 'POST',
-    config: {
+    options: {
       validate: {
         payload: Joi.object().keys({
           text: Joi.string().required(),
@@ -66,7 +64,7 @@ export default function (server) {
         }).required()
       }
     },
-    handler(req, reply) {
+    handler: async (req, h) => {
 
       // get params from req
       // call _analyze api
@@ -106,13 +104,13 @@ export default function (server) {
                 return 0;
               }
             );
-            reply(res);
+            return h.response(res);
           })
           .catch(error => {
-            reply(convertEsError(param.index, error));
+            return h.response(convertEsError(param.index, error));
           });
       } else {
-        reply(res);
+        return h.response(res);
       }
     }
   });

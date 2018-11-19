@@ -5,12 +5,15 @@
 Analyze text with Aalyzer
 ![Sample image](docs/sample_image.jpg)
 
+This branch is for Kibana 7.x.
+
 ## How to use?
 
 See [Getting Started](docs/GETTING_STARTED.md)
 
 ## Installation
-The latest version is for kibana 6.5.0.
+The latest stable version is for kibana 6.5.0.
+The latest alpha version is for kibana 7.0.0-alpha1
 
 | Kibana version | Command |
 | ---------- | ------- |
