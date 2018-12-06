@@ -14,6 +14,7 @@ The latest version is for kibana 6.5.1.
 
 | Kibana version | Command |
 | ---------- | ------- |
+| 6.5.2 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.5.2/analyze-api-ui-plugin-6.5.2.zip`
 | 6.5.1 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.5.1/analyze-api-ui-plugin-6.5.1.zip`
 | 6.5.0 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.5.0/analyze-api-ui-plugin-6.5.0.zip`
 | 6.4.3 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.4.3/analyze-api-ui-plugin-6.4.3.zip`
