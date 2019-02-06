@@ -1,39 +1,42 @@
 {
   "name": "analyze-api-ui-plugin",
-  "version": "6.5.4",
+  "version": "6.6.0",
   "description": "UI for elasticsearch analyze API",
   "main": "index.js",
   "kibana": {
-    "version": "6.5.4",
+    "version": "6.6.0",
     "templateVersion": "1.0.0"
   },
   "scripts": {
     "preinstall": "node ../../kibana/preinstall_check",
     "kbn": "node ../../kibana/scripts/kbn",
-    "lint": "eslint",
+    "es": "node ../../kibana/scripts/es",
+    "lint": "eslint .",
     "start": "plugin-helpers start",
     "test:server": "plugin-helpers test:server",
     "test:browser": "plugin-helpers test:browser",
     "build": "plugin-helpers build"
   },
   "dependencies": {
-    "boom": "2.8.0",
-    "joi": "6.10.1",
-    "lodash": "4.17.5"
+    "boom": "^7.2.0",
+    "joi": "^13.5.2",
+    "lodash": "npm:@elastic/lodash@3.10.1-kibana1"
   },
   "devDependencies": {
     "@elastic/eslint-config-kibana": "link:../../kibana/packages/eslint-config-kibana",
     "@elastic/eslint-import-resolver-kibana": "link:../../kibana/packages/kbn-eslint-import-resolver-kibana",
     "@kbn/plugin-helpers": "link:../../kibana/packages/kbn-plugin-helpers",
-    "babel-eslint": "^8.0.2",
-    "eslint": "^4.11.0",
-    "eslint-plugin-babel": "^4.1.1",
-    "eslint-plugin-import": "^2.3.0",
-    "eslint-plugin-jest": "^21.3.2",
-    "eslint-plugin-mocha": "^4.9.0",
+    "babel-eslint": "^9.0.0",
+    "eslint": "^5.6.0",
+    "eslint-plugin-babel": "^5.2.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jest": "^21.22.1",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-mocha": "^5.2.0",
     "eslint-plugin-no-unsanitized": "^3.0.2",
     "eslint-plugin-prefer-object-spread": "^1.2.1",
-    "eslint-plugin-react": "^7.0.1",
+    "eslint-plugin-react": "^7.11.1",
     "expect.js": "^0.3.1"
+
   }
 }

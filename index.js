@@ -1,4 +1,3 @@
-import { resolve } from 'path';
 import analyzeRoute from './server/routes/analyze';
 
 export default function (kibana) {
@@ -11,10 +10,6 @@ export default function (kibana) {
         description: 'UI for elasticsearch analyze API',
         main: 'plugins/analyze-api-ui-plugin/app'
       },
-      
-      translations: [
-        resolve(__dirname, './translations/es.json')
-      ],
       hacks: [
       ]
     },
