@@ -17,11 +17,6 @@
     "test:browser": "plugin-helpers test:browser",
     "build": "plugin-helpers build"
   },
-  "dependencies": {
-    "boom": "^7.2.0",
-    "joi": "^13.5.2",
-    "lodash": "npm:@elastic/lodash@3.10.1-kibana1"
-  },
   "devDependencies": {
     "@elastic/eslint-config-kibana": "link:../../kibana/packages/eslint-config-kibana",
     "@elastic/eslint-import-resolver-kibana": "link:../../kibana/packages/kbn-eslint-import-resolver-kibana",
