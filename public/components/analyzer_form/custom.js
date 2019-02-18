@@ -23,7 +23,14 @@ class CustomAnalyzerComponent extends Component {
               style: {width: 100},
             },
             form: {
-              value: <EuiTextArea name="tokenizer"/>,
+              renderTag: (index) => {
+                return (
+                  <EuiTextArea
+                    name="tokenizer"
+                    fullWidth
+                    onChange={this.props.updateParamsWithEvent}/>
+                  );
+                },
               style: {width: 300},
             }
           }
@@ -33,7 +40,7 @@ class CustomAnalyzerComponent extends Component {
     }
     // initialize charfilter and filter
     this.appendCharFilter();
-    this.appendFilter()
+    this.appendFilter();
   }
 
   appendCharFilter() {
@@ -45,7 +52,15 @@ class CustomAnalyzerComponent extends Component {
           style: {width: 100},
         },
         form: {
-          value: <EuiTextArea name="char_filter"/>,
+          renderTag: (index) => {
+            return (
+              <EuiTextArea
+                name="char_filter"
+                fullWidth
+                data-index={index}
+                onChange={this.props.updateParamsWithEventAndIndex}/>
+              );
+            },
           style: {width: 300},
         },
         button: true
@@ -67,7 +82,15 @@ class CustomAnalyzerComponent extends Component {
           style: {width: 100},
         },
         form: {
-          value: <EuiTextArea name="filter"/>,
+          renderTag: (index) => {
+            return (
+              <EuiTextArea
+                name="filter"
+                fullWidth
+                data-index={index}
+                onChange={this.props.updateParamsWithEventAndIndex}/>
+              );
+            },
           style: {width: 300},
         },
         button: true
@@ -75,9 +98,7 @@ class CustomAnalyzerComponent extends Component {
     );
     this.setState(
       {
-        rows: {
-          "filter": this.state.filter
-        }
+        rows: this.state.rows
       }
     );
   }
@@ -92,6 +113,7 @@ class CustomAnalyzerComponent extends Component {
   }
 
   removeRow(type, index) {
+    console.log("index:"+index)
     if (type == "char_filter") {
       this.state.rows.char_filter.splice(index, 1);
       this.setState({rows: this.state.rows});

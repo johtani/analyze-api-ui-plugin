@@ -23,7 +23,7 @@ export class AnalyzerForm extends Component {
       content: (
         <Fragment>
           <EuiSpacer/>
-          <SimpleAnalyzer/>
+          <SimpleAnalyzer updateParamsWithEvent={this.props.updateParamsWithEvent}/>
         </Fragment>
       )
     }, {
@@ -32,7 +32,10 @@ export class AnalyzerForm extends Component {
       content: (
         <Fragment>
           <EuiSpacer/>
-          <CustomAnalyzer/>
+          <CustomAnalyzer
+            updateParamsWithEvent={this.props.updateParamsWithEvent}
+            updateParamsWithEventAndIndex={this.props.updateParamsWithEventAndIndex}
+          />
         </Fragment>
       )
     }, {
@@ -41,7 +44,7 @@ export class AnalyzerForm extends Component {
       content: (
         <Fragment>
           <EuiSpacer/>
-          <FieldAnalyzer/>
+          <FieldAnalyzer updateParamsWithEvent={this.props.updateParamsWithEvent}/>
         </Fragment>
       )
     }, {
@@ -50,17 +53,20 @@ export class AnalyzerForm extends Component {
       content: (
         <Fragment>
           <EuiSpacer/>
-          <CompareAnalyzers/>
+          <CompareAnalyzers updateParamsWithEvent={this.props.updateParamsWithEvent}/>
         </Fragment>
       )
     }];
   }
+
+
 
   render () {
     return (
       <EuiTabbedContent
         tabs={this.tabs}
         initialSelectedTab={this.tabs[0]}
+        onTabClick={this.props.selectTab}
       />
     )
   }

@@ -25,7 +25,14 @@ class SimpleAnalyzerComponent extends Component {
               style: { width: 100},
             },
             form: {
-              value: <EuiFieldText name="analyzer" fullWidth />,
+              renderTag: (index) => {
+                return (
+                  <EuiFieldText
+                    name="analyzer"
+                    fullWidth
+                    onChange={this.props.updateParamsWithEvent}/>
+                );
+              },
               style: { width: 300 },
             }
           }

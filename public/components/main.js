@@ -16,9 +16,7 @@ import {
   EuiSpacer,
 } from '@elastic/eui';
 
-import { CommonForm } from './common_form';
-import { AnalyzerForm } from './analyzer_form';
-import { FormControl } from "./form_control";
+import {AnalyzeUi} from "./analyze_ui";
 
 export class Main extends Component {
   constructor(props) {
@@ -37,12 +35,7 @@ export class Main extends Component {
             </EuiPageHeaderSection>
           </EuiPageHeader>
           <EuiPageContent panelPaddingSize="s">
-            <CommonForm />
-            <EuiSpacer size="m"/>
-            <AnalyzerForm/>
-            <EuiSpacer size="m"/>
-            <FormControl/>
-
+            <AnalyzeUi/>
             <EuiSpacer size="m"/>
             <EuiPageContentBody>
               <EuiText>

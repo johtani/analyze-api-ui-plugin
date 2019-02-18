@@ -12,6 +12,16 @@ import {
 function displayRowsComponent(WrappedComponent) {
   return class extends WrappedComponent {
 
+    renderValue(value) {
+      if (value) {
+        return (
+          value
+        );
+      } else {
+        return;
+      }
+    }
+
     appendRow(type, index) {
       super.appendRow(type, index);
     }
@@ -57,7 +67,7 @@ function displayRowsComponent(WrappedComponent) {
               {type}
             </EuiTableRowCell>
             <EuiTableRowCell className="customCellClass" style={cell.form.style}>
-              {cell.form.value}
+              {cell.form.renderTag(index)}
             </EuiTableRowCell>
             {this.renderAdjustButton(type, cell, index, cells.length)}
           </EuiTableRow>

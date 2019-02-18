@@ -12,31 +12,6 @@ export class FormControl extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      showAllTokenAttr: false
-    };
-  }
-
-  validateForm() {
-    console.log("validation is not Implemented!!");
-  }
-
-  callApi () {
-
-
-  }
-
-  onChange = e => {
-    this.setState({
-        showAllTokenAttr: e.target.checked,
-    });
-  }
-
-  onClick = e => {
-    console.log("Click Click!!")
-    this.validateForm();
-    console.log(this.state);
-    // if validation is fine, we call API
   }
 
   render () {
@@ -44,18 +19,21 @@ export class FormControl extends Component {
       <EuiFlexGroup gutterSize="m" alignItems="center">
         <EuiFlexItem grow={false}>
           <EuiButton
+            name="performAnalyze"
             size="s"
             fill={true}
-            onClick={this.onClick}
+            type="submit"
+            onClick={this.props.displayResult}
           >
             Analyze!
           </EuiButton>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiSwitch
+            name="showAllTokenAttr"
             label="Show all Token Attrs?"
-            checked={this.state.showAllTokenAttr}
-            onChange={this.onChange}
+            checked={this.props.params.showAllTokenAttr}
+            onChange={this.props.updateParamsWithEvent}
           />
         </EuiFlexItem>
       </EuiFlexGroup>

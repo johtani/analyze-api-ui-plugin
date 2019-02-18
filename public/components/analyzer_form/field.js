@@ -22,7 +22,15 @@ class FieldAnalyzerComponent extends Component {
             style: {width: 100},
           },
           form: {
-            value: <EuiFieldText name="field" fullWidth/>,
+            renderTag: (index) => {
+              return (
+                <EuiFieldText
+                  name="field"
+                  fullWidth
+                  value={this.props.params.field}
+                  onChange={this.props.updateParamsWithEvent}/>
+                );
+              },
             style: {width: 300},
           }
         }]
