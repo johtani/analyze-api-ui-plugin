@@ -1,18 +1,35 @@
+import React from 'react';
 import { uiModules } from 'ui/modules';
-import uiRoutes from 'ui/routes';
+import chrome from 'ui/chrome';
+import { render, unmountComponentAtNode } from 'react-dom';
 
+import 'ui/autoload/modules';
 import 'ui/autoload/styles';
-import './less/main.less';
-import template from './templates/index.html';
-import { analyzeApiUiPluginController } from './analyzeui_controller';
+import { Main } from './components/main';
 
-uiRoutes.enable();
-uiRoutes
-.when('/', {
-  template: template,
-  controller: 'analyzeApiUiPluginController as controller'
+const app = uiModules.get('apps/analyzeApiUi');
+
+app.config($locationProvider => {
+  $locationProvider.html5Mode({
+    enabled: false,
+    requireBase: false,
+    rewriteLinks: false,
+  });
 });
+app.config(stateManagementConfigProvider =>
+  stateManagementConfigProvider.disable()
+);
 
-uiModules
-.get('app/analyze-api-ui-plugin', [])
-.controller('analyzeApiUiPluginController', analyzeApiUiPluginController);
+function RootController($scope, $element, $http) {
+  const domNode = $element[0];
+
+  // render react to DOM
+  render(<Main title="analyze_api_ui" httpClient={$http} />, domNode);
+
+  // unmount react on controller destroy
+  $scope.$on('$destroy', () => {
+    unmountComponentAtNode(domNode);
+  });
+}
+
+chrome.setRootController('analyzeApiUiController', RootController);

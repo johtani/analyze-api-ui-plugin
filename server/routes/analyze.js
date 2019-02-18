@@ -6,7 +6,7 @@ export default function (server) {
   let call = server.plugins.elasticsearch.getCluster('data').callWithRequest;
 
   server.route({
-    path: '/api/analyze-api-ui-plugin/analyze',
+    path: '/api/analyze_api_ui/analyze',
     method: 'POST',
     options: {
       validate: {
@@ -50,7 +50,7 @@ export default function (server) {
   });
 
   server.route({
-    path: '/api/analyze-api-ui-plugin/multi_analyze',
+    path: '/api/analyze_api_ui/multi_analyze',
     method: 'POST',
     options: {
       validate: {

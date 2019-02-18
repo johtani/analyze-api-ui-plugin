@@ -3,15 +3,14 @@ import analyzeRoute from './server/routes/analyze';
 export default function (kibana) {
   return new kibana.Plugin({
     require: ['elasticsearch'],
-    name: 'analyze-api-ui-plugin',
+    name: 'analyze_api_ui',
     uiExports: {
       app: {
         title: 'Analyze UI',
         description: 'UI for elasticsearch analyze API',
-        main: 'plugins/analyze-api-ui-plugin/app'
+        main: 'plugins/analyze_api_ui/app'
       },
-      hacks: [
-      ]
+      styleSheetPaths: require('path').resolve(__dirname, 'public/app.scss'),
     },
 
     config(Joi) {
@@ -19,11 +18,9 @@ export default function (kibana) {
         enabled: Joi.boolean().default(true),
       }).default();
     },
-    
-    init(server, options) {
+    init(server) {
       // Add server routes and initalize the plugin here
       analyzeRoute(server);
     }
-
   });
 };

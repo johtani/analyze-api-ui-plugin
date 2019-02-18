@@ -260,7 +260,7 @@ export function analyzeApiUiPluginController($http, $scope, $timeout, chrome, No
 
     if ($scope.currentTab !== 'compare analyzers'){
       // call kibana server API
-      $http.post(chrome.addBasePath('/api/analyze-api-ui-plugin/analyze'), param)
+      $http.post(chrome.addBasePath('/api/analyze_api_ui/analyze'), param)
         .then(
           (response) => {
             $scope.detail = response.data.detail;
@@ -284,7 +284,7 @@ export function analyzeApiUiPluginController($http, $scope, $timeout, chrome, No
       // multiple analyzers
       param.analyzers = $scope.formValues.analyzersForCompare;
 
-      $http.post(chrome.addBasePath('/api/analyze-api-ui-plugin/multi_analyze'), param)
+      $http.post(chrome.addBasePath('/api/analyze_api_ui/multi_analyze'), param)
         .then(
           (response) => {
             $scope.resultAnalyzers = response.data.resultAnalyzers;

@@ -1,0 +1,1 @@
+export { CommonForm } from './common_form';
