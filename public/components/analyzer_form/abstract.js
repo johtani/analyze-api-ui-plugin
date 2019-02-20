@@ -12,14 +12,8 @@ import {
 function displayRowsComponent(WrappedComponent) {
   return class extends WrappedComponent {
 
-    renderValue(value) {
-      if (value) {
-        return (
-          value
-        );
-      } else {
-        return;
-      }
+    appendValueToFormRow() {
+
     }
 
     appendRow(type, index) {

@@ -12,6 +12,7 @@ import { SimpleAnalyzer } from './simple';
 import { CustomAnalyzer } from './custom';
 import { FieldAnalyzer } from './field';
 import { CompareAnalyzers } from './compare_analyzers';
+import { TAB_NAME } from "../../common/constants/tab_names";
 
 export class AnalyzerForm extends Component {
 
@@ -19,20 +20,24 @@ export class AnalyzerForm extends Component {
     super(props);
     this.tabs = [{
       id: 'analyzer',
-      name: 'Analyzer',
+      name: TAB_NAME.ANALYZER,
       content: (
         <Fragment>
           <EuiSpacer/>
-          <SimpleAnalyzer updateParamsWithEvent={this.props.updateParamsWithEvent}/>
+          <SimpleAnalyzer
+            params={this.props.params}
+            updateParamsWithEvent={this.props.updateParamsWithEvent}
+          />
         </Fragment>
       )
     }, {
       id: 'custom_analyzer',
-      name: 'Custom Analyzer',
+      name: TAB_NAME.CUSTOM_ANALYZER,
       content: (
         <Fragment>
           <EuiSpacer/>
           <CustomAnalyzer
+            params={this.props.params}
             updateParamsWithEvent={this.props.updateParamsWithEvent}
             updateParamsWithEventAndIndex={this.props.updateParamsWithEventAndIndex}
           />
@@ -40,26 +45,31 @@ export class AnalyzerForm extends Component {
       )
     }, {
       id: 'field',
-      name: 'Field',
+      name: TAB_NAME.FIELD,
       content: (
         <Fragment>
           <EuiSpacer/>
-          <FieldAnalyzer updateParamsWithEvent={this.props.updateParamsWithEvent}/>
+          <FieldAnalyzer
+            params={this.props.params}
+            updateParamsWithEvent={this.props.updateParamsWithEvent}
+          />
         </Fragment>
       )
     }, {
       id: 'compare_analyzers',
-      name: 'Compare Analyzers',
+      name: TAB_NAME.COMPARE_ANALYZERS,
       content: (
         <Fragment>
           <EuiSpacer/>
-          <CompareAnalyzers updateParamsWithEvent={this.props.updateParamsWithEvent}/>
+          <CompareAnalyzers
+            params={this.props.params}
+            updateParamsWithEvent={this.props.updateParamsWithEvent}
+          />
         </Fragment>
       )
     }];
+    this.props.selectTab(this.tabs[0]);
   }
-
-
 
   render () {
     return (

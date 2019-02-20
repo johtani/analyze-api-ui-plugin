@@ -27,7 +27,6 @@ class FieldAnalyzerComponent extends Component {
                 <EuiFieldText
                   name="field"
                   fullWidth
-                  value={this.props.params.field}
                   onChange={this.props.updateParamsWithEvent}/>
                 );
               },

@@ -6,10 +6,6 @@ export function initializeParams() {
 }
 
 export function updateParamsWithEvent(event, params){
-
-  console.log("onChange:");
-  console.log(event.target.value);
-  console.log(event.target.name);
   const target = event.target;
   const value = target.type === 'checkbox' ? target.checked : target.value;
   const name = target.name;
@@ -38,6 +34,7 @@ export function updateParamsWithEventAndIndex(event, params){
 };
 
 export function selectTab(tab, params) {
+  console.log("selectTab:"+tab.name);
   params["tab"] = tab.name;
   return params;
 }

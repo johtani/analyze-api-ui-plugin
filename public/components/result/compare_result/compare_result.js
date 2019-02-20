@@ -6,10 +6,10 @@ import {
 } from '@elastic/eui';
 
 
-export class AnalyzerResult extends React.Component {
+export class CompareResult extends Component {
   render() {
     const {
-
+      detail
     } = this.props;
     return {
 

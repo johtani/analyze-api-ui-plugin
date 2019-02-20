@@ -9,19 +9,37 @@ import {
 import { CommonForm } from "../common_form";
 import { AnalyzerForm } from "../analyzer_form";
 import { FormControl } from "../form_control";
+import { Result } from "../result";
 import {
   updateParamsWithEvent,
   updateParamsWithEventAndIndex,
   selectTab
-} from "../store/params";
+} from "../../services/params";
+import {
+  setHttpClient,
+  analyze,
+  multiAnalyze
+} from "../../services/api";
+import {validateAnalyzeRequestValues} from "../../services/validator";
+import {TAB_NAME} from "../../common/constants/tab_names";
 
 export class AnalyzeUi extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      params: {}
+      params: {
+        indexName: '',
+        text: '',
+        analyzer: '',
+        tokenizer: '',
+        charfilters: [],
+        filters: [],
+        field: '',
+        analyzersForCompare: [],
+      }
     }
+    setHttpClient(this.props.httpClient);
   }
 
 
@@ -31,7 +49,6 @@ export class AnalyzeUi extends Component {
   };
 
   updateParamsWithEventAndIndex = e => {
-    console.log("updateParamsWithEventAndIndex");
     const params = updateParamsWithEventAndIndex(e, this.state.params);
     this.updateParams(params);
   };
@@ -45,46 +62,62 @@ export class AnalyzeUi extends Component {
     this.setState({
       params: params
     });
-    console.log("state:");
-    console.log(this.state);
   };
 
 
-  callAnalyzeApi () {
+  callMultiAnalyzeApi (params) {
 
   }
 
-  callMultiAnalyzeApi () {
+  callAnalyzeApi (params) {
+    console.log("callAnalyzeApi");
+    console.log(params);
+    const result = analyze(params);
 
+    result.then(
+      (response) => {
+        this.setState({
+          showResult: true,
+          detail: response.data.detail,
+          esRequest: response.data.request,
+          resultType: "single"
+        });
+      }
+    );
+    result.catch(
+      error => {
+        if (error.data.statusCode == 404) {
+          this.state.indexNameError = error.data.message;
+        } else if (error.data.statusCode == 400) {
+          this.state.analyzerError = error.data.message;
+        } else {
+          //TODO
+          console.log("Notifications!!!");
+        }
+      }
+    );
   }
 
   // view
 
-
-  updateCommonForm = e => {
-
-  }
-
-  validateForm = () => {
-    console.log("validation is not Implemented!!");
-  };
-
   displayResult = e => {
-    console.log("AnalyzeUi displayResult");
-    this.validateForm();
-    console.log(this.state);
+    const {params} = this.state;
+    const {tab} = this.state;
+    const validatedParams = validateAnalyzeRequestValues(params);
+    if (validatedParams.errors && validatedParams.errors.size > 0) {
+      console.log("There are something wrong...");
+      console.log(validatedParams.errors);
+    }
     //collect current values from common form and analyzer form
-  };
-
-  displaySingleAnalyze = () => {
-
-  };
-
-  displayMultiAnalyze = () => {
-
+    if (tab !== TAB_NAME.COMPARE_ANALYZERS) {
+      this.callAnalyzeApi(validatedParams.requestParams);
+    } else {
+      this.callMultiAnalyzeApi(validatedParams.requestParams);
+    }
   };
 
   render() {
+    const {indexName} = this.state.params;
     return (
       <Fragment>
         <CommonForm params={this.state.params}
@@ -101,6 +134,14 @@ export class AnalyzeUi extends Component {
                      updateParamsWithEvent={this.updateParamsWithEvent}/>
 
         <EuiSpacer size="m"/>
+        {this.state.showResult && (
+          <Result
+            type={this.state.resultType}
+            detail={this.state.detail}
+            esRequest={this.state.esRequest}
+            indexName={indexName}
+          />
+        )}
       </Fragment>
     );
   }

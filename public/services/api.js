@@ -8,24 +8,12 @@ export const getHttpClient = () => {
 };
 const apiPrefix = chrome.addBasePath('/api/analyze_api_ui');
 
-
 export async function analyze(params) {
-  const body = {
-    params
-  };
-  const response = await httpClient.post(`${apiPrefix}/analyze`, body);
-  return {
-    detail: response.data.detail,
-    esRequest: response.data.request,
-  };
+  const response = await httpClient.post(`${apiPrefix}/analyze`, params);
+  return response;
 }
 
 export async function multiAnalyze(params) {
-  const body = {
-    params
-  };
-  const response = await httpClient.post(`${apiPrefix}/multi_analyze`, body);
-  return {
-    resultAnalyzers: response.data.resultAnalyzers
-  };
+  const response = await httpClient.post(`${apiPrefix}/multi_analyze`, params);
+  return response;
 }

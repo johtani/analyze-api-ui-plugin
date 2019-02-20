@@ -35,7 +35,7 @@ export class Main extends Component {
             </EuiPageHeaderSection>
           </EuiPageHeader>
           <EuiPageContent panelPaddingSize="s">
-            <AnalyzeUi/>
+            <AnalyzeUi httpClient={this.props.httpClient}/>
             <EuiSpacer size="m"/>
             <EuiPageContentBody>
               <EuiText>

@@ -54,6 +54,7 @@ export class CommonForm extends Component {
             fullWidth
             isInvalid={this.state.indexNameError}
             error={this.state.indexNameError}
+            value={this.props.params.indexName}
             onChange={this.props.updateParamsWithEvent}
           >
             <EuiFieldText name="indexName" fullWidth={true}/>
@@ -68,6 +69,7 @@ export class CommonForm extends Component {
             fullWidth
             isInvalid={this.state.textError}
             error={this.state.textError}
+            value={this.props.params.text}
             onChange={this.props.updateParamsWithEvent}
           >
             <EuiFieldText name="text" fullWidth={true}/>
