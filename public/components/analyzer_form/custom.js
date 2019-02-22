@@ -109,11 +109,9 @@ class CustomAnalyzerComponent extends Component {
     } else if (type == "filter") {
       this.appendFilter();
     }
-    console.log(this.state);
   }
 
   removeRow(type, index) {
-    console.log("index:"+index)
     if (type == "char_filter") {
       this.state.rows.char_filter.splice(index, 1);
       this.setState({rows: this.state.rows});

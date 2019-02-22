@@ -37,6 +37,7 @@ export class AnalyzeUi extends Component {
         filters: [],
         field: '',
         analyzersForCompare: [],
+        showAllTokenAttr: false,
       }
     }
     setHttpClient(this.props.httpClient);
@@ -70,8 +71,6 @@ export class AnalyzeUi extends Component {
   }
 
   callAnalyzeApi (params) {
-    console.log("callAnalyzeApi");
-    console.log(params);
     const result = analyze(params);
 
     result.then(
@@ -136,6 +135,7 @@ export class AnalyzeUi extends Component {
         <EuiSpacer size="m"/>
         {this.state.showResult && (
           <Result
+            showAllTokenAttr={this.state.params.showAllTokenAttr}
             type={this.state.resultType}
             detail={this.state.detail}
             esRequest={this.state.esRequest}

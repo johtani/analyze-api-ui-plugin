@@ -6,10 +6,63 @@
   flex-direction: column;
 }
 
+.analyzeApiTableScroll {
+  overflow-x: scroll;
+  border: 1px solid #E4E4E4;
+}
+
+.analyzeApiTableScroll::-webkit-scrollbar{
+  height: 0.5em;
+  background-color: #F1F1F1;
+}
+.analyzeApiTableScroll::-webkit-scrollbar-thumb{
+  background-color: #BCBCBC;
+  border-radius: 12px;
+  border-radius: 1.2rem;
+}
+.analyzeApiTableScroll::-webkit-scrollbar-thumb:hover{
+  background-color: #A9A9AA;
+}
+
+.analyzeApiTableCell{
+  max-width: none;
+  padding: 7px 8px 8px;
+  overflow: unset;
+}
+
+.analyzeApiTableTokenCell{
+  margin-left: auto;
+}
 
 .analyzeRequest {
-  margin: 2;
-  border: 1 solid #E4E4E4;
+  margin: 2px;
+  border: 1px solid #E4E4E4;
   background-color: #F1F1F1;
-  padding: 7 8 8;
+  padding: 7px 8px 8px;
+}
+
+.analyzeApiFontBold {
+  font-weight: bold;
+}
+
+.analyzeApiTableLayout {
+  table-layout: auto
+}
+
+.analyzeApiTableRowTop {
+  vertical-align: top
+}
+
+.analyzeApiTableRowTokenCell {
+  overflow: hidden;
+  white-space: nowrap;
+  display: grid;
+}
+
+.analyzeApiEmptyToken {
+  color: #a7a7a7;
+}
+
+.analyzeApiTextAlignRight {
+  text-align: right;
 }

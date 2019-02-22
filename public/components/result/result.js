@@ -15,14 +15,15 @@ export class Result extends Component {
     const {type} = this.props;
     const {detail} = this.props;
     const {esRequest} = this.props;
-    const {indexName} = this.props
-    console.log("type:"+type)
+    const {indexName} = this.props;
+    const {showAllTokenAttr} = this.props;
     if (type === 'single') {
       return (
         <AnalyzerResult
           detail={detail}
           esRequest={esRequest}
           indexName={indexName}
+          showAllTokenAttr={showAllTokenAttr}
         />
       );
     } else {
