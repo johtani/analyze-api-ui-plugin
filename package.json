@@ -1,5 +1,5 @@
 {
-  "name": "analyze_api_ui",
+  "name": "analyze-api-ui-plugin",
   "version": "6.6.0",
   "description": "UI for elasticsearch analyze API",
   "main": "index.js",
@@ -32,5 +32,6 @@
     "eslint-plugin-prefer-object-spread": "^1.2.1",
     "eslint-plugin-react": "^7.11.1",
     "expect.js": "^0.3.1"
+
   }
 }
