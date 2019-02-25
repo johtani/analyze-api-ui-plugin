@@ -3,4 +3,4 @@ export const TAB_NAME = {
   CUSTOM_ANALYZER: 'Custom Analyzer',
   FIELD: 'Field',
   COMPARE_ANALYZERS: 'Compare Analyzers'
-}
+};

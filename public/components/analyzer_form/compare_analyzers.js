@@ -10,6 +10,7 @@ import {
   EuiSpacer,
   Fragment
 } from '@elastic/eui';
+import { displayRowsComponent } from './analyzer_form';
 
 export class CompareAnalyzers extends Component {
   render() {

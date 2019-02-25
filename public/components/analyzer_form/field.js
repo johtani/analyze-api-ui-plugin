@@ -6,8 +6,7 @@ import {
   EuiTable,
   EuiTableBody
 } from '@elastic/eui';
-
-import displayRowsComponent from './abstract';
+import { displayRowsComponent } from './analyzer_form';
 
 class FieldAnalyzerComponent extends Component {
 

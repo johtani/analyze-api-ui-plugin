@@ -10,8 +10,7 @@ import {
   EuiTableRowCell,
   EuiToolTip
 } from '@elastic/eui';
-
-import displayRowsComponent from './abstract';
+import { displayRowsComponent } from './analyzer_form';
 
 class SimpleAnalyzerComponent extends Component {
 

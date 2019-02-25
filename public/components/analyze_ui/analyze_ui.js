@@ -57,6 +57,7 @@ export class AnalyzeUi extends Component {
   selectTab = tab => {
     const params = selectTab(tab, this.state.params);
     this.updateParams(params);
+    this.clearResults();
   };
 
   updateParams = params => {
@@ -64,6 +65,16 @@ export class AnalyzeUi extends Component {
       params: params
     });
   };
+
+  clearResults() {
+    if (this.state.detail) {
+      this.setState({
+        "detail": {},
+        "showResult": false,
+        "esRequest": ""
+      });
+    }
+  }
 
 
   callMultiAnalyzeApi (params) {
