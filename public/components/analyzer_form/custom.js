@@ -55,7 +55,7 @@ class CustomAnalyzerComponent extends Component {
           renderTag: (index) => {
             return (
               <EuiTextArea
-                name="char_filter"
+                name="charfilters"
                 fullWidth
                 data-index={index}
                 onChange={this.props.updateParamsWithEventAndIndex}/>
@@ -85,7 +85,7 @@ class CustomAnalyzerComponent extends Component {
           renderTag: (index) => {
             return (
               <EuiTextArea
-                name="filter"
+                name="filters"
                 fullWidth
                 data-index={index}
                 onChange={this.props.updateParamsWithEventAndIndex}/>

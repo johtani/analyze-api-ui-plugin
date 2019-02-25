@@ -12,6 +12,7 @@ import {
 } from '@elastic/eui';
 import {Tokenizer} from "./tokenizer";
 import {Filters} from "./filters";
+import {Token} from "./token";
 
 export class TokenizerAndFilters extends Component {
   constructor(props) {
@@ -66,6 +67,48 @@ export class TokenizerAndFilters extends Component {
             </EuiTableBody>
           </EuiTable>
         </div>
+      );
+    }
+  }
+}
+
+export function displayRowsComponent(WrappedComponent) {
+  return class extends WrappedComponent {
+
+    shortenName(name) {
+      if (name.indexOf('.') > 0) {
+        return name.substr(name.lastIndexOf('.')+1);
+      }
+      return name;
+    }
+
+    renderTokenCells (tokenIndices, target) {
+      const tokenCells = tokenIndices.map(
+        (index) =>
+          <EuiTableRowCell>
+            <Token
+              index={index}
+              target={target}
+              showAllTokenAttr={this.props.showAllTokenAttr}
+            />
+          </EuiTableRowCell>
+      );
+      return tokenCells;
+    }
+
+    renderRow(target, name, tokenIndices) {
+
+      return (
+        <EuiTableRow
+          className="analyzeApiTableRowTop"
+        >
+          <EuiTableRowCell>
+          <span className="analyzeApiTableCell">{name}<br/>
+            <span className="analyzeApiFontBold">{this.shortenName(target.name)}</span>
+          </span>
+          </EuiTableRowCell>
+          {this.renderTokenCells(tokenIndices, target)}
+        </EuiTableRow>
       );
     }
   }

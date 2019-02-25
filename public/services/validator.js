@@ -7,7 +7,9 @@ export function validateAnalyzeRequestValues(params) {
     },
     errors: {}
   }
-  const {tab} = params;
+  console.log("before validation");
+  console.log(params);
+  console.log("--------------");
   if (validatedParams.requestParams.text.trim().length === 0) {
     validatedParams.error.textError= 'text should be not null!'
 
@@ -16,22 +18,20 @@ export function validateAnalyzeRequestValues(params) {
     validatedParams.requestParams.indexName = params.indexName.trim();
   }
 
-  if (tab == TAB_NAME.ANALYZER) {
-    console.log("check analyzer tab");
+  if (params.tab == TAB_NAME.ANALYZER) {
     if (params.analyzer.length > 0) {
-      console.log("check analyzer length");
       validatedParams.requestParams.analyzer = params.analyzer.trim();
     }
-  } else if (tab == TAB_NAME.FIELD) {
+  } else if (params.tab == TAB_NAME.FIELD) {
     if (params.field.trim().length === 0)
       validatedParams.errors.analyzerError = 'field is required. ';
     if (params.indexName.trim().length === 0)
       validatedParams.errors.analyzerError += 'index name is required for "field". ';
 
     validatedParams.requestParams.field = params.field.trim();
-  } else if (tab == TAB_NAME.CUSTOM_ANALYZER) {
+  } else if (params.tab == TAB_NAME.CUSTOM_ANALYZER) {
     if (params.tokenizer) {
-      let tmpObj = this.parseCustom(params.tokenizer.trim(), "tokenizer", validatedParams);
+      let tmpObj = parseCustom(params.tokenizer.trim(), "tokenizer", validatedParams);
       if (tmpObj != -1) {
         validatedParams.requestParams.tokenizer = tmpObj;
         tmpObj = null;
@@ -40,9 +40,9 @@ export function validateAnalyzeRequestValues(params) {
 
     if (params.charfilters.length > 0) {
       params.charfilters.forEach( (charfilter) => {
-        if (charfilter && charfilter.item && charfilter.item.trim().length > 0 ) {
+        if (charfilter && charfilter.trim().length > 0 ) {
           if(validatedParams.requestParams.charfilters == null) validatedParams.requestParams.charfilters = [];
-          let tmpCharfilter = this.parseCustom(charfilter.item.trim(), "charfilter", validatedParams);
+          let tmpCharfilter = parseCustom(charfilter.trim(), "charfilter", validatedParams);
           if (tmpCharfilter != -1) {
             validatedParams.requestParams.charfilters.push(tmpCharfilter);
           }
@@ -51,22 +51,26 @@ export function validateAnalyzeRequestValues(params) {
     }
     if (params.filters.length > 0) {
       params.filters.forEach( (filter) => {
-        if (filter && filter.item && filter.item.trim().length > 0 ) {
+        if (filter && filter.trim().length > 0 ) {
           if(validatedParams.requestParams.filters == null) validatedParams.requestParams.filters = [];
-          let tmpFilter = this.parseCustom(filter.item.trim(), "filter", validatedParams);
+          let tmpFilter = parseCustom(filter.trim(), "filter", validatedParams);
           if (tmpFilter != -1) {
             validatedParams.requestParams.filters.push(tmpFilter);
           }
         }
       });
     }
-  } else if (tab == TAB_NAME.COMPARE_ANALYZERS) {
+  } else if (params.tab == TAB_NAME.COMPARE_ANALYZERS) {
     params.analyzersForCompare.forEach( (analyzer) => {
-      if (!(analyzer && analyzer.item && analyzer.item.trim().length > 0)) {
+      if (!(analyzer && analyzer.trim().length > 0)) {
         console.log("some analyzer is null");
       }
     });
   }
+
+  console.log("after validation");
+  console.log(validatedParams);
+  console.log("--------------");
   return validatedParams;
 };
 

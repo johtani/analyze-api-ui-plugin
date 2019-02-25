@@ -2,24 +2,28 @@ import React, {
   Component
 } from 'react';
 
-import {
-  EuiTableRow,
+import {displayRowsComponent} from "./tokenizer_and_filters";
 
-} from '@elastic/eui'
-
-export class Filters extends Component {
+class FiltersComponent extends Component {
   constructor(props) {
     super(props);
   }
 
   render () {
-    const {tokenfilters} = this.props;
-    return (
-      <EuiTableRow
-        className="analyzeApiTableRowTop"
-      >
-
-      </EuiTableRow>
-    );
+    const {
+      filters,
+      tokenIndices
+    } = this.props;
+    if (filters && filters.length > 0) {
+      const rows = filters.map((target) => {
+          return this.renderRow(target, "filter", tokenIndices);
+        }
+      );
+      return rows;
+    } else {
+      return null;
+    }
   }
 }
+const Filters = displayRowsComponent(FiltersComponent);
+export { Filters };

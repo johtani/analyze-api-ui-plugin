@@ -6,6 +6,8 @@ import {
   EuiTableBody,
   EuiTableHeader,
   EuiTableHeaderCell,
+  EuiTableRow,
+  EuiTableRowCell
 } from '@elastic/eui';
 
 export class Charfilters extends Component {
@@ -14,10 +16,30 @@ export class Charfilters extends Component {
     super(props);
   }
 
-  renderHeaders() {
-    const headers = [];
+  renderRow(target) {
+    return (
+      <EuiTableRow>
+        <EuiTableRowCell>
+          <span>char_filter<br/>
+            <span className="analyzeApiFontBold">{target.name}</span>
+          </span>
+        </EuiTableRowCell>
+        <EuiTableRowCell>
+          <span>{target.filtered_text[0]}</span>
+        </EuiTableRowCell>
+      </EuiTableRow>
+    );
+  }
 
-    return headers.length ? headers : null;
+  renderRows(charfilters) {
+    if (charfilters && charfilters.length > 0) {
+      const rows = charfilters.map((target) => {
+        return this.renderRow(target);
+      });
+      return rows;
+    } else {
+      return null;
+    }
   }
 
   render() {
@@ -40,7 +62,7 @@ export class Charfilters extends Component {
               </EuiTableHeaderCell>
             </EuiTableHeader>
             <EuiTableBody>
-
+              {this.renderRows(charfilters)}
             </EuiTableBody>
           </EuiTable>
         </div>

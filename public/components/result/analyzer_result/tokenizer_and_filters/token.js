@@ -91,7 +91,6 @@ export class Token extends Component {
       const propRows = [];
       Object.keys(token).forEach(
         (key) => {
-          console.log(key);
           propRows.push(this.renderRow(key, token[key]));
         }
       );
@@ -125,12 +124,6 @@ export class Token extends Component {
       target,
     } = this.props;
     const currentLevelTokenList = this.makeTokenListFromTokenStream(index, target);
-    console.log("Token.render["+index+"]");
-    console.log("target");
-    console.log(target);
-    console.log("currentLevelTokenList");
-    console.log(currentLevelTokenList);
-    console.log("------");
     if (currentLevelTokenList.length > 0){
       return (
         <div

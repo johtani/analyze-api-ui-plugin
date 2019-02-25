@@ -85,14 +85,22 @@ export class AnalyzeUi extends Component {
     );
     result.catch(
       error => {
+        console.log("error!")
+        console.log(error);
         if (error.data.statusCode == 404) {
-          this.state.indexNameError = error.data.message;
+          this.setState({
+            indexNameError: error.data.message
+          })
         } else if (error.data.statusCode == 400) {
-          this.state.analyzerError = error.data.message;
+          this.setState({
+            analyzerError: error.data.message
+          });
         } else {
           //TODO
           console.log("Notifications!!!");
         }
+        console.error(error);
+        //TODO Notification!
       }
     );
   }

@@ -12,10 +12,6 @@ import {
 function displayRowsComponent(WrappedComponent) {
   return class extends WrappedComponent {
 
-    appendValueToFormRow() {
-
-    }
-
     appendRow(type, index) {
       super.appendRow(type, index);
     }

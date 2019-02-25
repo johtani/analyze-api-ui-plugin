@@ -52,7 +52,6 @@ export class AnalyzerResult extends Component {
     return length;
   };
 
-
   render() {
     const {
       detail,
@@ -60,12 +59,11 @@ export class AnalyzerResult extends Component {
       indexName
     } = this.props;
     const tokenIndices = this.countTokenSteamLength(detail);
-    const {charfilters} = detail;
     return (
       <EuiPanel paddingSize="m">
         <EuiSpacer size="m"/>
         <EuiPanel paddingSize="s">
-          <Charfilters charfilters={charfilters}/>
+          <Charfilters charfilters={detail.charfilters}/>
           <TokenizerAndFilters
             tokenizer={detail.tokenizer}
             analyzer={detail.analyzer}

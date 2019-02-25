@@ -2,37 +2,13 @@ import React, {
   Component
 } from 'react';
 
-import {
-  EuiTableRow,
-  EuiTableRowCell,
-} from '@elastic/eui'
-import {Token} from "./token";
+import {displayRowsComponent} from "./tokenizer_and_filters";
 
-export class Tokenizer extends Component {
+class TokenizerComponent extends Component {
   constructor(props) {
     super(props);
   }
 
-  shortenName(name) {
-    if (name.indexOf('.') > 0) {
-      return name.substr(name.lastIndexOf('.')+1);
-    }
-    return name;
-  }
-
-  renderTokenCells (tokenIndices, target) {
-    const tokenCells = tokenIndices.map(
-      (index) =>
-        <EuiTableRowCell>
-          <Token
-            index={index}
-            target={target}
-            showAllTokenAttr={this.props.showAllTokenAttr}
-          />
-        </EuiTableRowCell>
-    );
-    return tokenCells;
-  }
 
   render () {
     const {
@@ -43,18 +19,8 @@ export class Tokenizer extends Component {
 
     const target = analyzer? analyzer : tokenizer;
     const name = analyzer? "analyzer" : "tokenizer";
-
-    return (
-      <EuiTableRow
-        className="analyzeApiTableRowTop"
-      >
-        <EuiTableRowCell>
-          <span className="analyzeApiTableCell">{name}<br/>
-            <span className="analyzeApiFontBold">{this.shortenName(target.name)}</span>
-          </span>
-        </EuiTableRowCell>
-        {this.renderTokenCells(tokenIndices, target)}
-      </EuiTableRow>
-    );
+    return this.renderRow(target, name, tokenIndices);
   }
 }
+const Tokenizer = displayRowsComponent(TokenizerComponent);
+export { Tokenizer };
