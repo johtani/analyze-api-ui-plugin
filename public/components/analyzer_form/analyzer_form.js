@@ -71,6 +71,7 @@ export class AnalyzerForm extends Component {
           <CompareAnalyzers
             params={this.props.params}
             updateParamsWithEvent={this.props.updateParamsWithEvent}
+            updateParamsWithEventAndIndex={this.props.updateParamsWithEventAndIndex}
           />
         </Fragment>
       )

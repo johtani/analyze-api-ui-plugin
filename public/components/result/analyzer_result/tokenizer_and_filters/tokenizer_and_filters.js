@@ -97,7 +97,6 @@ export function displayRowsComponent(WrappedComponent) {
     }
 
     renderRow(target, name, tokenIndices) {
-
       return (
         <EuiTableRow
           className="analyzeApiTableRowTop"

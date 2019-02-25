@@ -39,7 +39,7 @@ export class AnalyzeUi extends Component {
         analyzersForCompare: [],
         showAllTokenAttr: false,
       }
-    }
+    };
     setHttpClient(this.props.httpClient);
   }
 
