@@ -114,7 +114,6 @@ export class AnalyzeUi extends Component {
         }
       }
     );
-
   }
 
   callAnalyzeApi (params) {
@@ -133,17 +132,20 @@ export class AnalyzeUi extends Component {
       error => {
         console.log("error!")
         console.log(error);
-        if (error.data.statusCode == 404) {
-          this.setState({
-            indexNameError: error.data.message
-          })
-        } else if (error.data.statusCode == 400) {
-          this.setState({
-            analyzerError: error.data.message
-          });
-        } else {
-          //TODO
-          console.log("Notifications!!!");
+        if (error.data) {
+          if (error.data.statusCode == 404) {
+            this.setState({
+              indexNameError: error.data.message
+            })
+          } else if (error.data.statusCode == 400) {
+            this.setState({
+              analyzerError: error.data.message
+            });
+          } else {
+            //TODO
+            console.log("Notifications!!!");
+            console.error(error);
+          }
         }
         console.error(error);
         //TODO Notification!

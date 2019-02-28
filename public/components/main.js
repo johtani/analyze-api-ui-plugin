@@ -37,12 +37,6 @@ export class Main extends Component {
           <EuiPageContent panelPaddingSize="s">
             <AnalyzeUi httpClient={this.props.httpClient}/>
             <EuiSpacer size="m"/>
-            <EuiPageContentBody>
-              <EuiText>
-                <h3>NOT IMPLEMENTED!!!!</h3>
-              </EuiText>
-            </EuiPageContentBody>
-
           </EuiPageContent>
         </EuiPageBody>
       </EuiPage>
