@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import {AnalyzerResult} from "./analyzer_result";
 import {CompareResult} from "./compare_result";
-
+import {RESULT_TYPE} from "../../common/constants/tab_names";
 
 export class Result extends Component {
 
@@ -17,7 +17,7 @@ export class Result extends Component {
     const {esRequest} = this.props;
     const {indexName} = this.props;
     const {showAllTokenAttr} = this.props;
-    if (type === 'single') {
+    if (type === RESULT_TYPE.SINGLE) {
       return (
         <AnalyzerResult
           detail={detail}

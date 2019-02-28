@@ -57,15 +57,11 @@ export default function (server) {
         payload: Joi.object().keys({
           text: Joi.string().required(),
           indexName: Joi.string().allow(null).optional(),
-          analyzers: Joi.array().allow(null).items(Joi.object().keys({
-            item: [Joi.string(), Joi.object()],
-            id: Joi.number().optional()
-          })).min(2)
+          analyzers: Joi.array().allow(null).items(Joi.string()).min(2)
         }).required()
       }
     },
     handler: async (req, h) => {
-
       // get params from req
       // call _analyze api
       let param = {
@@ -79,12 +75,12 @@ export default function (server) {
         resultAnalyzers: []
       };
 
-      function getAnalyzerResult(analyzer) {
+      function getAnalyzerResult(analyzer, id) {
         return new Promise(function (resolve, reject) {
-          param.body.analyzer = analyzer.item;
+          param.body.analyzer = analyzer;
           call(req, 'indices.analyze', param)
             .then(function (response) {
-              res.resultAnalyzers.push({analyzer: analyzer.item, id: analyzer.id, tokens: response.tokens});
+              res.resultAnalyzers.push({analyzer: analyzer, id: id, tokens: response.tokens});
               resolve(res);
             })
             .catch(error => {
@@ -94,26 +90,22 @@ export default function (server) {
       };
 
       if (Array.isArray(req.payload.analyzers) && req.payload.analyzers.length >= 1) {
-        Promise.all(
-          req.payload.analyzers.map(getAnalyzerResult))
-          .then(function (response) {
-            res.resultAnalyzers.sort(
-              function(a,b){
-                if( a.id < b.id ) return -1;
-                if( a.id > b.id ) return 1;
-                return 0;
-              }
-            );
-            return h.response(res);
-          })
-          .catch(error => {
-            return h.response(convertEsError(param.index, error));
-          });
+        try {
+          const response = await Promise.all(req.payload.analyzers.map(getAnalyzerResult));
+          res.resultAnalyzers.sort(
+            function (a, b) {
+              if (a.id < b.id) return -1;
+              if (a.id > b.id) return 1;
+              return 0;
+            }
+          );
+          return res;
+        } catch (error) {
+          return convertEsError(param.index, error);
+        }
       } else {
-        return h.response(res);
+        return res;
       }
     }
   });
-
-
 }

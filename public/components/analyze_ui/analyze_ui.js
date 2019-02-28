@@ -78,12 +78,47 @@ export class AnalyzeUi extends Component {
 
 
   callMultiAnalyzeApi (params) {
+    console.log("callMultiAnalyzeApi");
+    console.log(params);
+    const result = multiAnalyze(params);
+    result.then(
+      (response) => {
+        console.log("in the result");
+        console.log(response);
+        this.setState({
+          showResult: true,
+          detail: response.data.resultAnalyzers,
+          resultType: "multi"
+        });
+      }
+    ).catch(
+      error => {
+        console.log(error);
+        if (error.data) {
+          if (error.data.statusCode == 404) {
+            this.setState({
+              indexNameError: error.data.message
+            })
+          } else if (error.data.statusCode == 400) {
+            this.setState({
+              analyzerError: error.data.message
+            });
+          } else {
+            //TODO Notification
+            console.error(error);
+          }
+        } else {
+          //TODO Notification
+          console.log("Notifications!!! in callMultiAnalyzeApi");
+          console.error(error);
+        }
+      }
+    );
 
   }
 
   callAnalyzeApi (params) {
     const result = analyze(params);
-
     result.then(
       (response) => {
         this.setState({
@@ -116,18 +151,17 @@ export class AnalyzeUi extends Component {
     );
   }
 
-  // view
-
+  // render results
   displayResult = e => {
     const {params} = this.state;
-    const {tab} = this.state;
+    const {tab} = this.state.params;
     const validatedParams = validateAnalyzeRequestValues(params);
-    if (validatedParams.errors && validatedParams.errors.size > 0) {
+    if (!Object.keys(validatedParams.errors).length) {
       console.log("There are something wrong...");
-      console.log(validatedParams.errors);
+      console.log(validatedParams);
     }
     //collect current values from common form and analyzer form
-    if (tab !== TAB_NAME.COMPARE_ANALYZERS) {
+    if (tab != TAB_NAME.COMPARE_ANALYZERS) {
       this.callAnalyzeApi(validatedParams.requestParams);
     } else {
       this.callMultiAnalyzeApi(validatedParams.requestParams);

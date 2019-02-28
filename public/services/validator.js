@@ -6,7 +6,7 @@ export function validateAnalyzeRequestValues(params) {
       text: params.text
     },
     errors: {}
-  }
+  };
   console.log("before validation");
   console.log(params);
   console.log("--------------");
@@ -64,8 +64,12 @@ export function validateAnalyzeRequestValues(params) {
     params.analyzersForCompare.forEach( (analyzer) => {
       if (!(analyzer && analyzer.trim().length > 0)) {
         console.log("some analyzer is null");
+        //TODO set error
       }
     });
+    if (!Object.keys(validatedParams.errors).length) {
+      validatedParams.requestParams.analyzers = params.analyzersForCompare;
+    }
   }
 
   console.log("after validation");

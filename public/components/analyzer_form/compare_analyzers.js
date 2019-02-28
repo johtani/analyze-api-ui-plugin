@@ -20,6 +20,8 @@ class CompareAnalyzersComponent extends Component {
         "analyzersForCompare": []
       }
     };
+    //Need two boxes because of "Compare..."
+    this.appendAnalyzer();
     this.appendAnalyzer();
   }
 

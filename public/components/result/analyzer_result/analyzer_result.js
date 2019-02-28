@@ -10,7 +10,7 @@ import {
 } from '@elastic/eui';
 import {Charfilters} from "./charfilters";
 import {TokenizerAndFilters} from "./tokenizer_and_filters";
-
+import {createTokenIndices, getLength} from "../../../services/token_utils";
 
 export class AnalyzerResult extends Component {
 
@@ -23,34 +23,17 @@ export class AnalyzerResult extends Component {
     let tokenStreamLength = 0;
 
     if (detail.tokenizer) {
-      tokenStreamLength = this.getLength(tokenStreamLength, detail.tokenizer.tokens);
+      tokenStreamLength = getLength(tokenStreamLength, detail.tokenizer.tokens);
     } else if (detail.analyzer) {
-      tokenStreamLength = this.getLength(tokenStreamLength, detail.analyzer.tokens);
+      tokenStreamLength = getLength(tokenStreamLength, detail.analyzer.tokens);
     }
     if (detail.tokenfilters) {
       detail.tokenfilters.forEach( (filter) => {
-        tokenStreamLength = this.getLength(tokenStreamLength, filter.tokens);
+        tokenStreamLength = getLength(tokenStreamLength, filter.tokens);
       });
     }
-    const tokenIndices = [];
-    for (let i = 0; i < tokenStreamLength; i++) {
-      tokenIndices.push(i);
-    }
-    return tokenIndices;
+    return createTokenIndices(tokenStreamLength);
   }
-
-  // compare and swap tokenStreamLength
-  getLength(current, tokenArray) {
-    // FIXME check if there is synonyms or compound
-    let length = current;
-    if (tokenArray != null) {
-      // FIXME must consider the situation if positionIncrements != 1
-      if (tokenArray[tokenArray.length -1].position >= current) {
-        length = tokenArray[tokenArray.length -1].position + 1;
-      }
-    }
-    return length;
-  };
 
   render() {
     const {
