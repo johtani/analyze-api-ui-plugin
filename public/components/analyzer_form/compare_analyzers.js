@@ -40,7 +40,6 @@ class CompareAnalyzersComponent extends Component {
                 name="analyzersForCompare"
                 fullWidth
                 data-index={index}
-                className="analyzeApiFormWidthSize"
                 onChange={this.props.updateParamsWithEventAndIndex}/>
             );
           },

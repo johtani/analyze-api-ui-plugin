@@ -29,6 +29,7 @@ class CustomAnalyzerComponent extends Component {
                     name="tokenizer"
                     fullWidth
                     className="analyzeApiFormWidthSize analyzeApiFormHeightSize"
+                    defaultValue={this.props.params.tokenizer}
                     onChange={this.props.updateParamsWithEvent}/>
                   );
                 },

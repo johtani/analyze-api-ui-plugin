@@ -67,13 +67,23 @@ export class Token extends Component {
     }
   }
 
+  renderTokenKey(key) {
+    if (this.props.index == 0) {
+      return (
+        <td>
+          {key}
+        </td>
+      );
+    } else {
+      return null;
+    }
+  }
+
   renderRow(key, value) {
     if (this.hideTokenProperty(key)) {
       return (
         <tr>
-          <td>
-            {key}
-          </td>
+          {this.renderTokenKey(key)}
           <td class="analyzeApiTextAlignRight">
             {this.renderTokenValue(key, value)}
             &nbsp;

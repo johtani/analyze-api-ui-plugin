@@ -26,8 +26,7 @@ export class TokenizerAndFilters extends Component {
           scope="col"
           style={{width: 150}}
         >
-          <span class="euiTableCellContent__text analyzeApiTableCell analyzeApiTableTokenCell">type<br/><span
-            class="analyzeApiFontBold">tokens[{index}]</span></span>
+          <span class="euiTableCellContent__text analyzeApiTableCell analyzeApiTableTokenCell">tokens[{index}]</span>
         </EuiTableHeaderCell>
     );
     return headerCells;
@@ -48,7 +47,7 @@ export class TokenizerAndFilters extends Component {
                 scope="col"
                 style={{ width:150 }}
                 >
-                <span class="euiTableCellContent__text analyzeApiTableCell">type<br/><span class="analyzeApiFontBold">name</span></span>
+                <div class="euiTableCellContent__text analyzeApiTableCell">type<br/><span class="analyzeApiFontBold">name</span></div>
               </EuiTableHeaderCell>
               {this.renderHeaderTokensCells(tokenIndices)}
             </EuiTableHeader>
@@ -102,9 +101,9 @@ export function displayRowsComponent(WrappedComponent) {
           className="analyzeApiTableRowTop"
         >
           <EuiTableRowCell>
-          <span className="analyzeApiTableCell">{name}<br/>
+          <div className="analyzeApiTableCell">{name}<br/>
             <span className="analyzeApiFontBold">{this.shortenName(target.name)}</span>
-          </span>
+          </div>
           </EuiTableRowCell>
           {this.renderTokenCells(tokenIndices, target)}
         </EuiTableRow>

@@ -1,10 +1,3 @@
-export function initializeParams() {
-  const params = {
-
-  }
-  return params;
-}
-
 export function updateParamsWithEvent(event, params){
   const target = event.target;
   const value = target.type === 'checkbox' ? target.checked : target.value;

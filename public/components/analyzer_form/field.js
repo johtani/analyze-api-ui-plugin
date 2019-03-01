@@ -27,7 +27,9 @@ class FieldAnalyzerComponent extends Component {
                   name="field"
                   fullWidth
                   className="analyzeApiFormWidthSize"
-                  onChange={this.props.updateParamsWithEvent}/>
+                  defaultValue={this.props.params.field}
+                  onChange={this.props.updateParamsWithEvent}
+                />
                 );
               },
             style: {width: 300},

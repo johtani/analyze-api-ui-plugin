@@ -76,7 +76,17 @@ export class AnalyzerForm extends Component {
         </Fragment>
       )
     }];
-    this.props.selectTab(this.tabs[0]);
+    const {tab} = this.props;
+    let tabIdx = 0;
+    if (tab) {
+      this.tabs.forEach((tmpTab, idx) => {
+          if (tmpTab.name == tab) {
+            tabIdx = idx;
+          }
+        }
+      );
+    }
+    this.props.selectTab(this.tabs[tabIdx]);
   }
 
   render () {

@@ -11,7 +11,7 @@ export function validateAnalyzeRequestValues(params) {
   console.log(params);
   console.log("--------------");
   if (validatedParams.requestParams.text.trim().length === 0) {
-    validatedParams.error.textError= 'text should be not null!'
+    validatedParams.errors.textError= 'text should be not null!'
 
   }
   if (params.indexName.length > 0) {
@@ -24,9 +24,9 @@ export function validateAnalyzeRequestValues(params) {
     }
   } else if (params.tab == TAB_NAME.FIELD) {
     if (params.field.trim().length === 0)
-      validatedParams.errors.analyzerError = 'field is required. ';
+      validatedParams.errors.fieldError = 'field is required. ';
     if (params.indexName.trim().length === 0)
-      validatedParams.errors.analyzerError += 'index name is required for "field". ';
+      validatedParams.errors.indexNameError = 'index name is required for "field". ';
 
     validatedParams.requestParams.field = params.field.trim();
   } else if (params.tab == TAB_NAME.CUSTOM_ANALYZER) {

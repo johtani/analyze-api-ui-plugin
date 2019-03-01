@@ -2,7 +2,6 @@ import React, {
   Component
 } from 'react';
 import {
-  EuiCallOut,
   EuiFlexGroup,
   EuiFlexItem,
   EuiFormRow,
@@ -15,34 +14,18 @@ export class CommonForm extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      errors: {
-        indexNameError: "",
-        textError: "",
-      }
-    };
-  }
-
-  renderFormErrors() {
-    const { errors } = this.state.errors;
-    if (!errors) {
-      return;
-    }
-    return (
-      <Fragment>
-        <EuiCallOut
-          iconType="alert"
-          color="danger"
-          title="Please check each input errors."
-        />
-      </Fragment>
-    );
   }
 
   render () {
+    const {params} = this.props;
+    const {errors} = this.props;
+    const showIndexNameError = Object.keys(errors).includes("indexNameError");
+    const indexNameError = showIndexNameError ? errors.indexNameError : undefined;
+    const showTextError = Object.keys(errors).includes("textError");
+    const textError = showTextError ? errors.textError : undefined;
+
     return (
       <EuiFlexGroup gutterSize="m" alignItems="center">
-        {this.renderFormErrors()}
         <EuiFlexItem grow={false} style={{ minWidth: 600 }}>
           <EuiFormRow
             name="indexName"
@@ -52,12 +35,16 @@ export class CommonForm extends Component {
               </span>
             }
             fullWidth
-            isInvalid={this.state.indexNameError}
-            error={this.state.indexNameError}
-            value={this.props.params.indexName}
+            isInvalid={showIndexNameError}
+            error={indexNameError}
             onChange={this.props.updateParamsWithEvent}
           >
-            <EuiFieldText name="indexName" fullWidth={true}/>
+            <EuiFieldText
+              name="indexName"
+              fullWidth={true}
+              isInvalid={showIndexNameError}
+              value={params.indexName}
+            />
           </EuiFormRow>
           <EuiFormRow
             name="text"
@@ -67,12 +54,16 @@ export class CommonForm extends Component {
               </span>
             }
             fullWidth
-            isInvalid={this.state.textError}
-            error={this.state.textError}
-            value={this.props.params.text}
+            isInvalid={showTextError}
+            error={textError}
             onChange={this.props.updateParamsWithEvent}
           >
-            <EuiFieldText name="text" fullWidth={true}/>
+            <EuiFieldText
+              name="text"
+              isInvalid={showTextError}
+              fullWidth={true}
+              value={params.text}
+            />
           </EuiFormRow>
 
         </EuiFlexItem>

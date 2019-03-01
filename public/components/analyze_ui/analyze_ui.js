@@ -3,6 +3,7 @@ import React, {
   Fragment,
 } from 'react';
 import {
+  EuiCallOut,
   EuiSpacer,
 } from '@elastic/eui'
 
@@ -22,27 +23,25 @@ import {
 } from "../../services/api";
 import {validateAnalyzeRequestValues} from "../../services/validator";
 import {TAB_NAME} from "../../common/constants/tab_names";
+import {loadSavedState, saveState} from "../../services/state_handler";
 
 export class AnalyzeUi extends Component {
 
   constructor(props) {
     super(props);
+    const params = loadSavedState();
     this.state = {
-      params: {
-        indexName: '',
-        text: '',
-        analyzer: '',
-        tokenizer: '',
-        charfilters: [],
-        filters: [],
-        field: '',
-        analyzersForCompare: [],
-        showAllTokenAttr: false,
-      }
+      params: params,
+      errors: {}
     };
     setHttpClient(this.props.httpClient);
   }
 
+  clearErrors() {
+    this.setState({
+      errors: {}
+    });
+  }
 
   updateParamsWithEvent = e => {
     const params = updateParamsWithEvent(e, this.state.params);
@@ -58,12 +57,14 @@ export class AnalyzeUi extends Component {
     const params = selectTab(tab, this.state.params);
     this.updateParams(params);
     this.clearResults();
+    this.clearErrors();
   };
 
   updateParams = params => {
     this.setState({
       params: params
     });
+    saveState(this.state);
   };
 
   clearResults() {
@@ -76,15 +77,10 @@ export class AnalyzeUi extends Component {
     }
   }
 
-
   callMultiAnalyzeApi (params) {
-    console.log("callMultiAnalyzeApi");
-    console.log(params);
     const result = multiAnalyze(params);
     result.then(
       (response) => {
-        console.log("in the result");
-        console.log(response);
         this.setState({
           showResult: true,
           detail: response.data.resultAnalyzers,
@@ -93,15 +89,18 @@ export class AnalyzeUi extends Component {
       }
     ).catch(
       error => {
-        console.log(error);
         if (error.data) {
           if (error.data.statusCode == 404) {
             this.setState({
-              indexNameError: error.data.message
+              errors: {
+                indexNameError: error.data.message
+              }
             })
           } else if (error.data.statusCode == 400) {
             this.setState({
-              analyzerError: error.data.message
+              errors: {
+                analyzerError: error.data.message
+              }
             });
           } else {
             //TODO Notification
@@ -109,7 +108,6 @@ export class AnalyzeUi extends Component {
           }
         } else {
           //TODO Notification
-          console.log("Notifications!!! in callMultiAnalyzeApi");
           console.error(error);
         }
       }
@@ -130,20 +128,21 @@ export class AnalyzeUi extends Component {
     );
     result.catch(
       error => {
-        console.log("error!")
-        console.log(error);
         if (error.data) {
           if (error.data.statusCode == 404) {
             this.setState({
-              indexNameError: error.data.message
+              errors: {
+                indexNameError: error.data.message
+              }
             })
           } else if (error.data.statusCode == 400) {
             this.setState({
-              analyzerError: error.data.message
+              errors: {
+                analyzerError: error.data.message
+              }
             });
           } else {
             //TODO
-            console.log("Notifications!!!");
             console.error(error);
           }
         }
@@ -155,28 +154,85 @@ export class AnalyzeUi extends Component {
 
   // render results
   displayResult = e => {
+    this.clearErrors();
+    this.clearResults();
     const {params} = this.state;
     const {tab} = this.state.params;
     const validatedParams = validateAnalyzeRequestValues(params);
-    if (!Object.keys(validatedParams.errors).length) {
-      console.log("There are something wrong...");
-      console.log(validatedParams);
-    }
-    //collect current values from common form and analyzer form
-    if (tab != TAB_NAME.COMPARE_ANALYZERS) {
-      this.callAnalyzeApi(validatedParams.requestParams);
+    if (Object.keys(validatedParams.errors).length) {
+      this.setState({
+          errors: validatedParams.errors
+      });
     } else {
-      this.callMultiAnalyzeApi(validatedParams.requestParams);
+      //collect current values from common form and analyzer form
+      if (tab != TAB_NAME.COMPARE_ANALYZERS) {
+        this.callAnalyzeApi(validatedParams.requestParams);
+      } else {
+        this.callMultiAnalyzeApi(validatedParams.requestParams);
+      }
     }
   };
+
+  renderCommonFormErrors() {
+    const {errors} = this.state;
+    if (!Object.keys(errors).includes("indexNameError") &&
+      !Object.keys(errors).includes("textError")) {
+      return;
+    } else {
+      return (
+        <Fragment>
+          <EuiCallOut
+            iconType="alert"
+            color="danger"
+            title="Input errors"
+          >
+            Please check every inputs.
+          </EuiCallOut>
+          <EuiSpacer/>
+        </Fragment>
+      );
+    }
+  }
+
+  renderAnalyzerErrors() {
+    const {errors} = this.state;
+    if (!Object.keys(errors).includes("analyzerError") &&
+      !Object.keys(errors).includes("fieldError")) {
+      return;
+    } else {
+      let target = "analyzer";
+      const {tab} = this.state.params;
+      if (tab == TAB_NAME.CUSTOM_ANALYZER) {
+        target = "chafilter/tokenizer/filter";
+      } else if (tab == TAB_NAME.FIELD) {
+        target = "field";
+      }
+      return (
+        <Fragment>
+          <EuiCallOut
+            iconType="alert"
+            color="danger"
+            title={target+" error"}
+          >
+            {this.state.errors.analyzerError}
+            {this.state.errors.fieldError}
+          </EuiCallOut>
+          <EuiSpacer/>
+        </Fragment>
+      );
+    }
+  }
 
   render() {
     const {indexName} = this.state.params;
     return (
       <Fragment>
+        {this.renderCommonFormErrors()}
         <CommonForm params={this.state.params}
+                    errors={this.state.errors}
                     updateParamsWithEvent={this.updateParamsWithEvent}/>
         <EuiSpacer size="m"/>
+        {this.renderAnalyzerErrors()}
         <AnalyzerForm params={this.state.params}
                       selectTab={this.selectTab}
                       updateParamsWithEvent={this.updateParamsWithEvent}
@@ -184,9 +240,10 @@ export class AnalyzeUi extends Component {
         />
         <EuiSpacer size="m"/>
         <FormControl params={this.state.params}
+                     errors={this.state.errors}
                      displayResult={this.displayResult}
-                     updateParamsWithEvent={this.updateParamsWithEvent}/>
-
+                     updateParamsWithEvent={this.updateParamsWithEvent}
+        />
         <EuiSpacer size="m"/>
         {this.state.showResult && (
           <Result

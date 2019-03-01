@@ -39,7 +39,6 @@ export class CompareResult extends Component {
             class="analyzeApiFontBold">tokens[{index}]</span></span>
         </EuiTableHeaderCell>
     );
-    console.log(headerCells);
     return headerCells;
   }
 
