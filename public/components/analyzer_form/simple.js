@@ -29,6 +29,7 @@ class SimpleAnalyzerComponent extends Component {
                   <EuiFieldText
                     name="analyzer"
                     fullWidth
+                    className="analyzeApiFormWidthSize"
                     defaultValue={this.props.params.analyzer}
                     onChange={this.props.updateParamsWithEvent}/>
                 );

@@ -76,7 +76,11 @@ export class AnalyzerForm extends Component {
         </Fragment>
       )
     }];
-    const {tab} = this.props;
+    this.props.selectTab(this.tabs[this.tabIndex()]);
+  }
+
+  tabIndex() {
+    const {tab} = this.props.params;
     let tabIdx = 0;
     if (tab) {
       this.tabs.forEach((tmpTab, idx) => {
@@ -86,14 +90,14 @@ export class AnalyzerForm extends Component {
         }
       );
     }
-    this.props.selectTab(this.tabs[tabIdx]);
+    return tabIdx;
   }
 
   render () {
     return (
       <EuiTabbedContent
         tabs={this.tabs}
-        initialSelectedTab={this.tabs[0]}
+        initialSelectedTab={this.tabs[this.tabIndex()]}
         onTabClick={this.props.selectTab}
       />
     )
