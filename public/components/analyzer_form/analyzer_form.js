@@ -126,7 +126,9 @@ export function displayRowsComponent(WrappedComponent) {
           </EuiTableRowCell>
         );
       } else {
-        return;
+        return (
+          <EuiTableRowCell/>
+        );
       }
     }
 

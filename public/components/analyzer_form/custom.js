@@ -28,6 +28,7 @@ class CustomAnalyzerComponent extends Component {
                   <EuiTextArea
                     name="tokenizer"
                     fullWidth
+                    className="analyzeApiFormWidthSize analyzeApiFormHeightSize"
                     onChange={this.props.updateParamsWithEvent}/>
                   );
                 },
@@ -58,6 +59,7 @@ class CustomAnalyzerComponent extends Component {
                 name="charfilters"
                 fullWidth
                 data-index={index}
+                className="analyzeApiFormWidthSize analyzeApiFormHeightSize"
                 onChange={this.props.updateParamsWithEventAndIndex}/>
               );
             },
@@ -88,6 +90,7 @@ class CustomAnalyzerComponent extends Component {
                 name="filters"
                 fullWidth
                 data-index={index}
+                className="analyzeApiFormWidthSize analyzeApiFormHeightSize"
                 onChange={this.props.updateParamsWithEventAndIndex}/>
               );
             },

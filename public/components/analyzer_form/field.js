@@ -26,6 +26,7 @@ class FieldAnalyzerComponent extends Component {
                 <EuiFieldText
                   name="field"
                   fullWidth
+                  className="analyzeApiFormWidthSize"
                   onChange={this.props.updateParamsWithEvent}/>
                 );
               },
