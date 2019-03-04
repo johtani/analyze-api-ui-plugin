@@ -4,6 +4,7 @@ import React, {
 import {
   EuiButtonIcon,
   EuiFieldText,
+  EuiFormRow,
   EuiTable,
   EuiTableBody,
   EuiTableRow,
@@ -26,23 +27,46 @@ class SimpleAnalyzerComponent extends Component {
             form: {
               renderTag: (index) => {
                 return (
-                  <EuiFieldText
-                    name="analyzer"
-                    fullWidth
-                    className="analyzeApiFormWidthSize"
-                    defaultValue={this.props.params.analyzer}
-                    onChange={this.props.updateParamsWithEvent}/>
+                  <EuiFormRow
+                    isInvalid={this.state.isError}
+                    error={this.state.error}
+                  >
+                    <EuiFieldText
+                      name="analyzer"
+                      fullWidth
+                      className="analyzeApiFormWidthSize"
+                      isInvalid={this.state.isError}
+                      defaultValue={this.props.params.analyzer}
+                      onChange={this.props.updateParamsWithEvent}/>
+                  </EuiFormRow>
                 );
               },
               style: { width: 300 },
             }
           }
         ]
-      }
+      },
+      isError : false
     }
+  }
+  hoge(){
+    console.log("hogehogehoge");
+  }
+
+  setError(isError, error) {
+    console.log("setError["+error+"]");
+    this.setState(
+      {
+        error: error,
+        isError: isError
+      }
+    );
+    console.log(this.state);
   }
 
   render () {
+    console.log("simple render");
+    console.log(this.state);
     return (
       <EuiTable>
         <EuiTableBody>

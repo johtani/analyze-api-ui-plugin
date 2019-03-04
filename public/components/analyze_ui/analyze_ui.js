@@ -236,6 +236,7 @@ export class AnalyzeUi extends Component {
         <EuiSpacer size="m"/>
         {this.renderAnalyzerErrors()}
         <AnalyzerForm params={this.state.params}
+                      errors={this.state.errors}
                       selectTab={this.selectTab}
                       updateParamsWithEvent={this.updateParamsWithEvent}
                       updateParamsWithEventAndIndex={this.updateParamsWithEventAndIndex}

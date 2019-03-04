@@ -25,6 +25,13 @@ export class AnalyzerForm extends Component {
 
   constructor(props) {
     super(props);
+    this.tabRefs = [
+      React.createRef(),
+      React.createRef(),
+      React.createRef(),
+      React.createRef()
+    ];
+
     this.tabs = [{
       id: 'analyzer',
       name: TAB_NAME.ANALYZER,
@@ -32,6 +39,7 @@ export class AnalyzerForm extends Component {
         <Fragment>
           <EuiSpacer/>
           <SimpleAnalyzer
+            ref={this.tabRefs[0]}
             params={this.props.params}
             updateParamsWithEvent={this.props.updateParamsWithEvent}
           />
@@ -44,6 +52,7 @@ export class AnalyzerForm extends Component {
         <Fragment>
           <EuiSpacer/>
           <CustomAnalyzer
+            ref={this.tabRefs[1]}
             params={this.props.params}
             updateParamsWithEvent={this.props.updateParamsWithEvent}
             updateParamsWithEventAndIndex={this.props.updateParamsWithEventAndIndex}
@@ -57,6 +66,7 @@ export class AnalyzerForm extends Component {
         <Fragment>
           <EuiSpacer/>
           <FieldAnalyzer
+            ref={this.tabRefs[2]}
             params={this.props.params}
             updateParamsWithEvent={this.props.updateParamsWithEvent}
           />
@@ -69,6 +79,7 @@ export class AnalyzerForm extends Component {
         <Fragment>
           <EuiSpacer/>
           <CompareAnalyzers
+            ref={this.tabRefs[3]}
             params={this.props.params}
             updateParamsWithEvent={this.props.updateParamsWithEvent}
             updateParamsWithEventAndIndex={this.props.updateParamsWithEventAndIndex}
@@ -77,6 +88,8 @@ export class AnalyzerForm extends Component {
       )
     }];
     this.props.selectTab(this.tabs[this.tabIndex()]);
+    console.log("refs");
+    console.log(this.tabRefs);
   }
 
   tabIndex() {
@@ -93,7 +106,34 @@ export class AnalyzerForm extends Component {
     return tabIdx;
   }
 
+  componentDidMount() {
+    console.log("didMount!");
+    console.log(this.tabRefs);
+    this.tabRefs[0].current.hoge();
+  }
+
+  componentDidUpdate() {
+    console.log("componentDidUpdate!");
+    console.log(this.tabRefs);
+    this.tabRefs[0].current.hoge();
+    const {errors} = this.props;
+    let isError = true;
+    if (!Object.keys(errors).includes("analyzerError") &&
+      !Object.keys(errors).includes("fieldError")) {
+      isError = false;
+      this.tabRefs[0].current.setError(false, "");
+    }
+    if (isError) {
+      console.log("tab["+this.tabIndex()+"]");
+      console.log(this.tabRefs);
+      console.log(errors);
+      this.tabRefs[0].current.hoge();
+      this.tabRefs[0].current.setError(isError, errors.analyzerError);
+    }
+  }
+
   render () {
+
     return (
       <EuiTabbedContent
         tabs={this.tabs}
