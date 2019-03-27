@@ -27,5 +27,5 @@ export function convertEsError(indices, error) {
   if (!error.message) {
     error.message = message;
   }
-  return Boom.wrap(error, statusCode, message);
+  return Boom.boomify(error, { statusCode: statusCode, message: message });
 }

@@ -94,26 +94,22 @@ export default function (server) {
       };
 
       if (Array.isArray(req.payload.analyzers) && req.payload.analyzers.length >= 1) {
-        Promise.all(
-          req.payload.analyzers.map(getAnalyzerResult))
-          .then(function (response) {
-            res.resultAnalyzers.sort(
-              function(a,b){
-                if( a.id < b.id ) return -1;
-                if( a.id > b.id ) return 1;
-                return 0;
-              }
-            );
-            return h.response(res);
-          })
-          .catch(error => {
-            return h.response(convertEsError(param.index, error));
-          });
+        try {
+          const response = await Promise.all(req.payload.analyzers.map(getAnalyzerResult));
+          res.resultAnalyzers.sort(
+            function (a, b) {
+              if (a.id < b.id) return -1;
+              if (a.id > b.id) return 1;
+              return 0;
+            }
+          );
+          return res;
+        } catch(error) {
+            return convertEsError(param.index, error);
+        }
       } else {
-        return h.response(res);
+        return res;
       }
     }
   });
-
-
 }
