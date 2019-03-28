@@ -1,10 +1,10 @@
 {
-  "name": "analyze-api-ui-plugin",
-  "version": "7.0.0-alpha1",
+  "name": "analyze_api_ui",
+  "version": "7.0.0-rc1",
   "description": "UI for elasticsearch analyze API",
   "main": "index.js",
   "kibana": {
-    "version": "7.0.0-alpha1",
+    "version": "7.0.0-rc1",
     "templateVersion": "1.0.0"
   },
   "scripts": {
@@ -32,5 +32,6 @@
     "eslint-plugin-prefer-object-spread": "^1.2.1",
     "eslint-plugin-react": "^7.11.1",
     "expect.js": "^0.3.1"
+
   }
 }
