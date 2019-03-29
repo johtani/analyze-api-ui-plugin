@@ -1,4 +1,6 @@
 import analyzeRoute from './server/routes/analyze';
+import { resolve } from 'path';
+import { existsSync } from 'fs';
 
 export default function (kibana) {
   return new kibana.Plugin({
@@ -10,7 +12,7 @@ export default function (kibana) {
         description: 'UI for elasticsearch analyze API',
         main: 'plugins/analyze_api_ui/app'
       },
-      styleSheetPaths: require('path').resolve(__dirname, 'public/app.scss'),
+      styleSheetPaths: [resolve(__dirname, 'public/app.scss'), resolve(__dirname, 'public/app.css')].find(p => existsSync(p)),
     },
 
     config(Joi) {
