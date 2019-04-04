@@ -10,7 +10,7 @@ Analyze text with Aalyzer
 See [Getting Started](docs/GETTING_STARTED.md)
 
 ## Installation
-The latest version is for kibana 6.6.2.
+The latest version is for kibana 6.7.0.
 
 | Kibana version | Command |
 | ---------- | ------- |
