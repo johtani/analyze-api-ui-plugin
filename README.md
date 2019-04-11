@@ -41,6 +41,11 @@ The latest stable version is for kibana 7.0.0.
 | 6.1.3 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.1.3/analyze-api-ui-plugin-6.1.3.zip`
 | 6.1.2 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.1.2/analyze-api-ui-plugin-6.1.2.zip`
 
+## Known issues
+
+* not restore filters/char_fiters after moving another tabs
+* sample images are 6.x in docs
+
 ## TODO 
 
 * change index name to select
