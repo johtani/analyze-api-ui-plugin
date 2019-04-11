@@ -43,8 +43,8 @@ The latest stable version is for kibana 7.0.0.
 
 ## Known issues
 
-* not restore filters/char_fiters after moving another tabs
-* sample images are 6.x in docs
+* not restore filters/char_fiters after moving another tabs [#42](https://github.com/johtani/analyze-api-ui-plugin/issues/42)
+* sample images are 6.x in docs [#40](https://github.com/johtani/analyze-api-ui-plugin/issues/40)
 
 ## TODO 
 
