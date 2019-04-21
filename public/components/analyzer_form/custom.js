@@ -41,8 +41,20 @@ class CustomAnalyzerComponent extends Component {
       }
     }
     // initialize charfilter and filter
-    this.appendCharFilter();
-    this.appendFilter();
+    if (this.props.params.charfilters.length > 0) {
+      for (let i=0;i < this.props.params.charfilters.length; i++) {
+        this.appendCharFilter();
+      }
+    } else {
+      this.appendCharFilter();
+    }
+    if (this.props.params.filters.length > 0) {
+      for (let i=0;i < this.props.params.filters.length; i++) {
+        this.appendFilter();
+      }
+    } else {
+      this.appendFilter();
+    }
   }
 
   appendCharFilter() {
@@ -61,6 +73,7 @@ class CustomAnalyzerComponent extends Component {
                 fullWidth
                 data-index={index}
                 className="analyzeApiFormWidthSize analyzeApiFormHeightSize"
+                defaultValue={this.props.params.charfilters[index]}
                 onChange={this.props.updateParamsWithEventAndIndex}/>
               );
             },
@@ -92,6 +105,7 @@ class CustomAnalyzerComponent extends Component {
                 fullWidth
                 data-index={index}
                 className="analyzeApiFormWidthSize analyzeApiFormHeightSize"
+                defaultValue={this.props.params.filters[index]}
                 onChange={this.props.updateParamsWithEventAndIndex}/>
               );
             },
@@ -118,9 +132,11 @@ class CustomAnalyzerComponent extends Component {
   removeRow(type, index) {
     if (type == "char_filter") {
       this.state.rows.char_filter.splice(index, 1);
+      this.props.updateParamsWithRemoveRow("charfilters", index);
       this.setState({rows: this.state.rows});
     } else if (type == "filter") {
       this.state.rows.filter.splice(index, 1);
+      this.props.updateParamsWithRemoveRow("filters", index);
       this.setState({rows: this.state.rows});
     }
   }

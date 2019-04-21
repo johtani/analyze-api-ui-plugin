@@ -47,6 +47,7 @@ export class AnalyzerForm extends Component {
             params={this.props.params}
             updateParamsWithEvent={this.props.updateParamsWithEvent}
             updateParamsWithEventAndIndex={this.props.updateParamsWithEventAndIndex}
+            updateParamsWithRemoveRow={this.props.updateParamsWithRemoveRow}
           />
         </Fragment>
       )
@@ -72,6 +73,7 @@ export class AnalyzerForm extends Component {
             params={this.props.params}
             updateParamsWithEvent={this.props.updateParamsWithEvent}
             updateParamsWithEventAndIndex={this.props.updateParamsWithEventAndIndex}
+            updateParamsWithRemoveRow={this.props.updateParamsWithRemoveRow}
           />
         </Fragment>
       )
