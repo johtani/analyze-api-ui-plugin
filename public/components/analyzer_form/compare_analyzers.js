@@ -21,8 +21,14 @@ class CompareAnalyzersComponent extends Component {
       }
     };
     //Need two boxes because of "Compare..."
-    this.appendAnalyzer();
-    this.appendAnalyzer();
+    if (this.props.params.analyzersForCompare.length > 0) {
+      for (let i=0;i < this.props.params.analyzersForCompare.length; i++) {
+        this.appendAnalyzer();
+      }
+    } else {
+      this.appendAnalyzer();
+      this.appendAnalyzer();
+    }
   }
 
   appendAnalyzer(type, index) {
