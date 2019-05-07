@@ -62,14 +62,11 @@ export function validateAnalyzeRequestValues(params) {
     }
   } else if (params.tab == TAB_NAME.COMPARE_ANALYZERS) {
     params.analyzersForCompare.forEach( (analyzer) => {
-      if (!(analyzer && analyzer.trim().length > 0)) {
-        console.log("some analyzer is null");
-        //TODO set error
+      if (analyzer && analyzer.trim().length > 0) {
+        if (validatedParams.requestParams.analyzers == null) validatedParams.requestParams.analyzers = [];
+        validatedParams.requestParams.analyzers.push(analyzer);
       }
     });
-    if (!Object.keys(validatedParams.errors).length) {
-      validatedParams.requestParams.analyzers = params.analyzersForCompare;
-    }
   }
 
   console.log("after validation");
