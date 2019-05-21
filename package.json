@@ -1,10 +1,10 @@
 {
   "name": "analyze_api_ui",
-  "version": "7.0.1",
+  "version": "7.1.0",
   "description": "UI for elasticsearch analyze API",
   "main": "index.js",
   "kibana": {
-    "version": "7.0.1",
+    "version": "7.1.0",
     "templateVersion": "1.0.0"
   },
   "scripts": {
