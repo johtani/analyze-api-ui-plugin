@@ -12,7 +12,7 @@ This branch is for Kibana 7.x.
 See [Getting Started](docs/GETTING_STARTED.md)
 
 ## Installation
-The latest stable version is for kibana 7.2.0.
+The latest stable version is for kibana 7.3.0.
 
 | Kibana version | Command |
 | ---------- | ------- |
