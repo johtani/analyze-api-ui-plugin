@@ -14,7 +14,8 @@ import { Result } from "../result";
 import {
   updateParamsWithEvent,
   updateParamsWithEventAndIndex,
-  selectTab
+  selectTab,
+  updateParamsWithRemoveRow
 } from "../../services/params";
 import {
   setHttpClient,
@@ -53,10 +54,13 @@ export class AnalyzeUi extends Component {
     this.updateParams(params);
   };
 
+  updateParamsWithRemoveRow = (name, index) => {
+    const params = updateParamsWithRemoveRow(name, index, this.state.params);
+    this.updateParams(params);
+  };
+
   selectTab = tab => {
     const params = selectTab(tab, this.state.params);
-    console.log("in select tab function");
-    console.log(params);
     this.updateParams(params);
     this.clearResults();
     this.clearErrors();
@@ -188,7 +192,7 @@ export class AnalyzeUi extends Component {
             color="danger"
             title="Input errors"
           >
-            Please check every inputs.
+            Please check each inputs.
           </EuiCallOut>
           <EuiSpacer/>
         </Fragment>
@@ -239,6 +243,7 @@ export class AnalyzeUi extends Component {
                       selectTab={this.selectTab}
                       updateParamsWithEvent={this.updateParamsWithEvent}
                       updateParamsWithEventAndIndex={this.updateParamsWithEventAndIndex}
+                      updateParamsWithRemoveRow={this.updateParamsWithRemoveRow}
         />
         <EuiSpacer size="m"/>
         <FormControl params={this.state.params}

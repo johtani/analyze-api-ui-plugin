@@ -21,8 +21,14 @@ class CompareAnalyzersComponent extends Component {
       }
     };
     //Need two boxes because of "Compare..."
-    this.appendAnalyzer();
-    this.appendAnalyzer();
+    if (this.props.params.analyzersForCompare.length > 0) {
+      for (let i=0;i < this.props.params.analyzersForCompare.length; i++) {
+        this.appendAnalyzer();
+      }
+    } else {
+      this.appendAnalyzer();
+      this.appendAnalyzer();
+    }
   }
 
   appendAnalyzer(type, index) {
@@ -40,6 +46,7 @@ class CompareAnalyzersComponent extends Component {
                 name="analyzersForCompare"
                 fullWidth
                 data-index={index}
+                defaultValue={this.props.params.analyzersForCompare[index]}
                 onChange={this.props.updateParamsWithEventAndIndex}/>
             );
           },
@@ -57,6 +64,7 @@ class CompareAnalyzersComponent extends Component {
 
   removeRow(type, index) {
     this.state.rows.analyzersForCompare.splice(index, 1);
+    this.props.updateParamsWithRemoveRow("analyzersForCompare", index);
     this.setState({rows: this.state.rows});
   }
 

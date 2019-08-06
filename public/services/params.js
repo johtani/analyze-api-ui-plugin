@@ -26,3 +26,15 @@ export function selectTab(tab, params) {
   params["tab"] = tab.name;
   return params;
 }
+
+export function updateParamsWithRemoveRow(name, index, params){
+  console.log("=== call updateParamsWithRemoveRow ===");
+  console.log(" name:  "+name);
+  console.log(" index:  "+index);
+  console.log("=== end call updateParamsWithRemoveRow ===");
+  if (params[name] && params[name].length > index) {
+    params[name].splice(index, 1);
+    console.log(params[name]);
+  }
+  return params;
+}
