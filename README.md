@@ -12,10 +12,11 @@ This branch is for Kibana 7.x.
 See [Getting Started](docs/GETTING_STARTED.md)
 
 ## Installation
-The latest stable version is for kibana 7.3.1.
+The latest stable version is for kibana 7.3.2.
 
 | Kibana version | Command |
 | ---------- | ------- |
+| 7.3.2 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/7.3.2/analyze_api_ui-7.3.2.zip`
 | 7.3.1 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/7.3.1/analyze_api_ui-7.3.1.zip`
 | 7.3.0 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/7.3.0/analyze_api_ui-7.3.0.zip`
 | 7.2.0 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/7.2.0/analyze_api_ui-7.2.0.zip`
@@ -23,6 +24,13 @@ The latest stable version is for kibana 7.3.1.
 | 7.1.0 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/7.1.0/analyze_api_ui-7.1.0.zip`
 | 7.0.1 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/7.0.1/analyze_api_ui-7.0.1.zip`
 | 7.0.0 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/7.0.0/analyze_api_ui-7.0.0.zip`
+
+
+<details>
+  <summary>Older versions (6.7.1 - 6.1.2)</summary>
+
+| Kibana version | Command |
+| ---------- | ------- |
 | 6.7.1 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.7.1/analyze-api-ui-plugin-6.7.1.zip`
 | 6.7.0 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.7.0/analyze-api-ui-plugin-6.7.0.zip`
 | 6.6.2 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.6.2/analyze-api-ui-plugin-6.6.2.zip`
@@ -46,6 +54,8 @@ The latest stable version is for kibana 7.3.1.
 | 6.2.0 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.2.0/analyze-api-ui-plugin-6.2.0.zip`
 | 6.1.3 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.1.3/analyze-api-ui-plugin-6.1.3.zip`
 | 6.1.2 | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/6.1.2/analyze-api-ui-plugin-6.1.2.zip`
+
+</details>
 
 ## Known issues
 
