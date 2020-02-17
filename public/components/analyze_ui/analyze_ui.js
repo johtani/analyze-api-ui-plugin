@@ -55,8 +55,8 @@ export class AnalyzeUi extends Component {
 
   selectTab = tab => {
     const params = selectTab(tab, this.state.params);
-    console.log("in select tab function");
-    console.log(params);
+    //console.log("in select tab function");
+    //console.log(params);
     this.updateParams(params);
     this.clearResults();
     this.clearErrors();

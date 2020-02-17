@@ -7,9 +7,9 @@ export function validateAnalyzeRequestValues(params) {
     },
     errors: {}
   };
-  console.log("before validation");
-  console.log(params);
-  console.log("--------------");
+//  console.log("before validation");
+//  console.log(params);
+//  console.log("--------------");
   if (validatedParams.requestParams.text.trim().length === 0) {
     validatedParams.errors.textError= 'text should be not null!'
 
@@ -69,9 +69,9 @@ export function validateAnalyzeRequestValues(params) {
     });
   }
 
-  console.log("after validation");
-  console.log(validatedParams);
-  console.log("--------------");
+  //console.log("after validation");
+  //console.log(validatedParams);
+  //console.log("--------------");
   return validatedParams;
 };
 

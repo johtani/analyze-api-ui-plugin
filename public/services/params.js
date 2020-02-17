@@ -1,8 +1,7 @@
 export function updateParamsWithEvent(event, params){
   const target = event.target;
-  const value = target.type === 'checkbox' ? target.checked : target.value;
+  const value = target.type === 'checkbox' || target.name === 'showAllTokenAttr' ? target.checked : target.value;
   const name = target.name;
-
   params[name] = value;
   return params;
 };
