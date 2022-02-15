@@ -1,6 +1,7 @@
 npm-debug.log*
 node_modules
-/build/
+/build
+/target
 .idea
 *.iml
 .DS_store

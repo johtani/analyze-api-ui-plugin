@@ -1,5 +1,5 @@
 // compare and swap tokenStreamLength
-export function getLength(current, tokenArray) {
+export function getLength(current: number, tokenArray: string | any[] | null) {
   // FIXME check if there is synonyms or compound
   let length = current;
   if (tokenArray != null) {
@@ -11,7 +11,7 @@ export function getLength(current, tokenArray) {
   return length;
 };
 
-export function createTokenIndices(tokenStreamLength) {
+export function createTokenIndices(tokenStreamLength: number) {
   const tokenIndices = [];
   for (let i = 0; i < tokenStreamLength; i++) {
     tokenIndices.push(i);

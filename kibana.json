@@ -1,0 +1,13 @@
+{
+  "id": "analyzeApiUi",
+  "version": "7.16.2",
+  "kibanaVersion": "kibana",
+  "owner": {
+    "name": "risdenk"
+  },
+  "description": "UI for elasticsearch analyze API",
+  "server": true,
+  "ui": true,
+  "requiredPlugins": ["navigation"],
+  "optionalPlugins": []
+}

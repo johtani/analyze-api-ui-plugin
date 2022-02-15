@@ -4,11 +4,7 @@ import React, {
 import {
   EuiFieldText,
   EuiTable,
-  EuiTableBody,
-  EuiTableRow,
-  EuiTableRowCell,
-  EuiSpacer,
-  Fragment
+  EuiTableBody
 } from '@elastic/eui';
 import { displayRowsComponent } from './analyzer_form';
 

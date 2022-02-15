@@ -9,7 +9,6 @@ class TokenizerComponent extends Component {
     super(props);
   }
 
-
   render () {
     const {
       analyzer,

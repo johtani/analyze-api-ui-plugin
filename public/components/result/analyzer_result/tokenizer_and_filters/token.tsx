@@ -2,15 +2,7 @@ import React, {
   Component
 } from 'react';
 
-import {
-  EuiTable,
-  EuiTableBody,
-  EuiTableRow,
-  EuiTableRowCell,
-
-} from '@elastic/eui'
 import { DISP_TOKEN_PROPS } from '../../../../common/constants/token_properties';
-
 
 export class Token extends Component {
 

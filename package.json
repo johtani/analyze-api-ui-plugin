@@ -1,36 +1,10 @@
 {
   "name": "analyze_api_ui",
-  "version": "7.6.2",
-  "description": "UI for elasticsearch analyze API",
-  "main": "index.js",
-  "kibana": {
-    "version": "7.6.2",
-    "templateVersion": "1.0.0"
-  },
+  "version": "7.16.2",
+  "private": true,
   "scripts": {
-    "preinstall": "node ../../kibana/preinstall_check",
-    "kbn": "node ../../kibana/scripts/kbn",
-    "es": "node ../../kibana/scripts/es",
-    "lint": "eslint .",
-    "start": "plugin-helpers start",
-    "test:server": "plugin-helpers test:server",
-    "test:browser": "plugin-helpers test:browser",
-    "build": "plugin-helpers build"
-  },
-  "devDependencies": {
-    "@elastic/eslint-config-kibana": "link:../../kibana/packages/eslint-config-kibana",
-    "@elastic/eslint-import-resolver-kibana": "link:../../kibana/packages/kbn-eslint-import-resolver-kibana",
-    "@kbn/plugin-helpers": "link:../../kibana/packages/kbn-plugin-helpers",
-    "babel-eslint": "^9.0.0",
-    "eslint": "^5.6.0",
-    "eslint-plugin-babel": "^5.2.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jest": "^21.26.2",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-mocha": "^5.2.0",
-    "eslint-plugin-no-unsanitized": "^3.0.2",
-    "eslint-plugin-prefer-object-spread": "^1.2.1",
-    "eslint-plugin-react": "^7.11.1",
-    "expect.js": "^0.3.1"
+    "build": "yarn plugin-helpers build",
+    "plugin-helpers": "node ../../scripts/plugin_helpers",
+    "kbn": "node ../../scripts/kbn"
   }
 }
