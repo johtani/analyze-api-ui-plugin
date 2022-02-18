@@ -2,19 +2,14 @@ import React, {
   Component
 } from 'react';
 import {
-  EuiButtonIcon,
   EuiFieldText,
   EuiTable,
-  EuiTableBody,
-  EuiTableRow,
-  EuiTableRowCell,
-  EuiToolTip
+  EuiTableBody
 } from '@elastic/eui';
 import { displayRowsComponent } from './analyzer_form';
 
 class SimpleAnalyzerComponent extends Component {
-
-  constructor(props) {
+  constructor(props: Readonly<{}>) {
     super(props);
     this.state = {
       rows: {

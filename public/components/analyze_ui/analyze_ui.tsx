@@ -26,7 +26,6 @@ import {TAB_NAME} from "../../common/constants/tab_names";
 import {loadSavedState, saveState} from "../../services/state_handler";
 
 export class AnalyzeUi extends Component {
-
   constructor(props) {
     super(props);
     const params = loadSavedState();
@@ -35,6 +34,11 @@ export class AnalyzeUi extends Component {
       errors: {}
     };
     setHttpClient(this.props.httpClient);
+
+    this.selectTab = this.selectTab.bind(this);
+    this.updateParamsWithEvent = this.updateParamsWithEvent.bind(this);
+    this.updateParamsWithEventAndIndex = this.updateParamsWithEventAndIndex.bind(this);
+    this.displayResult = this.displayResult.bind(this);
   }
 
   clearErrors() {
@@ -43,26 +47,24 @@ export class AnalyzeUi extends Component {
     });
   }
 
-  updateParamsWithEvent = e => {
+  updateParamsWithEvent(e) {
     const params = updateParamsWithEvent(e, this.state.params);
     this.updateParams(params);
   };
 
-  updateParamsWithEventAndIndex = e => {
+  updateParamsWithEventAndIndex(e) {
     const params = updateParamsWithEventAndIndex(e, this.state.params);
     this.updateParams(params);
   };
 
-  selectTab = tab => {
+  selectTab(tab) {
     const params = selectTab(tab, this.state.params);
-    //console.log("in select tab function");
-    //console.log(params);
     this.updateParams(params);
     this.clearResults();
     this.clearErrors();
   };
 
-  updateParams = params => {
+  updateParams(params) {
     this.setState({
       params: params
     });
@@ -85,23 +87,23 @@ export class AnalyzeUi extends Component {
       (response) => {
         this.setState({
           showResult: true,
-          detail: response.data.resultAnalyzers,
+          detail: response.resultAnalyzers,
           resultType: "multi"
         });
       }
     ).catch(
       error => {
-        if (error.data) {
-          if (error.data.statusCode == 404) {
+        if (error.body) {
+          if (error.body.statusCode == 404) {
             this.setState({
               errors: {
-                indexNameError: error.data.message
+                indexNameError: error.body.message
               }
             })
-          } else if (error.data.statusCode == 400) {
+          } else if (error.body.statusCode == 400) {
             this.setState({
               errors: {
-                analyzerError: error.data.message
+                analyzerError: error.body.message
               }
             });
           } else {
@@ -122,25 +124,25 @@ export class AnalyzeUi extends Component {
       (response) => {
         this.setState({
           showResult: true,
-          detail: response.data.detail,
-          esRequest: response.data.request,
+          detail: response.detail,
+          esRequest: response.request,
           resultType: "single"
         });
       }
     );
     result.catch(
       error => {
-        if (error.data) {
-          if (error.data.statusCode == 404) {
+        if (error.body) {
+          if (error.body.statusCode == 404) {
             this.setState({
               errors: {
-                indexNameError: error.data.message
+                indexNameError: error.body.message
               }
             })
-          } else if (error.data.statusCode == 400) {
+          } else if (error.body.statusCode == 400) {
             this.setState({
               errors: {
-                analyzerError: error.data.message
+                analyzerError: error.body.message
               }
             });
           } else {
@@ -155,7 +157,7 @@ export class AnalyzeUi extends Component {
   }
 
   // render results
-  displayResult = e => {
+  displayResult(e) {
     this.clearErrors();
     this.clearResults();
     const {params} = this.state;

@@ -5,10 +5,7 @@ import React, {
 
 import {
   EuiButtonIcon,
-  EuiFieldText,
   EuiTabbedContent,
-  EuiTable,
-  EuiTableBody,
   EuiTableRow,
   EuiTableRowCell,
   EuiToolTip,
@@ -22,8 +19,8 @@ import { CompareAnalyzers } from './compare_analyzers';
 import { TAB_NAME } from "../../common/constants/tab_names";
 
 export class AnalyzerForm extends Component {
-
-  constructor(props) {
+  tabs: { id: string; name: string; content: JSX.Element; }[];
+  constructor(props: Readonly<{}>) {
     super(props);
     this.tabs = [{
       id: 'analyzer',
@@ -93,7 +90,7 @@ export class AnalyzerForm extends Component {
     return tabIdx;
   }
 
-  render () {
+  render() {
     return (
       <EuiTabbedContent
         tabs={this.tabs}
@@ -104,7 +101,7 @@ export class AnalyzerForm extends Component {
   }
 }
 
-export function displayRowsComponent(WrappedComponent) {
+export function displayRowsComponent(WrappedComponent): typeof WrappedComponent {
   return class extends WrappedComponent {
 
     appendRow(type, index) {
@@ -161,6 +158,5 @@ export function displayRowsComponent(WrappedComponent) {
         );
       });
     }
-
   }
 }

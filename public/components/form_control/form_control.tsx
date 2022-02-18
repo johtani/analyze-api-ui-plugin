@@ -9,7 +9,6 @@ import {
 } from '@elastic/eui'
 
 export class FormControl extends Component {
-
   constructor(props) {
     super(props);
   }
@@ -39,5 +38,4 @@ export class FormControl extends Component {
       </EuiFlexGroup>
     );
   }
-
 }

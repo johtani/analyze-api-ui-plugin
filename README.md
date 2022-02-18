@@ -78,28 +78,17 @@ The latest stable version is for kibana 7.6.2.
 
 ---
 
-## development
+## Development
 
-See the [kibana contributing guide](https://github.com/elastic/kibana/blob/master/CONTRIBUTING.md) for instructions setting up your development environment. Once you have completed that, use the following npm tasks.
+See the [kibana contributing guide](https://github.com/elastic/kibana/blob/main/CONTRIBUTING.md) for instructions setting up your development environment.
 
-  - `npm start`
+## Scripts
 
-    Start kibana and have it include this plugin
+<dl>
+  <dt><code>yarn kbn bootstrap</code></dt>
+  <dd>Execute this to install node_modules and setup the dependencies in your plugin and in Kibana</dd>
 
-  - `npm start -- --config kibana.yml`
+  <dt><code>yarn plugin-helpers build</code></dt>
+  <dd>Execute this to create a distributable version of this plugin that can be installed in Kibana</dd>
+</dl>
 
-    You can pass any argument that you would normally send to `bin/kibana` by putting them after `--` when running `npm start`
-
-  - `npm run build`
-
-    Build a distributable archive
-
-  - `npm run test:browser`
-
-    Run the browser tests in a real web browser
-
-  - `npm run test:server`
-
-    Run the server tests using mocha
-
-For more information about any of these commands run `npm run ${task} -- --help`.

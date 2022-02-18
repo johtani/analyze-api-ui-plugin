@@ -4,16 +4,13 @@ import React, {
 import {
   EuiCodeBlock,
   EuiPanel,
-  EuiSpacer,
-  EuiTable,
-  EuiTableHeader,
+  EuiSpacer
 } from '@elastic/eui';
 import {Charfilters} from "./charfilters";
 import {TokenizerAndFilters} from "./tokenizer_and_filters";
 import {createTokenIndices, getLength} from "../../../services/token_utils";
 
 export class AnalyzerResult extends Component {
-
   constructor(props) {
     super(props);
   }

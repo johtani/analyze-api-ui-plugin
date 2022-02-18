@@ -11,7 +11,6 @@ import {
 } from '@elastic/eui';
 
 export class Charfilters extends Component {
-
   constructor(props) {
     super(props);
   }

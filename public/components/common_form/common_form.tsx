@@ -6,8 +6,7 @@ import {
   EuiFlexItem,
   EuiFormRow,
   EuiFieldText,
-  EuiTextColor,
-  Fragment,
+  EuiTextColor
 } from '@elastic/eui';
 
 export class CommonForm extends Component {

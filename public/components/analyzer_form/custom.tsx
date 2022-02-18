@@ -9,7 +9,6 @@ import {
 import { displayRowsComponent } from './analyzer_form';
 
 class CustomAnalyzerComponent extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

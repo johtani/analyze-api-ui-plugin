@@ -1,17 +1,17 @@
-const storage = require('./storage');
+import instance from "./storage";
 
 const pagestate = {
 
-  updateCurrentState(content) {
+  updateCurrentState(content: { params: any; }) {
     const timestamp = new Date().getTime();
-    storage.set("page_state", {
+    instance.set("page_state", {
       time: timestamp,
       content: content
     });
   },
 
   getSavedEditorState() {
-    const saved = storage.get('page_state');
+    const saved = instance.get('page_state', null);
     if (!saved) return;
     const { time, content } = saved;
     return { time, content };
