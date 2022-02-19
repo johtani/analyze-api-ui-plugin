@@ -12,10 +12,11 @@ This branch is for Kibana 7.x.
 See [Getting Started](docs/GETTING_STARTED.md)
 
 ## Installation
-The latest stable version is for kibana 7.6.2.
+The latest stable version is for kibana 7.17.0.
 
 | Kibana version | Command                                                                                                                         |
 |----------------|---------------------------------------------------------------------------------------------------------------------------------|
+| 7.17.0         | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/7.17.0/analyzeApiUi-7.17.0.zip` |
 | 7.16.2         | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/7.16.2/analyzeApiUi-7.16.2.zip` |
 | 7.6.2          | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/7.6.2/analyze_api_ui-7.6.2.zip` |
 | 7.6.2          | `./bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/7.6.2/analyze_api_ui-7.6.2.zip` |
