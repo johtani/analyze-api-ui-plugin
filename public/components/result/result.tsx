@@ -17,6 +17,7 @@ export class Result extends Component {
     const {esRequest} = this.props;
     const {indexName} = this.props;
     const {showAllTokenAttr} = this.props;
+    const {resultAnalyzers} = this.props;
     if (type === RESULT_TYPE.SINGLE) {
       return (
         <AnalyzerResult
@@ -29,7 +30,7 @@ export class Result extends Component {
     } else {
       return (
         <CompareResult
-          detail={detail}
+          resultAnalyzers={resultAnalyzers}
         />
       );
     }

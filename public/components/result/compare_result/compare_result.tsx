@@ -20,9 +20,9 @@ export class CompareResult extends Component {
     super(props);
   }
 
-  countTokenStreamLength(analyzerResults) {
+  countTokenStreamLength(resultAnalyzers) {
     let tokenStreamLength = 0;
-    analyzerResults.forEach((detail) => {
+    resultAnalyzers.forEach((detail) => {
       tokenStreamLength = getLength(tokenStreamLength, detail.tokens);
     });
     return createTokenIndices(tokenStreamLength);
@@ -56,8 +56,8 @@ export class CompareResult extends Component {
     return tokenCells;
   }
 
-  renderRows(tokenIndices, detail) {
-    const rows = detail.map(
+  renderRows(tokenIndices, resultAnalyzers) {
+    const rows = resultAnalyzers.map(
       (result) =>
         <EuiTableRow
           className="analyzeApiTableRowTop"
@@ -75,9 +75,9 @@ export class CompareResult extends Component {
 
   render() {
     const {
-      detail
+      resultAnalyzers
     } = this.props;
-    const tokenIndices = this.countTokenStreamLength(detail);
+    const tokenIndices = this.countTokenStreamLength(resultAnalyzers);
 
     return (
       <EuiPanel
@@ -86,6 +86,7 @@ export class CompareResult extends Component {
       >
         There are only tokens and positions. If you know analyzer details, use analyzer/custom_analyzer tab.
         <div class="analyzeApiTableScroll">
+
           <EuiTable className="analyzeApiTableLayout">
             <EuiTableHeader>
               <EuiTableHeaderCell
@@ -97,7 +98,7 @@ export class CompareResult extends Component {
               {this.renderHeaderTokensCells(tokenIndices)}
             </EuiTableHeader>
             <EuiTableBody>
-              {this.renderRows(tokenIndices, detail)}
+              {this.renderRows(tokenIndices, resultAnalyzers)}
             </EuiTableBody>
           </EuiTable>
         </div>

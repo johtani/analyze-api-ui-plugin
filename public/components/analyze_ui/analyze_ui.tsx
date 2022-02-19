@@ -76,7 +76,8 @@ export class AnalyzeUi extends Component {
       this.setState({
         "detail": {},
         "showResult": false,
-        "esRequest": ""
+        "esRequest": "",
+        "resultAnalyzers": []
       });
     }
   }
@@ -87,7 +88,7 @@ export class AnalyzeUi extends Component {
       (response) => {
         this.setState({
           showResult: true,
-          detail: response.resultAnalyzers,
+          resultAnalyzers: response.resultAnalyzers,
           resultType: "multi"
         });
       }
@@ -256,6 +257,7 @@ export class AnalyzeUi extends Component {
             detail={this.state.detail}
             esRequest={this.state.esRequest}
             indexName={indexName}
+            resultAnalyzers={this.state.resultAnalyzers}
           />
         )}
       </Fragment>

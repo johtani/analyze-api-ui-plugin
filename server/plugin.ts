@@ -4,7 +4,7 @@ import {
   CoreStart,
   Plugin,
   Logger,
-} from '../../../src/core/server';
+} from 'kibana/server';
 
 import { AnalyzeApiUiPluginSetup, AnalyzeApiUiPluginStart } from './types';
 import { defineRoutes } from './routes';
@@ -23,7 +23,7 @@ export class AnalyzeApiUiPlugin
     const router = core.http.createRouter();
 
     // Register server side APIs
-    defineRoutes(router);
+    defineRoutes(router, this.logger);
 
     return {};
   }

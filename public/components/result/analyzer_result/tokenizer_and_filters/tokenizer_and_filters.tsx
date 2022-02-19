@@ -75,8 +75,8 @@ export function displayRowsComponent(WrappedComponent) {
   return class extends WrappedComponent {
 
     shortenName(name) {
-      if (name.indexOf('.') > 0) {
-        return name.substr(name.lastIndexOf('.')+1);
+      if (name && name.indexOf('.') > 0) {
+        return name.substring(name.lastIndexOf('.')+1);
       }
       return name;
     }
