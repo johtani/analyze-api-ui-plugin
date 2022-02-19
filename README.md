@@ -95,4 +95,4 @@ See the [kibana contributing guide](https://github.com/elastic/kibana/blob/main/
 
 ## Thanks
 
-Thank @risdenk for your great help to upgrade 7.10+!
+Thank [@risdenk](https://github.com/risdenk) for your great help to upgrade 7.10+!
